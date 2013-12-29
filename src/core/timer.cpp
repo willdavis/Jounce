@@ -14,6 +14,7 @@ namespace core
   Timer::Timer()
   {
     clock_getres(CLOCK_REALTIME, &clock_frequency);
+    get_elapsed_time();         //first time run returns garbage.  Throw those out!
   }
 
   Timer::~Timer()
@@ -22,7 +23,13 @@ namespace core
   }
 
   double Timer::get_elapsed_time() {
-    return 0;
+    timespec now;
+    clock_gettime(CLOCK_REALTIME, &now);
+
+    double duration = (now.tv_nsec - previous_time.tv_nsec ) / clock_frequency.tv_nsec;
+    previous_time = now;
+
+    return duration;
   }
 
   long Timer::get_clock_frequency() {

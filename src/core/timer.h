@@ -21,6 +21,7 @@ namespace core
 
   protected:
     timespec clock_frequency;
+    timespec previous_time;
   };
 
 } /* namespace core */
