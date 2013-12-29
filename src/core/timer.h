@@ -16,7 +16,7 @@ namespace core
   public:
     Timer();
     virtual ~Timer();
-    bool get_time() { return true; }
+    double get_elapsed_time();
   };
 
 } /* namespace core */

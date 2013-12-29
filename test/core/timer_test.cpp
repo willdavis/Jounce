@@ -16,8 +16,8 @@ namespace core
     Timer timer;
   };
 
-  TEST_F(TimerTest, can_get_the_current_time) {
-    ASSERT_TRUE(timer.get_time());
+  TEST_F(TimerTest, elapsed_time_must_be_greater_than_zero) {
+    ASSERT_GT(timer.get_elapsed_time(), 0);
   }
 
 } /* namespace core */

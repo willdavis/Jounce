@@ -21,4 +21,8 @@ namespace core
     // TODO Auto-generated destructor stub
   }
 
+  double Timer::get_elapsed_time() {
+    return 0;
+  }
+
 } /* namespace core */
