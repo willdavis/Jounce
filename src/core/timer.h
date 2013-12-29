@@ -16,7 +16,12 @@ namespace core
   public:
     Timer();
     virtual ~Timer();
-    bool get_time() { return true; }
+    double get_elapsed_time();
+    long get_clock_frequency();
+
+  protected:
+    timespec clock_frequency;
+    timespec previous_time;
   };
 
 } /* namespace core */
