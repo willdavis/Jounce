@@ -20,4 +20,8 @@ namespace core
     ASSERT_GT(timer.get_elapsed_time(), 0);
   }
 
+  TEST_F(TimerTest, clock_frequency_must_be_greater_than_zero) {
+    ASSERT_GT(timer.get_clock_frequency(), 0);
+  }
+
 } /* namespace core */

@@ -17,6 +17,10 @@ namespace core
     Timer();
     virtual ~Timer();
     double get_elapsed_time();
+    long get_clock_frequency();
+
+  protected:
+    timespec clock_frequency;
   };
 
 } /* namespace core */

@@ -5,6 +5,7 @@
  *      Author: bill
  */
 
+#include <time.h>
 #include "timer.h"
 
 namespace core
@@ -12,8 +13,7 @@ namespace core
 
   Timer::Timer()
   {
-    // TODO Auto-generated constructor stub
-
+    clock_getres(CLOCK_REALTIME, &clock_frequency);
   }
 
   Timer::~Timer()
@@ -23,6 +23,10 @@ namespace core
 
   double Timer::get_elapsed_time() {
     return 0;
+  }
+
+  long Timer::get_clock_frequency() {
+    return clock_frequency.tv_nsec;
   }
 
 } /* namespace core */
