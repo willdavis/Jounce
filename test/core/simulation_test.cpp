@@ -18,4 +18,9 @@ namespace core
   TEST_F(SimulationTest, state_defaults_to_zero) {
     ASSERT_EQ(sim.get_state(), 0);
   }
+
+  TEST_F(SimulationTest, state_is_1_on_exit) {
+    sim.run();
+    ASSERT_EQ(sim.get_state(), 1);
+  }
 } /* namespace core */

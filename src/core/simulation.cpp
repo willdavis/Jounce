@@ -20,4 +20,9 @@ namespace core
     // TODO Auto-generated destructor stub
   }
 
+  void Simulation::run()
+  {
+    state = 1;  //exit with no errors
+  }
+
 } /* namespace core */

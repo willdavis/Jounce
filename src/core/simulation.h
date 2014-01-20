@@ -19,8 +19,10 @@ namespace core
 
     int get_state() { return state; }
 
+    void run();
+
   protected:
-    int state;          // stores the current simulation state ( 0 = off, 1 = running, -1 = exiting)
+    int state;          // stores the current simulation state ( 0 = off, 1 = done, -1 = errors)
   };
 
 } /* namespace core */
