@@ -17,11 +17,9 @@ namespace core
     Simulation();
     virtual ~Simulation();
 
-    int get_state() { return state; }
-
     void run();
 
-  protected:
+    int duration;       // optional duration for simulation (in seconds)
     int state;          // stores the current simulation state ( 0 = off, 1 = done, -1 = errors)
   };
 

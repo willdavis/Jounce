@@ -12,7 +12,8 @@ namespace core
 
   Simulation::Simulation()
   {
-    state = 0;  //set state to off
+    state = 0;          //set state to off
+    duration = -1;      //default to infinite duration (wait for state != 0)
   }
 
   Simulation::~Simulation()
