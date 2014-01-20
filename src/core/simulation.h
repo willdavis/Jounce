@@ -16,6 +16,11 @@ namespace core
   public:
     Simulation();
     virtual ~Simulation();
+
+    int get_state() { return state; }
+
+  protected:
+    int state;          // stores the current simulation state ( 0 = off, 1 = running, -1 = exiting)
   };
 
 } /* namespace core */

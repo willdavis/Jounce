@@ -12,8 +12,7 @@ namespace core
 
   Simulation::Simulation()
   {
-    // TODO Auto-generated constructor stub
-
+    state = 0;  //set state to off
   }
 
   Simulation::~Simulation()
