@@ -31,11 +31,10 @@ namespace core
     //ASSERT_LT(diff->tv_nsec, 1);      //uncomment to break test and view diff->tv_nsec
   }
 
-  TEST_F(TimerTest, elapsed_time_must_be_greater_than_zero) {
-    timer.get_elapsed_time();
-    int nanoseconds = timer.get_elapsed_time();
-    ASSERT_GT(nanoseconds, 0);
-    ASSERT_LT(nanoseconds, 200);
+  TEST_F(TimerTest, can_get_elapsed_time) {
+    uint64_t nseconds = timer.get_elapsed_time();
+    ASSERT_GT(nseconds, 0);
+    //ASSERT_LT(nseconds, 1);             //uncomment to break test and view nseconds
   }
 
   TEST_F(TimerTest, clock_frequency_must_be_greater_than_zero) {

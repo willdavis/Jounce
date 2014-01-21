@@ -33,14 +33,16 @@ namespace core
     return &ts;
   }
 
-  int Timer::get_elapsed_time() {
+  /* returns elapsed time in nanoseconds */
+  uint64_t Timer::get_elapsed_time() {
     timespec now;
     clock_gettime(1, &now);
 
-    int delta = now.tv_nsec - previous_time.tv_nsec;
+    timespec* delta = get_timespec_diff(&now, &previous_time);
+    uint64_t nseconds = delta->tv_sec * 1000000000LL + delta->tv_nsec;
     previous_time = now;
 
-    return delta;
+    return nseconds;
   }
 
   int Timer::get_clock_frequency() {

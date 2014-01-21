@@ -8,6 +8,7 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
+#include <stdint.h>
 #include <time.h>
 
 namespace core
@@ -18,7 +19,7 @@ namespace core
   public:
     Timer();
     virtual ~Timer();
-    int get_elapsed_time();
+    uint64_t get_elapsed_time();
     int get_clock_frequency();
 
     timespec* get_timespec_diff(timespec*,timespec*);
