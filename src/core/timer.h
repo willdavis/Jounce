@@ -21,6 +21,8 @@ namespace core
     int get_elapsed_time();
     int get_clock_frequency();
 
+    timespec* get_timespec_diff(timespec*,timespec*);
+
   protected:
     timespec clock_frequency;
     timespec previous_time;

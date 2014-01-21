@@ -21,6 +21,18 @@ namespace core
     // TODO Auto-generated destructor stub
   }
 
+  timespec* Timer::get_timespec_diff(timespec* ts1,timespec* ts2)
+  {
+    static struct timespec ts;
+    ts.tv_sec = ts1->tv_sec - ts2->tv_sec;
+    ts.tv_nsec = ts1->tv_nsec - ts2->tv_nsec;
+    if (ts.tv_nsec < 0) {
+      ts.tv_sec--;
+      ts.tv_nsec += 1000000000;
+    }
+    return &ts;
+  }
+
   int Timer::get_elapsed_time() {
     timespec now;
     clock_gettime(1, &now);
