@@ -21,8 +21,8 @@ namespace core
 
     void run();
 
-    double duration;            // optional duration for simulation (in seconds)
-    double elapsed_time;        // current elapsed time for the simulation (in seconds)
+    uint64_t duration;            // optional duration for simulation (in nanoseconds)
+    uint64_t elapsed_time;        // current elapsed time for the simulation (in nanoseconds)
     int state;                  // stores the current simulation state ( 0 = off, 1 = done, -1 = errors)
     Timer core_timer;
   };

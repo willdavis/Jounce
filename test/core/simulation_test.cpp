@@ -24,8 +24,8 @@ namespace core
     ASSERT_EQ(sim.state, 1);
   }
 
-  TEST_F(SimulationTest, duration_default_is_negative_one) {
-    ASSERT_EQ(sim.duration, -1);
+  TEST_F(SimulationTest, duration_default_is_zero) {
+    ASSERT_EQ(sim.duration, 0);
   }
 
   TEST_F(SimulationTest, duration_can_be_set) {
@@ -37,14 +37,15 @@ namespace core
     timespec start;
     clock_gettime(1, &start);
 
-    sim.duration = 0.2;
+    sim.duration = 1000000000;  //1 second or 1000 ms
     sim.run();
 
     timespec end;
     clock_gettime(1, &end);
 
-    int elapsed = end.tv_nsec - start.tv_nsec;
-    ASSERT_GT(elapsed, 0);
-    ASSERT_EQ(elapsed, sim.duration);
+    timespec* elapsed = sim.core_timer.get_timespec_diff(&end, &start);
+    uint64_t nseconds = elapsed->tv_sec * 1000000000LL + elapsed->tv_nsec;
+    ASSERT_GT(nseconds, 0);
+    ASSERT_EQ(nseconds, sim.duration);
   }
 } /* namespace core */

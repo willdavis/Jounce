@@ -14,7 +14,7 @@ namespace core
   {
     state = 0;          //set state to off
     elapsed_time = 0;
-    duration = -1;      //default to infinite duration (wait for state != 0)
+    duration = 0;      //default to infinite duration (wait for state != 0)
   }
 
   Simulation::~Simulation()
@@ -25,14 +25,16 @@ namespace core
   void Simulation::run()
   {
     while(state == 0) {
-      double dt = core_timer.get_elapsed_time();      // get delta time between last frame in seconds
+      uint64_t dt = core_timer.get_elapsed_time();      // get delta time between last frame in nanoseconds
       elapsed_time += dt;
 
-      if(elapsed_time >= duration)
+      //for(int i=0; i<10000; i++){}
+
+      if(elapsed_time >= duration and duration > 0)
         state = 1;
 
       //this is temporary to avoid infinite loops
-      if(duration < 0)
+      if(duration == 0)
         state = 1;
     }
   }
