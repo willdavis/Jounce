@@ -8,6 +8,8 @@
 #ifndef EVENT_MANAGER_H_
 #define EVENT_MANAGER_H_
 
+#include "event.h"
+
 namespace core
 {
 
@@ -16,6 +18,10 @@ namespace core
   public:
     EventManager();
     virtual ~EventManager();
+
+    int get_queue_size() { return 0; }
+    void schedule_event (Event*);
+    void process_top_event();
   };
 
 } /* namespace core */
