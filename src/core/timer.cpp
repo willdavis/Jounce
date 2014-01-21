@@ -13,7 +13,7 @@ namespace core
   Timer::Timer()
   {
     clock_getres(1, &clock_frequency);
-    get_elapsed_ns();         //first time run returns garbage.  Throw those out!
+    get_elapsed_time();         //first time run returns garbage.  Throw those out!
   }
 
   Timer::~Timer()
@@ -21,7 +21,7 @@ namespace core
     // TODO Auto-generated destructor stub
   }
 
-  int Timer::get_elapsed_ns() {
+  int Timer::get_elapsed_time() {
     timespec now;
     clock_gettime(1, &now);
 

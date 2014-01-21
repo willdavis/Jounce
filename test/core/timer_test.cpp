@@ -17,8 +17,8 @@ namespace core
   };
 
   TEST_F(TimerTest, elapsed_time_must_be_greater_than_zero) {
-    timer.get_elapsed_ns();
-    int nanoseconds = timer.get_elapsed_ns();
+    timer.get_elapsed_time();
+    int nanoseconds = timer.get_elapsed_time();
     ASSERT_GT(nanoseconds, 0);
     ASSERT_LT(nanoseconds, 200);
   }

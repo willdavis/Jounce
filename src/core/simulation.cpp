@@ -24,9 +24,8 @@ namespace core
 
   void Simulation::run()
   {
-    double dt = core_timer.get_elapsed_time();      // get delta time between last frame in seconds
     while(state == 0) {
-      dt = core_timer.get_elapsed_time();
+      double dt = core_timer.get_elapsed_time();      // get delta time between last frame in seconds
       elapsed_time += dt;
 
       if(elapsed_time >= duration)
