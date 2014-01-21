@@ -32,4 +32,19 @@ namespace core
     sim.duration = 10;
     ASSERT_EQ(sim.duration, 10);
   }
+
+  TEST_F(SimulationTest, simulation_runs_for_duration_then_exits) {
+    timespec start;
+    clock_gettime(1, &start);
+
+    sim.duration = 0.2;
+    sim.run();
+
+    timespec end;
+    clock_gettime(1, &end);
+
+    int elapsed = end.tv_nsec - start.tv_nsec;
+    ASSERT_GT(elapsed, 0);
+    ASSERT_EQ(elapsed, sim.duration);
+  }
 } /* namespace core */

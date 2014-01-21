@@ -8,6 +8,8 @@
 #ifndef SIMULATION_H_
 #define SIMULATION_H_
 
+#include "timer.h"
+
 namespace core
 {
 
@@ -19,8 +21,10 @@ namespace core
 
     void run();
 
-    int duration;       // optional duration for simulation (in seconds)
-    int state;          // stores the current simulation state ( 0 = off, 1 = done, -1 = errors)
+    double duration;            // optional duration for simulation (in seconds)
+    double elapsed_time;        // current elapsed time for the simulation (in seconds)
+    int state;                  // stores the current simulation state ( 0 = off, 1 = done, -1 = errors)
+    Timer core_timer;
   };
 
 } /* namespace core */

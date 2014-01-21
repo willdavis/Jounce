@@ -13,6 +13,7 @@ namespace core
   Simulation::Simulation()
   {
     state = 0;          //set state to off
+    elapsed_time = 0;
     duration = -1;      //default to infinite duration (wait for state != 0)
   }
 
@@ -23,7 +24,18 @@ namespace core
 
   void Simulation::run()
   {
-    state = 1;  //exit with no errors
+    double dt = core_timer.get_elapsed_time();      // get delta time between last frame in seconds
+    while(state == 0) {
+      dt = core_timer.get_elapsed_time();
+      elapsed_time += dt;
+
+      if(elapsed_time >= duration)
+        state = 1;
+
+      //this is temporary to avoid infinite loops
+      if(duration < 0)
+        state = 1;
+    }
   }
 
 } /* namespace core */
