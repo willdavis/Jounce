@@ -18,8 +18,8 @@ namespace core
   public:
     Timer();
     virtual ~Timer();
-    double get_elapsed_time();
-    double get_clock_frequency();
+    int get_elapsed_ns();
+    int get_clock_frequency();
 
   protected:
     timespec clock_frequency;
