@@ -16,6 +16,7 @@ namespace core
   public:
     Event();
     virtual ~Event();
+    virtual void process_event () = 0;  // event callback function
   };
 
 } /* namespace core */
