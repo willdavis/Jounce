@@ -12,9 +12,10 @@ namespace core
 
   Simulation::Simulation()
   {
-    state = 0;          //set state to off
-    elapsed_time = 0;
-    duration = 0;      //default to infinite duration (wait for state != 0)
+    state = 0;          //set default state
+    time_scale = 1;     //set time scale to normal time (1x)
+    elapsed_time = 0;   //set elapsed time to zero
+    duration = 0;       //default to infinite duration (wait for state != 0)
   }
 
   Simulation::~Simulation()
@@ -28,8 +29,6 @@ namespace core
       uint64_t dt = core_timer.get_elapsed_time();      // get delta time between last frame in nanoseconds
       elapsed_time += dt;
 
-      //for(int i=0; i<10000; i++){}
-
       if(elapsed_time >= duration and duration > 0)
         state = 1;
 
@@ -37,6 +36,11 @@ namespace core
       if(duration == 0)
         state = 1;
     }
+  }
+
+  uint64_t Simulation::get_scaled_time(uint64_t nanoseconds)
+  {
+    return (uint64_t)(nanoseconds * time_scale);
   }
 
 } /* namespace core */
