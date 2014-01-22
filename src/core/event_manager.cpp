@@ -21,6 +21,16 @@ namespace core
     // TODO Auto-generated destructor stub
   }
 
+  void EventManager::set_parent(void* pointer)
+  {
+    parent = pointer;
+  }
+
+  void* EventManager::get_parent()
+  {
+    return parent;
+  }
+
   // Return the size of the event queue
   int EventManager::get_queue_size()
   {

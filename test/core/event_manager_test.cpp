@@ -22,6 +22,13 @@ namespace core
     void process_event(void* input) { event_dispatch_test = 1; }
   };
 
+  TEST_F(EventManagerTest, can_bind_to_a_parent_object) {
+    int test = 5;
+    manager.set_parent(&test);
+    int* test2 = static_cast<int*>(manager.get_parent());
+    ASSERT_EQ(*test2, 5);
+  }
+
   TEST_F(EventManagerTest, can_check_the_event_queue_size) {
     int size = manager.get_queue_size();
     ASSERT_EQ(size, 0);
