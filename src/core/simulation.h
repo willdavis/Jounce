@@ -21,7 +21,8 @@ namespace core
     virtual ~Simulation();
 
     void run();
-    uint64_t get_scaled_time(uint64_t);         //get time multiplied by time_scale factor
+    uint64_t get_scaled_time(uint64_t);
+    int get_event_queue_size();
     int schedule_event(Event*);
 
     double time_scale;          // factor to scale time by

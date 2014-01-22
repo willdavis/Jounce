@@ -29,6 +29,14 @@ namespace core
       uint64_t dt = core_timer.get_elapsed_time();      // get delta time between last frame in nanoseconds
       elapsed_time += dt;
 
+      // process the event queue
+      int queue_size = event_manager.get_queue_size();
+      while(queue_size > 0)
+      {
+        event_manager.process_top_event();
+        queue_size = event_manager.get_queue_size();
+      }
+
       if(elapsed_time >= duration and duration > 0)
         state = 1;
 
@@ -42,6 +50,12 @@ namespace core
   int Simulation::schedule_event(Event* event)
   {
     event_manager.schedule_event(event);
+    return event_manager.get_queue_size();
+  }
+
+  // returns the current size of the event queue
+  int Simulation::get_event_queue_size()
+  {
     return event_manager.get_queue_size();
   }
 
