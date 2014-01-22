@@ -38,6 +38,13 @@ namespace core
     }
   }
 
+  // schedule event with EventManager and return the new queue size
+  int Simulation::schedule_event(Event* event)
+  {
+    event_manager.schedule_event(event);
+    return event_manager.get_queue_size();
+  }
+
   uint64_t Simulation::get_scaled_time(uint64_t nanoseconds)
   {
     return (uint64_t)(nanoseconds * time_scale);

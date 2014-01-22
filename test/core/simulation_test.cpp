@@ -15,6 +15,17 @@ namespace core
     Simulation sim;
   };
 
+  class TestEvent : public Event {
+  public:
+    void process_event () { /* do nothing */ }
+  };
+
+  TEST_F(SimulationTest, can_schedule_an_event) {
+    TestEvent event;
+    int size_of_queue = sim.schedule_event(&event);
+    ASSERT_EQ(size_of_queue, 1);
+  }
+
   TEST_F(SimulationTest, state_defaults_to_zero) {
     ASSERT_EQ(sim.state, 0);
   }
