@@ -9,7 +9,7 @@
 #define EVENT_MANAGER_H_
 
 #include <queue>
-#include "event.h"
+#include "./events/event.h"
 
 namespace core
 {
