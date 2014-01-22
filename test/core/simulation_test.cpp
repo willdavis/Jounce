@@ -20,6 +20,10 @@ namespace core
     void process_event () { /* do nothing */ }
   };
 
+  TEST_F(SimulationTest, can_check_the_current_simulation_state) {
+    EXPECT_EQ(sim.get_state(), 0);
+  }
+
   TEST_F(SimulationTest, can_schedule_an_event) {
     TestEvent event;
     int size_of_queue = sim.schedule_event(&event);
@@ -34,13 +38,13 @@ namespace core
   }
 
   TEST_F(SimulationTest, can_exit_the_simulation) {
-    EXPECT_EQ(sim.state, 0);
+    EXPECT_EQ(sim.get_state(), 0);
     sim.exit();
-    ASSERT_EQ(sim.state, 1);
+    ASSERT_EQ(sim.get_state(), 1);
   }
 
   TEST_F(SimulationTest, state_defaults_to_zero) {
-    ASSERT_EQ(sim.state, 0);
+    ASSERT_EQ(sim.get_state(), 0);
   }
 
   TEST_F(SimulationTest, duration_default_is_zero) {

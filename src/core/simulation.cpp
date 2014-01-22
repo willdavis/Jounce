@@ -58,6 +58,12 @@ namespace core
     return event_manager.get_queue_size();
   }
 
+  // returns the current simulation state (0=ready, 1=done, -1=errors)
+  int Simulation::get_state()
+  {
+    return state;
+  }
+
   // returns the current size of the event queue
   int Simulation::get_event_queue_size()
   {
