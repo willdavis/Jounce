@@ -18,7 +18,7 @@ namespace core
   public:
     ExitEvent();
     virtual ~ExitEvent();
-    void process_event() {  }
+    void process_event(void*) {  }
   };
 
 } /* namespace core */

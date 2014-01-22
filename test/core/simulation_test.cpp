@@ -17,7 +17,7 @@ namespace core
 
   class TestEvent : public Event {
   public:
-    void process_event () { /* do nothing */ }
+    void process_event(void* input) { /* do nothing */ }
   };
 
   TEST_F(SimulationTest, can_check_the_current_simulation_state) {

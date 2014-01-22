@@ -10,22 +10,36 @@
 
 namespace core
 {
-  int dummy_int = 0;
-
-  class NewEvent : public Event {
+  // test event with arguments
+  class ArgsEvent : public Event {
   public:
-    void process_event () { dummy_int = 1; }
+    void process_event(void* input) {
+      int new_value = 0;
+      int *pInt = static_cast<int*>(input);
+      *pInt = new_value;
+    }
+  };
+
+  // test event with no arguments
+  class NoArgsEvent : public Event {
+  public:
+    void process_event(void* input) { /* do nothing */ }
   };
 
   class EventTest : public ::testing::Test {
   protected:
-    NewEvent event;
+    NoArgsEvent blank_event;
+    ArgsEvent event;
   };
 
-  TEST_F(EventTest, can_implement_process_event) {
-    EXPECT_EQ(dummy_int, 0);
-    event.process_event();
-    ASSERT_EQ(dummy_int, 1);
+  TEST_F(EventTest, must_implement_basic_process_event_method) {
+    blank_event.process_event((void*)0);
+  }
+
+  TEST_F(EventTest, process_event_accepts_a_single_argument) {
+    int test_input = 50;
+    event.process_event(&test_input);
+    ASSERT_EQ(test_input, 0);
   }
 
 } /* namespace core */

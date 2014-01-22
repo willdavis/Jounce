@@ -37,7 +37,7 @@ namespace core
   void EventManager::process_top_event()
   {
     Event* event = event_queue.front();
-    event->process_event();
+    event->process_event((void*)0);
     event_queue.pop();
   }
 

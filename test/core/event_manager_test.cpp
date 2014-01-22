@@ -19,7 +19,7 @@ namespace core
 
   class TestEvent : public Event {
   public:
-    void process_event () { event_dispatch_test = 1; }
+    void process_event(void* input) { event_dispatch_test = 1; }
   };
 
   TEST_F(EventManagerTest, can_check_the_event_queue_size) {
