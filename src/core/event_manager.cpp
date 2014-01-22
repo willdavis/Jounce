@@ -21,13 +21,19 @@ namespace core
     // TODO Auto-generated destructor stub
   }
 
-  //Add Event* to the queue
-  void EventManager::schedule_event(Event *event)
+  // Return the size of the event queue
+  int EventManager::get_queue_size()
   {
-
+    return event_queue.size();
   }
 
-  //Dispatch top event in the queue
+  // Add Event* to the queue
+  void EventManager::schedule_event(Event* event)
+  {
+    event_queue.push(event);
+  }
+
+  // Dispatch top event in the queue
   void EventManager::process_top_event()
   {
 

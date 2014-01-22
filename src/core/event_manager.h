@@ -8,6 +8,7 @@
 #ifndef EVENT_MANAGER_H_
 #define EVENT_MANAGER_H_
 
+#include <queue>
 #include "event.h"
 
 namespace core
@@ -19,9 +20,12 @@ namespace core
     EventManager();
     virtual ~EventManager();
 
-    int get_queue_size() { return 0; }
+    int get_queue_size();
     void schedule_event (Event*);
     void process_top_event();
+
+  protected:
+    std::queue<Event*> event_queue;
   };
 
 } /* namespace core */
