@@ -21,11 +21,13 @@ namespace core
     // TODO Auto-generated destructor stub
   }
 
+  // set parent to the supplied void* pointer
   void EventManager::set_parent(void* pointer)
   {
     parent = pointer;
   }
 
+  // return a reference to the parent object
   void* EventManager::get_parent()
   {
     return parent;
