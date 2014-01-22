@@ -6,7 +6,7 @@
  */
 
 #include "gtest/gtest.h"
-#include "../../src/core/events/event.h"
+#include "../../../src/core/events/event.h"
 
 namespace core
 {
