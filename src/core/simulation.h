@@ -21,6 +21,8 @@ namespace core
     virtual ~Simulation();
 
     void run();
+    void exit();
+
     uint64_t get_scaled_time(uint64_t);
     int get_event_queue_size();
     int schedule_event(Event*);

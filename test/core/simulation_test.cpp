@@ -33,13 +33,14 @@ namespace core
     ASSERT_EQ(sim.get_event_queue_size(), 1);
   }
 
-  TEST_F(SimulationTest, state_defaults_to_zero) {
-    ASSERT_EQ(sim.state, 0);
+  TEST_F(SimulationTest, can_exit_the_simulation) {
+    EXPECT_EQ(sim.state, 0);
+    sim.exit();
+    ASSERT_EQ(sim.state, 1);
   }
 
-  TEST_F(SimulationTest, state_is_1_on_exit) {
-    sim.run();
-    ASSERT_EQ(sim.state, 1);
+  TEST_F(SimulationTest, state_defaults_to_zero) {
+    ASSERT_EQ(sim.state, 0);
   }
 
   TEST_F(SimulationTest, duration_default_is_zero) {
