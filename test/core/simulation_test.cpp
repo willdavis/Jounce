@@ -15,6 +15,24 @@ namespace core
     Simulation sim;
   };
 
+  class TestEvent : public Event {
+  public:
+    void process_event () { /* do nothing */ }
+  };
+
+  TEST_F(SimulationTest, can_schedule_an_event) {
+    TestEvent event;
+    int size_of_queue = sim.schedule_event(&event);
+    ASSERT_EQ(size_of_queue, 1);
+  }
+
+  TEST_F(SimulationTest, can_get_event_queue_size) {
+    TestEvent event;
+    EXPECT_EQ(sim.get_event_queue_size(), 0);
+    sim.schedule_event(&event);
+    ASSERT_EQ(sim.get_event_queue_size(), 1);
+  }
+
   TEST_F(SimulationTest, state_defaults_to_zero) {
     ASSERT_EQ(sim.state, 0);
   }
@@ -61,5 +79,16 @@ namespace core
     uint64_t nseconds = elapsed->tv_sec * 1000000000LL + elapsed->tv_nsec;
     ASSERT_GT(nseconds, 0);
     ASSERT_EQ(nseconds, sim.duration);
+  }
+
+  TEST_F(SimulationTest, simulation_processes_all_events_then_exits)
+  {
+    TestEvent event1;
+    TestEvent event2;
+    sim.schedule_event(&event1);
+    sim.schedule_event(&event2);
+    EXPECT_EQ(sim.get_event_queue_size(), 2);
+    sim.run();
+    ASSERT_EQ(sim.get_event_queue_size(), 0);
   }
 } /* namespace core */
