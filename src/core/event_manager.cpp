@@ -36,7 +36,9 @@ namespace core
   // Dispatch top event in the queue
   void EventManager::process_top_event()
   {
-
+    Event* event = event_queue.front();
+    event->process_event();
+    event_queue.pop();
   }
 
 } /* namespace core */
