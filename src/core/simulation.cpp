@@ -6,6 +6,7 @@
  */
 
 #include "simulation.h"
+#include "./events/exit_event.h"
 
 namespace core
 {
@@ -36,10 +37,20 @@ namespace core
   void Simulation::run()
   {
     while(state == 0) {
-      uint64_t dt = core_timer.get_elapsed_time();      // get delta time between last frame in nanoseconds
-      real_elapsed_time += dt;
+      // first check if we're over the duration.
+      // if so, schedule an ExitEvent for immediate termination of the simulation!
+      if(real_elapsed_time >= real_duration and real_duration > 0) {
+        event_manager.schedule_event(new ExitEvent);
+      }
 
-      // process the event queue
+      // whew! we're not done yet!
+      // update time between last cycle and this one.
+      else {
+        uint64_t dt = core_timer.get_elapsed_time();      // get delta time between last frame (nanoseconds)
+        real_elapsed_time += dt;
+      }
+
+      // process the event queue for this cycle
       int queue_size = event_manager.get_queue_size();
       while(queue_size > 0)
       {
@@ -47,8 +58,8 @@ namespace core
         queue_size = event_manager.get_queue_size();
       }
 
-      if(real_elapsed_time >= real_duration and real_duration > 0)
-        state = 1;
+      // is the event queue empty?
+      // if so, set the simulation to the idle state
     }
   }
 
