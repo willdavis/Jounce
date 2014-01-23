@@ -15,8 +15,12 @@ namespace core
     event_manager.set_parent((void*)this);
     state = 0;          //set default state
     time_scale = 1;     //set time scale to normal time (1x)
-    real_elapsed_time = 0;   //set elapsed time to zero
-    real_duration = 0;       //default to infinite duration (wait for state != 0)
+
+    real_elapsed_time = 0;      // set elapsed real time to zero
+    simulated_elapsed_time = 0; // set elapsed simulation time to zero
+
+    real_duration = 0;          //default to infinite duration (wait for exit event)
+    simulated_duration = 0;     //default to infinite duration (wait for exit event)
   }
 
   Simulation::~Simulation()
@@ -55,51 +59,34 @@ namespace core
     return event_manager.get_queue_size();
   }
 
-  // get the duration of the simulation in real time (nanoseconds)
-  uint64_t Simulation::get_real_duration()
-  {
-    return real_duration;
-  }
+  // returns the simulated duration (arbitrary units)
+  uint64_t Simulation::get_simulated_duration() { return simulated_duration; }
 
-  // returns the total elapsed time of the simulation in real time (nanoseconds)
-  uint64_t Simulation::get_real_elapsed_time()
-  {
-    return real_elapsed_time;
-  }
+  // get the duration of the simulation in real time (nanoseconds)
+  uint64_t Simulation::get_real_duration() { return real_duration; }
+
+  // returns the total elapsed simulation time
+  uint64_t Simulation::get_simulated_elapsed_time() { return simulated_duration; }
+
+  // returns the total elapsed real time (nanoseconds)
+  uint64_t Simulation::get_real_elapsed_time() { return real_elapsed_time; }
 
   // returns the value to scale time by
-  double Simulation::get_time_scale()
-  {
-    return time_scale;
-  }
+  double Simulation::get_time_scale() { return time_scale; }
 
   // set the value which will be used to scale simulation time
-  void Simulation::set_time_scale(double value)
-  {
-    time_scale = value;
-  }
+  void Simulation::set_time_scale(double value) { time_scale = value; }
 
-  // set the duration of the simulation (in nanoseconds)
-  void Simulation::set_real_duration(uint64_t new_time)
-  {
-    real_duration = new_time;
-  }
+  // set the simulated duration (arbitrary units)
+  void Simulation::set_simulated_duration(uint64_t new_time) { simulated_duration = new_time; }
+
+  // set the real time duration for the simulation (nanoseconds)
+  void Simulation::set_real_duration(uint64_t new_time) { real_duration = new_time; }
 
   // returns the current simulation state (0=ready, 1=done, -1=errors)
-  int Simulation::get_state()
-  {
-    return state;
-  }
+  int Simulation::get_state() { return state; }
 
   // returns the current size of the event queue
-  int Simulation::get_event_queue_size()
-  {
-    return event_manager.get_queue_size();
-  }
-
-  uint64_t Simulation::get_scaled_time(uint64_t nanoseconds)
-  {
-    return (uint64_t)(nanoseconds * time_scale);
-  }
+  int Simulation::get_event_queue_size() { return event_manager.get_queue_size(); }
 
 } /* namespace core */
