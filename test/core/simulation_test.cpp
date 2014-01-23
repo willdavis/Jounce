@@ -48,21 +48,21 @@ namespace core
     ASSERT_EQ(sim.get_state(), 0);
   }
 
-  TEST_F(SimulationTest, duration_default_is_zero) {
-    ASSERT_EQ(sim.get_duration(), 0);
+  TEST_F(SimulationTest, real_duration_default_is_zero) {
+    ASSERT_EQ(sim.get_real_duration(), 0);
   }
 
-  TEST_F(SimulationTest, can_get_total_elapsed_time) {
-    ASSERT_EQ(sim.get_total_elapsed_time(), 0);
+  TEST_F(SimulationTest, can_get_real_elapsed_time) {
+    ASSERT_EQ(sim.get_real_elapsed_time(), 0);
   }
 
-  TEST_F(SimulationTest, can_get_duration) {
-    ASSERT_EQ(sim.get_duration(), 0);
+  TEST_F(SimulationTest, can_get_real_duration) {
+    ASSERT_EQ(sim.get_real_duration(), 0);
   }
 
-  TEST_F(SimulationTest, can_set_duration) {
-    sim.set_duration(10);
-    ASSERT_EQ(sim.get_duration(), 10);
+  TEST_F(SimulationTest, can_set_real_duration) {
+    sim.set_real_duration(10);
+    ASSERT_EQ(sim.get_real_duration(), 10);
   }
 
   TEST_F(SimulationTest, can_get_time_scale) {
@@ -87,7 +87,7 @@ namespace core
     timespec start;
     clock_gettime(1, &start);
 
-    sim.set_duration(1000000000);  //1 second
+    sim.set_real_duration(1000000000);  //1 second
     sim.run();
 
     timespec end;
@@ -96,7 +96,7 @@ namespace core
     timespec* elapsed = sim.core_timer.get_timespec_diff(&end, &start);
     uint64_t nseconds = elapsed->tv_sec * 1000000000LL + elapsed->tv_nsec;
     ASSERT_GT(nseconds, 0);
-    ASSERT_EQ(nseconds, sim.get_duration());
+    ASSERT_EQ(nseconds, sim.get_real_duration());
   }
 
   TEST_F(SimulationTest, simulation_processes_all_events_then_exits)

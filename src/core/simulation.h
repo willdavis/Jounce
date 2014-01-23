@@ -28,10 +28,14 @@ namespace core
     double get_time_scale();
     void set_time_scale(double);
 
-    uint64_t get_duration();
-    void set_duration(uint64_t);
+    uint64_t get_real_duration();
+    void set_real_duration(uint64_t);
 
-    uint64_t get_total_elapsed_time();
+    uint64_t get_simulated_duration();
+    void set_simulated_duration(uint64_t);
+
+    uint64_t get_real_elapsed_time();
+    uint64_t get_simulated_elapsed_time();
 
     uint64_t get_scaled_time(uint64_t);
     int get_event_queue_size();
@@ -40,12 +44,15 @@ namespace core
     Timer core_timer;
 
   protected:
-    EventManager event_manager; //Provides an interface to manage Events
+    EventManager event_manager; // provides an interface to manage events
     int state;                  // stores the current simulation state ( 0 = off, 1 = done, -1 = errors)
     double time_scale;          // factor to scale time by
 
-    uint64_t duration;          // duration of the simulation (in nanoseconds) (optional)
-    uint64_t total_elapsed_time;        // current elapsed time of the simulation (in nanoseconds)
+    uint64_t real_duration;             // real time duration of the simulation (nanoseconds) (optional)
+    uint64_t simulated_duration;        // simulated duration of the simulation (optional)
+
+    uint64_t real_elapsed_time;         // current elapsed real time (nanoseconds)
+    uint64_t simulated_elapsed_time;    // current elapsed simulated time
   };
 
 } /* namespace core */

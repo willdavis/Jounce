@@ -15,8 +15,8 @@ namespace core
     event_manager.set_parent((void*)this);
     state = 0;          //set default state
     time_scale = 1;     //set time scale to normal time (1x)
-    total_elapsed_time = 0;   //set elapsed time to zero
-    duration = 0;       //default to infinite duration (wait for state != 0)
+    real_elapsed_time = 0;   //set elapsed time to zero
+    real_duration = 0;       //default to infinite duration (wait for state != 0)
   }
 
   Simulation::~Simulation()
@@ -33,7 +33,7 @@ namespace core
   {
     while(state == 0) {
       uint64_t dt = core_timer.get_elapsed_time();      // get delta time between last frame in nanoseconds
-      total_elapsed_time += dt;
+      real_elapsed_time += dt;
 
       // process the event queue
       int queue_size = event_manager.get_queue_size();
@@ -43,7 +43,7 @@ namespace core
         queue_size = event_manager.get_queue_size();
       }
 
-      if(total_elapsed_time >= duration and duration > 0)
+      if(real_elapsed_time >= real_duration and real_duration > 0)
         state = 1;
     }
   }
@@ -55,10 +55,16 @@ namespace core
     return event_manager.get_queue_size();
   }
 
-  // returns the total elapsed time of the simulation (in nanoseconds)
-  uint64_t Simulation::get_total_elapsed_time()
+  // get the duration of the simulation in real time (nanoseconds)
+  uint64_t Simulation::get_real_duration()
   {
-    return total_elapsed_time;
+    return real_duration;
+  }
+
+  // returns the total elapsed time of the simulation in real time (nanoseconds)
+  uint64_t Simulation::get_real_elapsed_time()
+  {
+    return real_elapsed_time;
   }
 
   // returns the value to scale time by
@@ -73,16 +79,10 @@ namespace core
     time_scale = value;
   }
 
-  // get the duration of the simulation (in nanoseconds)
-  uint64_t Simulation::get_duration()
-  {
-    return duration;
-  }
-
   // set the duration of the simulation (in nanoseconds)
-  void Simulation::set_duration(uint64_t new_time)
+  void Simulation::set_real_duration(uint64_t new_time)
   {
-    duration = new_time;
+    real_duration = new_time;
   }
 
   // returns the current simulation state (0=ready, 1=done, -1=errors)
