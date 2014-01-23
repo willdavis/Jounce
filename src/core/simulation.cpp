@@ -36,6 +36,7 @@ namespace core
   void
   Simulation::run()
   {
+    core_timer.get_elapsed_time();      //bring the timer up to date
     while (state == 0)
       {
         // first check if we're over the duration.
