@@ -71,16 +71,16 @@ namespace core
   }
 
   // returns the minimum time desired for each frame
-  uint64_t Simulation::get_min_time_per_frame() { return min_time_per_frame; }
+  uint64_t Simulation::get_min_framerate() { return min_time_per_frame; }
 
   // returns the maximum time desired for each frame
-  uint64_t Simulation::get_max_time_per_frame() { return max_time_per_frame; }
+  uint64_t Simulation::get_max_framerate() { return max_time_per_frame; }
 
   // sets the minimum time desired for each frame
-  void Simulation::set_min_time_per_frame(uint64_t new_time) { min_time_per_frame = new_time; }
+  void Simulation::set_min_framerate(uint64_t new_time) { min_time_per_frame = new_time; }
 
   // set the maximum time desired for each frame
-  void Simulation::set_max_time_per_frame(uint64_t new_time) { max_time_per_frame = new_time; }
+  void Simulation::set_max_framerate(uint64_t new_time) { max_time_per_frame = new_time; }
 
   // returns the simulated duration (arbitrary units)
   uint64_t Simulation::get_simulated_duration() { return simulated_duration; }

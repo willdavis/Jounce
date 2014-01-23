@@ -37,10 +37,10 @@ namespace core
     uint64_t get_real_elapsed_time();
     uint64_t get_simulated_elapsed_time();
 
-    uint64_t get_min_time_per_frame();
-    uint64_t get_max_time_per_frame();
-    void set_min_time_per_frame(uint64_t);
-    void set_max_time_per_frame(uint64_t);
+    uint64_t get_min_framerate();
+    uint64_t get_max_framerate();
+    void set_min_framerate(uint64_t);
+    void set_max_framerate(uint64_t);
 
     int get_event_queue_size();
     int schedule_event(Event*);

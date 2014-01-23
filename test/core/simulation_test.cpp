@@ -84,22 +84,22 @@ namespace core
     ASSERT_EQ(sim.get_time_scale(), 1.5);
   }
 
-  TEST_F(SimulationTest, can_get_min_time_per_frame) {
-    ASSERT_EQ(sim.get_min_time_per_frame(), 0);
+  TEST_F(SimulationTest, can_get_min_framerate) {
+    ASSERT_EQ(sim.get_min_framerate(), 0);
   }
 
-  TEST_F(SimulationTest, can_get_max_time_per_frame) {
-    ASSERT_EQ(sim.get_max_time_per_frame(), 0);
+  TEST_F(SimulationTest, can_get_max_framerate) {
+    ASSERT_EQ(sim.get_max_framerate(), 0);
   }
 
-  TEST_F(SimulationTest, can_set_min_time_per_frame) {
-    sim.set_min_time_per_frame(10);
-    ASSERT_EQ(sim.get_min_time_per_frame(), 10);
+  TEST_F(SimulationTest, can_set_min_framerate) {
+    sim.set_min_framerate(10);
+    ASSERT_EQ(sim.get_min_framerate(), 10);
   }
 
-  TEST_F(SimulationTest, can_set_max_time_per_frame) {
-    sim.set_max_time_per_frame(10);
-    ASSERT_EQ(sim.get_max_time_per_frame(), 10);
+  TEST_F(SimulationTest, can_set_max_framerate) {
+    sim.set_max_framerate(10);
+    ASSERT_EQ(sim.get_max_framerate(), 10);
   }
 
   TEST_F(SimulationTest, simulation_runs_for_duration_then_exits) {
