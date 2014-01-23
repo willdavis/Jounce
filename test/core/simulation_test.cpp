@@ -7,6 +7,7 @@
 
 #include "gtest/gtest.h"
 #include "../../src/core/simulation.h"
+#include "../../src/core/events/exit_event.h"
 
 namespace core
 {
@@ -90,9 +91,11 @@ namespace core
   {
     TestEvent event1;
     TestEvent event2;
+    ExitEvent exit;
     sim.schedule_event(&event1);
     sim.schedule_event(&event2);
-    EXPECT_EQ(sim.get_event_queue_size(), 2);
+    sim.schedule_event(&exit);
+    EXPECT_EQ(sim.get_event_queue_size(), 3);
     sim.run();
     ASSERT_EQ(sim.get_event_queue_size(), 0);
   }

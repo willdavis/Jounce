@@ -45,10 +45,6 @@ namespace core
 
       if(elapsed_time >= duration and duration > 0)
         state = 1;
-
-      //this is temporary to avoid infinite loops
-      if(duration == 0)
-        state = 1;
     }
   }
 
