@@ -9,6 +9,7 @@
 #define EXIT_EVENT_H_
 
 #include "event.h"
+#include "../simulation.h"
 
 namespace core
 {
@@ -18,7 +19,7 @@ namespace core
   public:
     ExitEvent();
     virtual ~ExitEvent();
-    void process_event(void*) {  }
+    void process_event(void*);
   };
 
 } /* namespace core */

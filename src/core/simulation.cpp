@@ -12,6 +12,7 @@ namespace core
 
   Simulation::Simulation()
   {
+    event_manager.set_parent((void*)this);
     state = 0;          //set default state
     time_scale = 1;     //set time scale to normal time (1x)
     elapsed_time = 0;   //set elapsed time to zero

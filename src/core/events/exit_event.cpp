@@ -21,4 +21,10 @@ namespace core
     // TODO Auto-generated destructor stub
   }
 
+  // cast the void* to Simulation* and call exit()
+  void ExitEvent::process_event(void* pointer)
+  {
+    static_cast<core::Simulation *>(pointer)->exit();
+  }
+
 } /* namespace core */
