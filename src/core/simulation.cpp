@@ -55,6 +55,17 @@ namespace core
     return event_manager.get_queue_size();
   }
 
+  // returns the value to scale time by
+  double Simulation::get_time_scale()
+  {
+    return time_scale;
+  }
+
+  void Simulation::set_time_scale(double value)
+  {
+    time_scale = value;
+  }
+
   // returns the current simulation state (0=ready, 1=done, -1=errors)
   int Simulation::get_state()
   {

@@ -58,14 +58,14 @@ namespace core
   }
 
   TEST_F(SimulationTest, time_scale_can_be_set) {
-    EXPECT_EQ(sim.time_scale, 1);
-    sim.time_scale = 1.5;
-    ASSERT_EQ(sim.time_scale, 1.5);
+    EXPECT_EQ(sim.get_time_scale(), 1);
+    sim.set_time_scale(1.5);
+    ASSERT_EQ(sim.get_time_scale(), 1.5);
   }
 
   TEST_F(SimulationTest, can_scale_a_frame_by_the_time_scale) {
     uint64_t test_time = 200;           //simulates a 200ns frame
-    sim.time_scale = 1.5;               //set 1.5x time scale
+    sim.set_time_scale(1.5);               //set 1.5x time scale
     uint64_t scaled_time = sim.get_scaled_time(test_time);
     EXPECT_GT(scaled_time, 0);
     ASSERT_EQ(scaled_time, 300);
