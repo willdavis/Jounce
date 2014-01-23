@@ -136,8 +136,8 @@ namespace core
 
     timespec* elapsed = sim.core_timer.get_timespec_diff(&end, &start);
     uint64_t nseconds = elapsed->tv_sec * 1000000000LL + elapsed->tv_nsec;// + average_time_for_gettime;
-    ASSERT_GT(nseconds, 0);
-    ASSERT_EQ(sim.get_real_duration(), nseconds);
+    EXPECT_EQ(0, sim.get_real_elapsed_time() - nseconds);
+    ASSERT_EQ(sim.get_real_elapsed_time(), nseconds);
     delete elapsed;
   }
 
