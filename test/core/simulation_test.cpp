@@ -7,6 +7,7 @@
 
 #include "gtest/gtest.h"
 #include "../../src/core/simulation.h"
+#include "../../src/core/events/exit_event.h"
 
 namespace core
 {
@@ -17,8 +18,12 @@ namespace core
 
   class TestEvent : public Event {
   public:
-    void process_event () { /* do nothing */ }
+    void process_event(void* input) { /* do nothing */ }
   };
+
+  TEST_F(SimulationTest, can_check_the_current_simulation_state) {
+    EXPECT_EQ(sim.get_state(), 0);
+  }
 
   TEST_F(SimulationTest, can_schedule_an_event) {
     TestEvent event;
@@ -33,13 +38,14 @@ namespace core
     ASSERT_EQ(sim.get_event_queue_size(), 1);
   }
 
-  TEST_F(SimulationTest, state_defaults_to_zero) {
-    ASSERT_EQ(sim.state, 0);
+  TEST_F(SimulationTest, can_exit_the_simulation) {
+    EXPECT_EQ(sim.get_state(), 0);
+    sim.exit();
+    ASSERT_EQ(sim.get_state(), 1);
   }
 
-  TEST_F(SimulationTest, state_is_1_on_exit) {
-    sim.run();
-    ASSERT_EQ(sim.state, 1);
+  TEST_F(SimulationTest, state_defaults_to_zero) {
+    ASSERT_EQ(sim.get_state(), 0);
   }
 
   TEST_F(SimulationTest, duration_default_is_zero) {
@@ -85,9 +91,11 @@ namespace core
   {
     TestEvent event1;
     TestEvent event2;
+    ExitEvent exit;
     sim.schedule_event(&event1);
     sim.schedule_event(&event2);
-    EXPECT_EQ(sim.get_event_queue_size(), 2);
+    sim.schedule_event(&exit);
+    EXPECT_EQ(sim.get_event_queue_size(), 3);
     sim.run();
     ASSERT_EQ(sim.get_event_queue_size(), 0);
   }

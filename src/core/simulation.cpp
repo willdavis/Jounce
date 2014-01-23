@@ -12,6 +12,7 @@ namespace core
 
   Simulation::Simulation()
   {
+    event_manager.set_parent((void*)this);
     state = 0;          //set default state
     time_scale = 1;     //set time scale to normal time (1x)
     elapsed_time = 0;   //set elapsed time to zero
@@ -21,6 +22,11 @@ namespace core
   Simulation::~Simulation()
   {
     // TODO Auto-generated destructor stub
+  }
+
+  void Simulation::exit()
+  {
+    state = 1;
   }
 
   void Simulation::run()
@@ -39,10 +45,6 @@ namespace core
 
       if(elapsed_time >= duration and duration > 0)
         state = 1;
-
-      //this is temporary to avoid infinite loops
-      if(duration == 0)
-        state = 1;
     }
   }
 
@@ -51,6 +53,12 @@ namespace core
   {
     event_manager.schedule_event(event);
     return event_manager.get_queue_size();
+  }
+
+  // returns the current simulation state (0=ready, 1=done, -1=errors)
+  int Simulation::get_state()
+  {
+    return state;
   }
 
   // returns the current size of the event queue

@@ -21,6 +21,18 @@ namespace core
     // TODO Auto-generated destructor stub
   }
 
+  // set parent to the supplied void* pointer
+  void EventManager::set_parent(void* pointer)
+  {
+    parent = pointer;
+  }
+
+  // return a reference to the parent object
+  void* EventManager::get_parent()
+  {
+    return parent;
+  }
+
   // Return the size of the event queue
   int EventManager::get_queue_size()
   {
@@ -37,7 +49,7 @@ namespace core
   void EventManager::process_top_event()
   {
     Event* event = event_queue.front();
-    event->process_event();
+    event->process_event(parent);
     event_queue.pop();
   }
 

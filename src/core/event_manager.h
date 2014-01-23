@@ -9,7 +9,7 @@
 #define EVENT_MANAGER_H_
 
 #include <queue>
-#include "event.h"
+#include "./events/event.h"
 
 namespace core
 {
@@ -20,11 +20,15 @@ namespace core
     EventManager();
     virtual ~EventManager();
 
+    void* get_parent();
+    void set_parent(void*);
+
     int get_queue_size();
     void schedule_event (Event*);
     void process_top_event();
 
   protected:
+    void* parent;
     std::queue<Event*> event_queue;
   };
 
