@@ -48,62 +48,8 @@ namespace core
     ASSERT_EQ(sim.get_state(), 0);
   }
 
-  TEST_F(SimulationTest, can_get_real_duration) {
-    ASSERT_EQ(sim.get_real_duration(), 0);
-  }
-
-  TEST_F(SimulationTest, can_set_real_duration) {
-    sim.set_real_duration(10);
-    ASSERT_EQ(sim.get_real_duration(), 10);
-  }
-
-  TEST_F(SimulationTest, can_get_simulated_duration) {
-    ASSERT_EQ(sim.get_simulated_duration(), 0);
-  }
-
-  TEST_F(SimulationTest, can_set_simulated_duration) {
-    sim.set_simulated_duration(15);
-    ASSERT_EQ(sim.get_simulated_duration(), 15);
-  }
-
-  TEST_F(SimulationTest, can_get_real_elapsed_time) {
-    ASSERT_EQ(sim.get_real_elapsed_time(), 0);
-  }
-
-  TEST_F(SimulationTest, can_get_simulated_elapsed_time) {
-    ASSERT_EQ(sim.get_simulated_elapsed_time(), 0);
-  }
-
-  TEST_F(SimulationTest, can_get_time_scale) {
-    ASSERT_EQ(sim.get_time_scale(), 1);
-  }
-
-  TEST_F(SimulationTest, can_set_time_scale) {
-    EXPECT_EQ(sim.get_time_scale(), 1);
-    sim.set_time_scale(1.5);
-    ASSERT_EQ(sim.get_time_scale(), 1.5);
-  }
-
-  TEST_F(SimulationTest, can_get_min_framerate) {
-    ASSERT_EQ(sim.get_min_framerate(), 0);
-  }
-
-  TEST_F(SimulationTest, can_get_max_framerate) {
-    ASSERT_EQ(sim.get_max_framerate(), 0);
-  }
-
-  TEST_F(SimulationTest, can_set_min_framerate) {
-    sim.set_min_framerate(10);
-    ASSERT_EQ(sim.get_min_framerate(), 10);
-  }
-
-  TEST_F(SimulationTest, can_set_max_framerate) {
-    sim.set_max_framerate(10);
-    ASSERT_EQ(sim.get_max_framerate(), 10);
-  }
-
   TEST_F(SimulationTest, simulation_runs_for_duration_then_exits) {
-    sim.set_real_duration(100000000);  //pi seconds
+    sim.set_duration(100000000);  //pi seconds
     timespec start, end;        //to track the actual time offset
     /*
     timespec t1,t2,t3,t4,t5;    //used to calibrate average time for clock_gettime() call
@@ -136,8 +82,8 @@ namespace core
 
     timespec* elapsed = sim.core_timer.get_timespec_diff(&end, &start);
     uint64_t nseconds = elapsed->tv_sec * 1000000000LL + elapsed->tv_nsec;// + average_time_for_gettime;
-    EXPECT_GT(nseconds - sim.get_real_elapsed_time(), 0);
-    ASSERT_EQ(sim.get_real_elapsed_time(), sim.get_real_duration());
+    EXPECT_GT(nseconds - sim.get_elapsed_time(), 0);
+    ASSERT_EQ(sim.get_elapsed_time(), sim.get_duration());
   }
 
   TEST_F(SimulationTest, simulation_processes_all_events_then_exits)
