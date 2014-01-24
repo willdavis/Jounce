@@ -57,16 +57,11 @@ namespace core
 		return simulated_elapsed_time;
 	}
 
-	// returns the requested minimum framerate
-	uint64_t TimeManager::get_min_framerate()
+	// returns the frame rate range for the simulation (nanoseconds)
+	uint64_t TimeManager::get_framerate_range()
 	{
-		return min_framerate;
-	}
-
-	// returns the requested maximum framerate
-	uint64_t TimeManager::get_max_framerate()
-	{
-		return max_framerate;
+		if(max_framerate > min_framerate) return max_framerate - min_framerate;
+		else return min_framerate;
 	}
 
 	// set the scalar to modify time by
@@ -87,13 +82,13 @@ namespace core
 		simulated_duration = sim_duration;
 	}
 
-	// set the requested minimum framerate for the simulation
+	// set the requested minimum frame rate for the simulation (nanoseconds)
 	void TimeManager::set_min_framerate(uint64_t min)
 	{
 		min_framerate = min;
 	}
 
-	// set the requested maximum framerate for the simulation
+	// set the requested maximum frame rate for the simulation (nanoseconds)
 	void TimeManager::set_max_framerate(uint64_t max)
 	{
 		max_framerate = max;
@@ -106,11 +101,13 @@ namespace core
 	}
 
 	// add more simulated time to the simulation elapsed time
-	void TimeManager::add_simulated_time(uint64_t sim_time)
+	void
+	TimeManager::add_simulated_time(uint64_t sim_time)
 	{
 		simulated_elapsed_time += sim_time;
 	}
 
+/* namespace core */
+
 }
 
- /* namespace core */

@@ -31,8 +31,7 @@ namespace core
     uint64_t get_real_elapsed_time();
     uint64_t get_simulated_elapsed_time();
 
-    uint64_t get_min_framerate();
-    uint64_t get_max_framerate();
+    uint64_t get_framerate_range();
     void set_min_framerate(uint64_t);
     void set_max_framerate(uint64_t);
 
@@ -41,6 +40,7 @@ namespace core
 
 	protected:
     double time_scale;								// factor to scale simulation time
+    uint64_t framerate_range;					// range of time for the frame to take place in (nanoseconds)
     uint64_t min_framerate;						// desired minimum time per simulation frame (nanoseconds)
     uint64_t max_framerate;						// desired maximum time per simulation frame (nanoseconds)
 
