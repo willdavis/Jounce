@@ -63,32 +63,4 @@ namespace core
 		ASSERT_EQ(manager.get_frequency(), 10);
 	}
 
-	TEST_F(TimeManagerTest, can_get_framerate_range) {
-		manager.set_min_framerate(10);
-		manager.set_max_framerate(20);
-		ASSERT_EQ(manager.get_framerate_range(), 10);
-
-		manager.set_min_framerate(0);
-		manager.set_max_framerate(20);
-		ASSERT_EQ(manager.get_framerate_range(), 20);
-
-		manager.set_min_framerate(10);
-		manager.set_max_framerate(0);
-		ASSERT_EQ(manager.get_framerate_range(), 10);
-
-		manager.set_min_framerate(0);
-		manager.set_max_framerate(0);
-		ASSERT_EQ(manager.get_framerate_range(), 0);
-	}
-
-	TEST_F(TimeManagerTest, can_set_min_framerate) {
-		manager.set_min_framerate(10);
-		ASSERT_EQ(manager.get_framerate_range(), 10);
-	}
-
-	TEST_F(TimeManagerTest, can_set_max_framerate) {
-		manager.set_max_framerate(10);
-		ASSERT_EQ(manager.get_framerate_range(), 10);
-	}
-
 } /* namespace core */

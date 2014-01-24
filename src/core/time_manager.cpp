@@ -17,9 +17,6 @@ namespace core
 		simulated_elapsed_time = 0;	// set elapsed simulation time to zero
 		real_duration = 0;					// default to infinite duration (wait for exit event)
 		simulated_duration = 0; 		// default to infinite duration (wait for exit event)
-
-		min_framerate = 0;					// not tracked by default
-		max_framerate = 0;					// not tracked by default
 	}
 
 	TimeManager::~TimeManager()
@@ -57,13 +54,6 @@ namespace core
 		return simulated_elapsed_time;
 	}
 
-	// returns the frame rate range for the simulation (nanoseconds)
-	uint64_t TimeManager::get_framerate_range()
-	{
-		if(max_framerate > min_framerate) return max_framerate - min_framerate;
-		else return min_framerate;
-	}
-
 	// set the simulation frequency (nanoseconds / unit)
 	void TimeManager::set_frequency(uint64_t freq)
 	{
@@ -80,18 +70,6 @@ namespace core
 	void TimeManager::set_simulated_duration(uint64_t sim_duration)
 	{
 		simulated_duration = sim_duration;
-	}
-
-	// set the requested minimum frame rate for the simulation (nanoseconds)
-	void TimeManager::set_min_framerate(uint64_t min)
-	{
-		min_framerate = min;
-	}
-
-	// set the requested maximum frame rate for the simulation (nanoseconds)
-	void TimeManager::set_max_framerate(uint64_t max)
-	{
-		max_framerate = max;
 	}
 
 	// add more real time to the simulations elapsed time
