@@ -13,15 +13,13 @@ namespace core
 
   Simulation::Simulation()
   {
-    event_manager.set_parent((void*)this);
-    state = 0;          //set default state
-    time_scale = 1;     //set time scale to normal time (1x)
-
-    real_elapsed_time = 0;      // set elapsed real time to zero
+    event_manager.set_parent((void*) (this));
+    state = 0; //set default state
+    time_scale = 1; //set time scale to normal time (1x)
+    real_elapsed_time = 0; // set elapsed real time to zero
     simulated_elapsed_time = 0; // set elapsed simulation time to zero
-
-    real_duration = 0;          //default to infinite duration (wait for exit event)
-    simulated_duration = 0;     //default to infinite duration (wait for exit event)
+    real_duration = 0; //default to infinite duration (wait for exit event)
+    simulated_duration = 0; //default to infinite duration (wait for exit event)
   }
 
   Simulation::~Simulation()
@@ -29,37 +27,39 @@ namespace core
     // TODO Auto-generated destructor stub
   }
 
-  void Simulation::exit()
+  void
+  Simulation::exit()
   {
     state = 1;
   }
 
-  void Simulation::run()
+  void
+  Simulation::run()
   {
-    while(state == 0) {
-      // first check if we're over the duration.
+    core_timer.get_elapsed_time();      //bring the timer up to date
+    while (state == 0)
+    {
+      // get delta simulation time between last frame (nanoseconds)
+      uint64_t dt = core_timer.get_elapsed_time();
+
+      // check if this frame will push us over the duration.
       // if so, schedule an ExitEvent for immediate termination of the simulation!
-      if(real_elapsed_time >= real_duration and real_duration > 0) {
-        event_manager.schedule_event(new ExitEvent);
+      if ((dt + real_elapsed_time) >= real_duration && real_duration > 0)
+      {
+      	event_manager.schedule_event(new ExitEvent);	//setup an ExitEvent to kill the simulation
+      	dt = real_duration - real_elapsed_time;				//calculate remaining simulation time and set it as dt
       }
 
-      // whew! we're not done yet!
-      // update time between last cycle and this one.
-      else {
-        uint64_t dt = core_timer.get_elapsed_time();      // get delta time between last frame (nanoseconds)
-        real_elapsed_time += dt;
-      }
+      // update the elapsed simulation time with delta time (dt)
+      real_elapsed_time += dt;
 
       // process the event queue for this cycle
       int queue_size = event_manager.get_queue_size();
-      while(queue_size > 0)
+      while (queue_size > 0)
       {
         event_manager.process_top_event();
         queue_size = event_manager.get_queue_size();
       }
-
-      // is the event queue empty?
-      // if so, set the simulation to the idle state
     }
   }
 
@@ -69,6 +69,18 @@ namespace core
     event_manager.schedule_event(event);
     return event_manager.get_queue_size();
   }
+
+  // returns the minimum time desired for each frame
+  uint64_t Simulation::get_min_framerate() { return min_time_per_frame; }
+
+  // returns the maximum time desired for each frame
+  uint64_t Simulation::get_max_framerate() { return max_time_per_frame; }
+
+  // sets the minimum time desired for each frame
+  void Simulation::set_min_framerate(uint64_t new_time) { min_time_per_frame = new_time; }
+
+  // set the maximum time desired for each frame
+  void Simulation::set_max_framerate(uint64_t new_time) { max_time_per_frame = new_time; }
 
   // returns the simulated duration (arbitrary units)
   uint64_t Simulation::get_simulated_duration() { return simulated_duration; }
