@@ -5,17 +5,17 @@
  *      Author: bill
  */
 
-#ifndef TIME_SCALAR_H_
-#define TIME_SCALAR_H_
+#ifndef TIME_MANAGER_H_
+#define TIME_MANAGER_H_
 
 namespace core
 {
 
-	class TimeScalar
+	class TimeManager
 	{
 	public:
-		TimeScalar();
-		virtual ~TimeScalar();
+		TimeManager();
+		virtual ~TimeManager();
 
     double get_time_scale();
     void set_time_scale(double);
@@ -47,4 +47,4 @@ namespace core
 	};
 
 } /* namespace core */
-#endif /* TIME_SCALAR_H_ */
+#endif /* TIME_MANAGER_H_ */
