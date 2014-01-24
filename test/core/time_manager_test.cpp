@@ -15,6 +15,18 @@ namespace core
 		TimeManager scalar;
 	};
 
+	TEST_F(TimeManagerTest, can_add_real_time) {
+		EXPECT_EQ(scalar.get_real_elapsed_time(), 0);
+		scalar.add_real_time(10);
+		ASSERT_EQ(scalar.get_real_elapsed_time(), 10);
+	}
+
+	TEST_F(TimeManagerTest, can_add_simulated_time) {
+		EXPECT_EQ(scalar.get_simulated_elapsed_time(), 0);
+		scalar.add_simulated_time(10);
+		ASSERT_EQ(scalar.get_simulated_elapsed_time(), 10);
+	}
+
 	TEST_F(TimeManagerTest, can_get_real_duration) {
 		ASSERT_EQ(scalar.get_real_duration(), 0);
 	}

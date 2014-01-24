@@ -8,6 +8,8 @@
 #ifndef TIME_MANAGER_H_
 #define TIME_MANAGER_H_
 
+#include <stdint.h>
+
 namespace core
 {
 
@@ -33,6 +35,9 @@ namespace core
     uint64_t get_max_framerate();
     void set_min_framerate(uint64_t);
     void set_max_framerate(uint64_t);
+
+    void add_real_time(uint64_t);
+    void add_simulated_time(uint64_t);
 
 	protected:
     double time_scale;								// factor to scale simulation time
