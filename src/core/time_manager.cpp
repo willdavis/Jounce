@@ -12,7 +12,7 @@ namespace core
 
 	TimeManager::TimeManager()
 	{
-		time_scale = 1;							// set time scale to normal time (1x)
+		frequency = 1;							// set the default simulation frequency (nanoseconds / unit)
 		real_elapsed_time = 0;			// set elapsed real time to zero
 		simulated_elapsed_time = 0;	// set elapsed simulation time to zero
 		real_duration = 0;					// default to infinite duration (wait for exit event)
@@ -27,10 +27,10 @@ namespace core
 		// TODO Auto-generated destructor stub
 	}
 
-	// returns the scalar which is used to modify time
-	double TimeManager::get_time_scale()
+	// returns the simulation frequency (nanoseconds / unit)
+	uint64_t TimeManager::get_frequency()
 	{
-		return time_scale;
+		return frequency;
 	}
 
 	// returns the real time duration
@@ -64,10 +64,10 @@ namespace core
 		else return min_framerate;
 	}
 
-	// set the scalar to modify time by
-	void TimeManager::set_time_scale(double scale)
+	// set the simulation frequency (nanoseconds / unit)
+	void TimeManager::set_frequency(uint64_t freq)
 	{
-		time_scale = scale;
+		frequency = freq;
 	}
 
 	// set the duration of the simulation (real time)

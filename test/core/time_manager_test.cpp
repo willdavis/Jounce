@@ -53,14 +53,14 @@ namespace core
 		ASSERT_EQ(manager.get_simulated_elapsed_time(), 0);
 	}
 
-	TEST_F(TimeManagerTest, can_get_time_scale) {
-		ASSERT_EQ(manager.get_time_scale(), 1);
+	TEST_F(TimeManagerTest, can_get_frequency) {
+		ASSERT_EQ(manager.get_frequency(), 1);
 	}
 
-	TEST_F(TimeManagerTest, can_set_time_scale) {
-		EXPECT_EQ(manager.get_time_scale(), 1);
-		manager.set_time_scale(1.5);
-		ASSERT_EQ(manager.get_time_scale(), 1.5);
+	TEST_F(TimeManagerTest, can_set_frequency) {
+		EXPECT_EQ(manager.get_frequency(), 1);
+		manager.set_frequency(10);
+		ASSERT_EQ(manager.get_frequency(), 10);
 	}
 
 	TEST_F(TimeManagerTest, can_get_framerate_range) {
@@ -90,4 +90,5 @@ namespace core
 		manager.set_max_framerate(10);
 		ASSERT_EQ(manager.get_framerate_range(), 10);
 	}
+
 } /* namespace core */

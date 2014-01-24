@@ -19,8 +19,8 @@ namespace core
 		TimeManager();
 		virtual ~TimeManager();
 
-    double get_time_scale();
-    void set_time_scale(double);
+    uint64_t get_frequency();
+    void set_frequency(uint64_t);
 
     uint64_t get_real_duration();
     void set_real_duration(uint64_t);
@@ -39,7 +39,7 @@ namespace core
     void add_simulated_time(uint64_t);
 
 	protected:
-    double time_scale;								// factor to scale simulation time
+    uint64_t frequency;								// factor to scale simulation time
     uint64_t framerate_range;					// range of time for the frame to take place in (nanoseconds)
     uint64_t min_framerate;						// desired minimum time per simulation frame (nanoseconds)
     uint64_t max_framerate;						// desired maximum time per simulation frame (nanoseconds)
