@@ -38,30 +38,29 @@ namespace core
   {
     core_timer.get_elapsed_time();      //bring the timer up to date
     while (state == 0)
+    {
+      // get delta simulation time between last frame (nanoseconds)
+      uint64_t dt = core_timer.get_elapsed_time();
+
+      // check if this frame will push us over the duration.
+      // if so, schedule an ExitEvent for immediate termination of the simulation!
+      if ((dt + real_elapsed_time) >= real_duration && real_duration > 0)
       {
-        // first check if we're over the duration.
-        // if so, schedule an ExitEvent for immediate termination of the simulation!
-        if (real_elapsed_time >= real_duration && real_duration > 0)
-          {
-            event_manager.schedule_event(new ExitEvent);
-          }
-        else // whew! we're not done yet!
-        // update time between last cycle and this one.
-          {
-            uint64_t dt = core_timer.get_elapsed_time(); // get delta time between last frame (nanoseconds)
-            real_elapsed_time += dt;
-          }
-        // process the event queue for this cycle
-        int queue_size = event_manager.get_queue_size();
-        while (queue_size > 0)
-          {
-            event_manager.process_top_event();
-            queue_size = event_manager.get_queue_size();
-          }
-        // is the event queue empty?
-        // if so, set the simulation to the idle state
+      	event_manager.schedule_event(new ExitEvent);	//setup an ExitEvent to kill the simulation
+      	dt = real_duration - real_elapsed_time;				//calculate remaining simulation time and set it as dt
       }
 
+      // update the elapsed simulation time with delta time (dt)
+      real_elapsed_time += dt;
+
+      // process the event queue for this cycle
+      int queue_size = event_manager.get_queue_size();
+      while (queue_size > 0)
+      {
+        event_manager.process_top_event();
+        queue_size = event_manager.get_queue_size();
+      }
+    }
   }
 
   // schedule event with EventManager and return the new queue size
