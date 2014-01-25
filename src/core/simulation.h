@@ -28,6 +28,7 @@ namespace core
 
     uint64_t get_elapsed_sim_time();
     uint64_t get_elapsed_real_time();
+    uint64_t get_sim_time_remainder();
 
     uint64_t get_sim_duration();
     uint64_t get_real_duration();

@@ -30,9 +30,9 @@ namespace core
 
     uint64_t get_real_elapsed_time();
     uint64_t get_simulated_elapsed_time();
+    uint64_t get_simulated_elapsed_time_remainder();
 
     void add_real_time(uint64_t);
-    void add_simulated_time(uint64_t);
 
 	protected:
     uint64_t frequency;								// factor to scale simulation time
@@ -42,6 +42,7 @@ namespace core
 
     uint64_t real_elapsed_time;				// current elapsed real time (nanoseconds)
     uint64_t simulated_elapsed_time;	// current elapsed simulated time
+    uint64_t simulated_elapsed_time_remainder;	// elapsed simulation time less than 1 simulation unit
 	};
 
 } /* namespace core */

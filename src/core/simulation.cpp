@@ -13,7 +13,7 @@ namespace core
 
   Simulation::Simulation()
   {
-    event_manager.set_parent((void*) ((((((this)))))));
+    event_manager.set_parent((void*)this);
 		state = 0; //set default state
 	}
 
@@ -85,6 +85,13 @@ namespace core
 	Simulation::get_elapsed_sim_time()
 	{
 		return time_manager.get_simulated_elapsed_time();
+	}
+
+// returns the simulation time remainder (1 unit / x nanoseconds)
+	uint64_t
+	Simulation::get_sim_time_remainder()
+	{
+		return time_manager.get_simulated_elapsed_time_remainder();
 	}
 
 // returns the total simulation time (arbitrary units)

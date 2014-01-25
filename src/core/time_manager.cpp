@@ -17,6 +17,7 @@ namespace core
 		simulated_elapsed_time = 0;	// set elapsed simulation time to zero
 		real_duration = 0;					// default to infinite duration (wait for exit event)
 		simulated_duration = 0; 		// default to infinite duration (wait for exit event)
+		simulated_elapsed_time_remainder = 0;		// simulated time less than 1 simulation unit
 	}
 
 	TimeManager::~TimeManager()
@@ -54,6 +55,11 @@ namespace core
 		return simulated_elapsed_time;
 	}
 
+	uint64_t TimeManager::get_simulated_elapsed_time_remainder()
+	{
+		return simulated_elapsed_time_remainder;
+	}
+
 	// set the simulation frequency (nanoseconds / unit)
 	void TimeManager::set_frequency(uint64_t freq)
 	{
@@ -76,13 +82,28 @@ namespace core
 	void TimeManager::add_real_time(uint64_t real_time)
 	{
 		real_elapsed_time += real_time;
-	}
-
-	// add more simulated time to the simulation elapsed time
-	void
-	TimeManager::add_simulated_time(uint64_t sim_time)
-	{
-		simulated_elapsed_time += sim_time;
+		if(real_time < frequency)
+		{
+			uint64_t remainder = frequency % real_time;
+			simulated_elapsed_time_remainder += remainder;
+			if(simulated_elapsed_time_remainder >= frequency)
+			{
+				simulated_elapsed_time_remainder -= frequency;
+				simulated_elapsed_time++;
+			}
+		}
+		else
+		{
+			uint64_t remainder = real_time % frequency;
+			uint64_t quotient = real_time / frequency;
+			simulated_elapsed_time_remainder += remainder;
+			simulated_elapsed_time += quotient;
+			if(simulated_elapsed_time_remainder >= frequency)
+			{
+				simulated_elapsed_time_remainder -= frequency;
+				simulated_elapsed_time++;
+			}
+		}
 	}
 
 /* namespace core */
