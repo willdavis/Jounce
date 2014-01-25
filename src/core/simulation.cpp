@@ -66,13 +66,6 @@ namespace core
 		return time_manager.get_real_elapsed_time();
 	}
 
-// sets the duration of the simulation (nanoseconds)
-	void
-	Simulation::set_duration(uint64_t duration)
-	{
-		time_manager.set_real_duration(duration);
-	}
-
 // returns the current duration of the simulation (nanoseconds)
 	uint64_t
 	Simulation::get_real_duration()

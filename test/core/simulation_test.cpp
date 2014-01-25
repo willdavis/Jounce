@@ -80,7 +80,7 @@ namespace core
   }
 
   TEST_F(SimulationTest, simulation_runs_for_duration_then_exits) {
-    sim.set_duration(100000000);  //pi seconds
+    sim.set_real_and_sim_duration(1000000, 50);
     timespec start, end;        //to track the actual time offset
     /*
     timespec t1,t2,t3,t4,t5;    //used to calibrate average time for clock_gettime() call
