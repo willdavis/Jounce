@@ -8,6 +8,7 @@
 #ifndef TIME_MANAGER_H_
 #define TIME_MANAGER_H_
 
+#include <cmath>
 #include <stdint.h>
 
 namespace core

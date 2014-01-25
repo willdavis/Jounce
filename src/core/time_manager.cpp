@@ -84,25 +84,17 @@ namespace core
 		real_elapsed_time += real_time;
 		if(real_time < frequency)
 		{
-			uint64_t remainder = frequency % real_time;
-			simulated_elapsed_time_remainder += remainder;
-			if(simulated_elapsed_time_remainder >= frequency)
-			{
-				simulated_elapsed_time_remainder -= frequency;
-				simulated_elapsed_time++;
-			}
+			simulated_elapsed_time_remainder += real_time;
 		}
 		else
 		{
-			uint64_t remainder = real_time % frequency;
-			uint64_t quotient = real_time / frequency;
-			simulated_elapsed_time_remainder += remainder;
-			simulated_elapsed_time += quotient;
-			if(simulated_elapsed_time_remainder >= frequency)
-			{
-				simulated_elapsed_time_remainder -= frequency;
-				simulated_elapsed_time++;
-			}
+			simulated_elapsed_time += real_time / frequency;
+			simulated_elapsed_time_remainder += real_time % frequency;
+		}
+		while(simulated_elapsed_time_remainder >= frequency)
+		{
+			simulated_elapsed_time_remainder -= frequency;
+			simulated_elapsed_time++;
 		}
 	}
 

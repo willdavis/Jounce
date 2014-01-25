@@ -97,9 +97,9 @@ namespace core
   }
 
   TEST_F(SimulationTest, simulation_runs_for_duration_then_exits) {
-    sim.set_real_duration_and_frequency(1000000, 100);
+    sim.set_real_duration_and_frequency(1000000, 100000);
     sim.run();
-    EXPECT_EQ(sim.get_sim_duration(), 10000);
+    EXPECT_EQ(sim.get_sim_duration(), 10);
     ASSERT_EQ(sim.get_elapsed_real_time(), sim.get_real_duration());
     ASSERT_EQ(sim.get_elapsed_sim_time(), sim.get_sim_duration());
   }
