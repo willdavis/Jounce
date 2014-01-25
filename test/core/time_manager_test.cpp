@@ -21,10 +21,13 @@ namespace core
 		ASSERT_EQ(manager.get_real_elapsed_time(), 10);
 	}
 
-	TEST_F(TimeManagerTest, can_add_simulated_time) {
+	TEST_F(TimeManagerTest, adding_real_time_also_adds_simulation_time) {
 		EXPECT_EQ(manager.get_simulated_elapsed_time(), 0);
-		manager.add_simulated_time(10);
+		manager.add_real_time(10);
 		ASSERT_EQ(manager.get_simulated_elapsed_time(), 10);
+		manager.set_frequency(2);
+		manager.add_real_time(10);
+		ASSERT_EQ(manager.get_simulated_elapsed_time(), 15);
 	}
 
 	TEST_F(TimeManagerTest, can_get_real_duration) {
@@ -51,6 +54,10 @@ namespace core
 
 	TEST_F(TimeManagerTest, can_get_simulated_elapsed_time) {
 		ASSERT_EQ(manager.get_simulated_elapsed_time(), 0);
+	}
+
+	TEST_F(TimeManagerTest, can_get_simulated_elapsed_time_remainder) {
+		ASSERT_EQ(manager.get_simulated_elapsed_time_remainder(), 0);
 	}
 
 	TEST_F(TimeManagerTest, can_get_frequency) {
