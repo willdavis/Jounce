@@ -58,9 +58,6 @@ namespace core
   	ASSERT_EQ(sim.get_real_duration(), 100);
   }
 
-  // Given any integer n and positive integer d, there exist unique integers q and r such that
-  // n = dq + r and 0 < r < d
-
   // sim time = real time / frequency
   TEST_F(SimulationTest, can_scale_simulation_time) {
   	sim.set_real_duration_and_frequency(100,50);
@@ -117,16 +114,4 @@ namespace core
     ASSERT_EQ(sim.get_elapsed_real_time(), sim.get_real_duration());
   }
 
-  TEST_F(SimulationTest, simulation_processes_all_events_then_exits)
-  {
-    TestEvent event1;
-    TestEvent event2;
-    ExitEvent exit;
-    sim.schedule_event(&event1);
-    sim.schedule_event(&event2);
-    sim.schedule_event(&exit);
-    EXPECT_EQ(sim.get_event_queue_size(), 3);
-    sim.run();
-    ASSERT_EQ(sim.get_event_queue_size(), 0);
-  }
 } /* namespace core */
