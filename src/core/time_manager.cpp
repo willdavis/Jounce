@@ -12,14 +12,11 @@ namespace core
 
 	TimeManager::TimeManager()
 	{
-		time_scale = 1;							// set time scale to normal time (1x)
+		frequency = 1;							// set the default simulation frequency (nanoseconds / unit)
 		real_elapsed_time = 0;			// set elapsed real time to zero
 		simulated_elapsed_time = 0;	// set elapsed simulation time to zero
 		real_duration = 0;					// default to infinite duration (wait for exit event)
 		simulated_duration = 0; 		// default to infinite duration (wait for exit event)
-
-		min_framerate = 0;					// not tracked by default
-		max_framerate = 0;					// not tracked by default
 	}
 
 	TimeManager::~TimeManager()
@@ -27,10 +24,10 @@ namespace core
 		// TODO Auto-generated destructor stub
 	}
 
-	// returns the scalar which is used to modify time
-	double TimeManager::get_time_scale()
+	// returns the simulation frequency (nanoseconds / unit)
+	uint64_t TimeManager::get_frequency()
 	{
-		return time_scale;
+		return frequency;
 	}
 
 	// returns the real time duration
@@ -57,22 +54,10 @@ namespace core
 		return simulated_elapsed_time;
 	}
 
-	// returns the requested minimum framerate
-	uint64_t TimeManager::get_min_framerate()
+	// set the simulation frequency (nanoseconds / unit)
+	void TimeManager::set_frequency(uint64_t freq)
 	{
-		return min_framerate;
-	}
-
-	// returns the requested maximum framerate
-	uint64_t TimeManager::get_max_framerate()
-	{
-		return max_framerate;
-	}
-
-	// set the scalar to modify time by
-	void TimeManager::set_time_scale(double scale)
-	{
-		time_scale = scale;
+		frequency = freq;
 	}
 
 	// set the duration of the simulation (real time)
@@ -87,18 +72,6 @@ namespace core
 		simulated_duration = sim_duration;
 	}
 
-	// set the requested minimum framerate for the simulation
-	void TimeManager::set_min_framerate(uint64_t min)
-	{
-		min_framerate = min;
-	}
-
-	// set the requested maximum framerate for the simulation
-	void TimeManager::set_max_framerate(uint64_t max)
-	{
-		max_framerate = max;
-	}
-
 	// add more real time to the simulations elapsed time
 	void TimeManager::add_real_time(uint64_t real_time)
 	{
@@ -106,11 +79,13 @@ namespace core
 	}
 
 	// add more simulated time to the simulation elapsed time
-	void TimeManager::add_simulated_time(uint64_t sim_time)
+	void
+	TimeManager::add_simulated_time(uint64_t sim_time)
 	{
 		simulated_elapsed_time += sim_time;
 	}
 
+/* namespace core */
+
 }
 
- /* namespace core */

@@ -26,9 +26,16 @@ namespace core
 
     int get_state();
 
-    uint64_t get_elapsed_time();
-    uint64_t get_duration();
-    void set_duration(uint64_t);
+    uint64_t get_elapsed_sim_time();
+    uint64_t get_elapsed_real_time();
+
+    uint64_t get_sim_duration();
+    uint64_t get_real_duration();
+    uint64_t get_frequency();
+
+    void set_real_and_sim_duration(uint64_t, uint64_t);
+    void set_real_duration_and_frequency(uint64_t, uint64_t);
+    void set_sim_duration_and_frequency(uint64_t, uint64_t);
 
     int get_event_queue_size();
     int schedule_event(Event*);

@@ -13,7 +13,7 @@ namespace core
 
   Simulation::Simulation()
   {
-    event_manager.set_parent((void*) (((this))));
+    event_manager.set_parent((void*) ((((((this)))))));
 		state = 0; //set default state
 	}
 
@@ -22,12 +22,14 @@ namespace core
 		// TODO Auto-generated destructor stub
 	}
 
-	void Simulation::exit()
+	void
+	Simulation::exit()
 	{
 		state = 1;
 	}
 
-	void Simulation::run()
+	void
+	Simulation::run()
 	{
 		core_timer.get_elapsed_time(); //bring the timer up to date
 		while (state == 0)
@@ -57,26 +59,87 @@ namespace core
 
 	}
 
-	// returns the elapsed time of the simulation
-	uint64_t Simulation::get_elapsed_time()
+// returns the elapsed real time of the simulation (nanoseconds)
+	uint64_t
+	Simulation::get_elapsed_real_time()
 	{
 		return time_manager.get_real_elapsed_time();
 	}
 
-	// sets the duration of the simulation
-	void Simulation::set_duration(uint64_t duration)
-	{
-		time_manager.set_real_duration(duration);
-	}
-
-	// returns the current duration of the simulation
-	uint64_t Simulation::get_duration()
+// returns the current duration of the simulation (nanoseconds)
+	uint64_t
+	Simulation::get_real_duration()
 	{
 		return time_manager.get_real_duration();
-  }
+	}
+
+// returns the current simulation frequency (nanoseconds / 1 unit)
+	uint64_t
+	Simulation::get_frequency()
+	{
+		return time_manager.get_frequency();
+	}
+
+// returns the elapsed simulation time (arbitrary units)
+	uint64_t
+	Simulation::get_elapsed_sim_time()
+	{
+		return time_manager.get_simulated_elapsed_time();
+	}
+
+// returns the total simulation time (arbitrary units)
+	uint64_t
+	Simulation::get_sim_duration()
+	{
+		return time_manager.get_simulated_duration();
+	}
+
+// scales frequency time to match the given real and simulated times
+	void
+	Simulation::set_real_and_sim_duration(uint64_t real, uint64_t sim)
+	{
+		// frequency = real time / sim time
+		time_manager.set_real_duration(real);
+		time_manager.set_simulated_duration(sim);
+
+		uint64_t remainder = real % sim;
+		if(remainder > 0) { throw "simulation time must divide real time"; }
+		else {
+			uint64_t quotient = real / sim;
+			time_manager.set_frequency(quotient);
+		}
+	}
+
+// scales simulation time to match the given real and frequency times
+	void
+	Simulation::set_real_duration_and_frequency(uint64_t real, uint64_t freq)
+	{
+		// sim time = real time / frequency
+		time_manager.set_real_duration(real);
+		time_manager.set_frequency(freq);
+
+		uint64_t remainder = real % freq;
+		if(remainder > 0) { throw "frequency must divide real time"; }
+		else {
+			uint64_t quotient = real / freq;
+			time_manager.set_simulated_duration(quotient);
+		}
+	}
+
+// scales real time to match the given simulation and frequency times
+	void
+	Simulation::set_sim_duration_and_frequency(uint64_t sim, uint64_t freq)
+	{
+		time_manager.set_simulated_duration(sim);
+		time_manager.set_frequency(freq);
+
+		// real time = sim time * frequency
+		time_manager.set_real_duration(sim * freq);
+	}
 
   // schedule event with EventManager and return the new queue size
-  int Simulation::schedule_event(Event* event)
+  int
+  Simulation::schedule_event(Event* event)
   {
     event_manager.schedule_event(event);
     return event_manager.get_queue_size();

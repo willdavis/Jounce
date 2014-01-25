@@ -48,8 +48,36 @@ namespace core
     ASSERT_EQ(sim.get_state(), 0);
   }
 
+  TEST_F(SimulationTest, can_get_simulation_frequency) {
+  	ASSERT_EQ(sim.get_frequency(), 1);
+  }
+
+  // real time = sim time * frequency
+  TEST_F(SimulationTest, can_scale_real_time) {
+  	sim.set_sim_duration_and_frequency(10,10);	//10 units * (10 ns / 1 unit) = 100ns real time
+  	ASSERT_EQ(sim.get_real_duration(), 100);
+  }
+
+  // sim time = real time / frequency
+  TEST_F(SimulationTest, can_scale_simulation_time) {
+  	sim.set_real_duration_and_frequency(100,50);
+  	ASSERT_EQ(sim.get_sim_duration(), 2);
+
+  	// an assert is thrown if: real time % frequency > 0
+  	ASSERT_ANY_THROW(sim.set_real_duration_and_frequency(102,50));
+  }
+
+  // frequency = real time / sim time
+  TEST_F(SimulationTest, can_scale_frequency) {
+  	sim.set_real_and_sim_duration(1000,10);
+  	ASSERT_EQ(sim.get_frequency(), 100);
+
+  	// an assert is thrown if: real time % frequency > 0
+		ASSERT_ANY_THROW(sim.set_real_and_sim_duration(100, 13));
+  }
+
   TEST_F(SimulationTest, simulation_runs_for_duration_then_exits) {
-    sim.set_duration(100000000);  //pi seconds
+    sim.set_real_and_sim_duration(1000000, 50);
     timespec start, end;        //to track the actual time offset
     /*
     timespec t1,t2,t3,t4,t5;    //used to calibrate average time for clock_gettime() call
@@ -82,20 +110,8 @@ namespace core
 
     timespec* elapsed = sim.core_timer.get_timespec_diff(&end, &start);
     uint64_t nseconds = elapsed->tv_sec * 1000000000LL + elapsed->tv_nsec;// + average_time_for_gettime;
-    EXPECT_GT(nseconds - sim.get_elapsed_time(), 0);
-    ASSERT_EQ(sim.get_elapsed_time(), sim.get_duration());
+    EXPECT_GT(nseconds - sim.get_elapsed_real_time(), 0);
+    ASSERT_EQ(sim.get_elapsed_real_time(), sim.get_real_duration());
   }
 
-  TEST_F(SimulationTest, simulation_processes_all_events_then_exits)
-  {
-    TestEvent event1;
-    TestEvent event2;
-    ExitEvent exit;
-    sim.schedule_event(&event1);
-    sim.schedule_event(&event2);
-    sim.schedule_event(&exit);
-    EXPECT_EQ(sim.get_event_queue_size(), 3);
-    sim.run();
-    ASSERT_EQ(sim.get_event_queue_size(), 0);
-  }
 } /* namespace core */
