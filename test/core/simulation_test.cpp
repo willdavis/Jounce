@@ -52,6 +52,26 @@ namespace core
   	ASSERT_EQ(sim.get_frequency(), 1);
   }
 
+  TEST_F(SimulationTest, can_get_real_duration) {
+		ASSERT_EQ(sim.get_real_duration(), 0);
+	}
+
+  TEST_F(SimulationTest, can_get_simulated_duration) {
+		ASSERT_EQ(sim.get_sim_duration(), 0);
+	}
+
+  TEST_F(SimulationTest, can_get_elapsed_simulated_time) {
+		ASSERT_EQ(sim.get_elapsed_sim_time(), 0);
+	}
+
+  TEST_F(SimulationTest, can_get_elapsed_simulated_time_remainder) {
+		ASSERT_EQ(sim.get_sim_time_remainder(), 0);
+	}
+
+  TEST_F(SimulationTest, can_get_elapsed_real_time) {
+		ASSERT_EQ(sim.get_elapsed_real_time(), 0);
+	}
+
   // real time = sim time * frequency
   TEST_F(SimulationTest, can_scale_real_time) {
   	sim.set_sim_duration_and_frequency(10,10);	//10 units * (10 ns / 1 unit) = 100ns real time
