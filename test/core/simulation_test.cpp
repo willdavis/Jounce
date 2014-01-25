@@ -48,6 +48,19 @@ namespace core
     ASSERT_EQ(sim.get_state(), 0);
   }
 
+  TEST_F(SimulationTest, can_get_simulation_frequency) {
+  	ASSERT_EQ(sim.get_frequency(), 1);
+  }
+
+  TEST_F(SimulationTest, can_scale_real_time) {
+  	sim.set_sim_duration_and_frequency(10,10);	//10 units * (10 ns / 1 unit) = 100ns real time
+  	ASSERT_EQ(sim.get_real_duration(), 100);
+  }
+
+  TEST_F(SimulationTest, can_scale_simulation_time) {
+  	sim.set_real_duration_and_frequency(10,10);	//
+  }
+
   TEST_F(SimulationTest, simulation_runs_for_duration_then_exits) {
     sim.set_duration(100000000);  //pi seconds
     timespec start, end;        //to track the actual time offset
@@ -82,8 +95,8 @@ namespace core
 
     timespec* elapsed = sim.core_timer.get_timespec_diff(&end, &start);
     uint64_t nseconds = elapsed->tv_sec * 1000000000LL + elapsed->tv_nsec;// + average_time_for_gettime;
-    EXPECT_GT(nseconds - sim.get_elapsed_time(), 0);
-    ASSERT_EQ(sim.get_elapsed_time(), sim.get_duration());
+    EXPECT_GT(nseconds - sim.get_elapsed_real_time(), 0);
+    ASSERT_EQ(sim.get_elapsed_real_time(), sim.get_real_duration());
   }
 
   TEST_F(SimulationTest, simulation_processes_all_events_then_exits)
