@@ -105,16 +105,32 @@ namespace core
 	void
 	Simulation::set_real_and_sim_duration(uint64_t real, uint64_t sim)
 	{
+		// frequency = real time / sim time
 		time_manager.set_real_duration(real);
 		time_manager.set_simulated_duration(sim);
+
+		uint64_t remainder = real % sim;
+		if(remainder > 0) { throw "simulation time must divide real time"; }
+		else {
+			uint64_t quotient = real / sim;
+			time_manager.set_frequency(quotient);
+		}
 	}
 
 // scales simulation time to match the given real and frequency times
 	void
 	Simulation::set_real_duration_and_frequency(uint64_t real, uint64_t freq)
 	{
+		// sim time = real time / frequency
 		time_manager.set_real_duration(real);
 		time_manager.set_frequency(freq);
+
+		uint64_t remainder = real % freq;
+		if(remainder > 0) { throw "frequency must divide real time"; }
+		else {
+			uint64_t quotient = real / freq;
+			time_manager.set_simulated_duration(quotient);
+		}
 	}
 
 // scales real time to match the given simulation and frequency times
@@ -124,9 +140,7 @@ namespace core
 		time_manager.set_simulated_duration(sim);
 		time_manager.set_frequency(freq);
 
-		// sim = units
-		// freq = ns / 1 unit
-		// real = sim * freq
+		// real time = sim time * frequency
 		time_manager.set_real_duration(sim * freq);
 	}
 

@@ -52,13 +52,31 @@ namespace core
   	ASSERT_EQ(sim.get_frequency(), 1);
   }
 
+  // real time = sim time * frequency
   TEST_F(SimulationTest, can_scale_real_time) {
   	sim.set_sim_duration_and_frequency(10,10);	//10 units * (10 ns / 1 unit) = 100ns real time
   	ASSERT_EQ(sim.get_real_duration(), 100);
   }
 
+  // Given any integer n and positive integer d, there exist unique integers q and r such that
+  // n = dq + r and 0 < r < d
+
+  // sim time = real time / frequency
   TEST_F(SimulationTest, can_scale_simulation_time) {
-  	sim.set_real_duration_and_frequency(10,10);	//
+  	sim.set_real_duration_and_frequency(100,50);
+  	ASSERT_EQ(sim.get_sim_duration(), 2);
+
+  	// an assert is thrown if: real time % frequency > 0
+  	ASSERT_ANY_THROW(sim.set_real_duration_and_frequency(102,50));
+  }
+
+  // frequency = real time / sim time
+  TEST_F(SimulationTest, can_scale_frequency) {
+  	sim.set_real_and_sim_duration(1000,10);
+  	ASSERT_EQ(sim.get_frequency(), 100);
+
+  	// an assert is thrown if: real time % frequency > 0
+		ASSERT_ANY_THROW(sim.set_real_and_sim_duration(100, 13));
   }
 
   TEST_F(SimulationTest, simulation_runs_for_duration_then_exits) {
