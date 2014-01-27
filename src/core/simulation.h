@@ -41,9 +41,8 @@ namespace core
     int get_event_queue_size();
     int schedule_event(Event*);
 
-    Timer core_timer;
-
   protected:
+    Timer timer;								// core simulation timer
     TimeManager time_manager;		// provides an interface to configure simulation time
     EventManager event_manager; // provides an interface to manage events
     int state;                  // stores the current simulation state ( 0 = off, 1 = done, -1 = errors)

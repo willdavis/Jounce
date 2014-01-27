@@ -31,11 +31,11 @@ namespace core
 	void
 	Simulation::run()
 	{
-		core_timer.get_elapsed_time(); //bring the timer up to date
+		timer.get_elapsed_time(); //bring the timer up to date
 		while (state == 0)
 		{
 			// get delta simulation time between last frame (nanoseconds)
-			uint64_t dt = core_timer.get_elapsed_time();
+			uint64_t dt = timer.get_elapsed_time();
 			// check if this frame will push us over the duration.
 			// if so, schedule an ExitEvent for immediate termination of the simulation!
 			if ((dt + time_manager.get_real_elapsed_time())

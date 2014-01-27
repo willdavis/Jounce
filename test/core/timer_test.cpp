@@ -16,21 +16,6 @@ namespace core
     Timer timer;
   };
 
-  TEST_F(TimerTest, can_get_timespec_difference) {
-    timespec start;
-    clock_gettime(1, &start);
-
-    //for(int i=0; i<1000; i++){}
-
-    timespec end;
-    clock_gettime(1, &end);
-
-    timespec* diff = timer.get_timespec_diff(&end, &start);
-    ASSERT_EQ(diff->tv_sec, 0);
-    ASSERT_GT(diff->tv_nsec, 0);
-    //ASSERT_LT(diff->tv_nsec, 1);      //uncomment to break test and view diff->tv_nsec
-  }
-
   TEST_F(TimerTest, can_get_elapsed_time) {
     uint64_t nseconds = timer.get_elapsed_time();
     ASSERT_GT(nseconds, 0);
