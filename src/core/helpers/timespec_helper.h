@@ -18,7 +18,7 @@ namespace core
 	public:
 		TimespecHelper();
 		virtual ~TimespecHelper();
-		static timespec get_timespec_diff(timespec*, timespec*);
+		static timespec* get_timespec_diff(timespec*, timespec*);
 	};
 
 } /* namespace core */
