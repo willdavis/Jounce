@@ -8,6 +8,8 @@
 #ifndef TIMESPEC_HELPER_H_
 #define TIMESPEC_HELPER_H_
 
+#include <time.h>
+
 namespace core
 {
 
@@ -16,6 +18,7 @@ namespace core
 	public:
 		TimespecHelper();
 		virtual ~TimespecHelper();
+		static timespec get_timespec_diff(timespec*, timespec*);
 	};
 
 } /* namespace core */
