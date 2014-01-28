@@ -22,6 +22,12 @@ namespace core
     void process_event(void* input) { event_dispatch_test = 1; }
   };
 
+  class CriticalEvent : public Event {
+	public:
+  	CriticalEvent(int p) : Event(p) {}
+		void process_event(void* input) { /* do nothing */ }
+	};
+
   TEST_F(EventManagerTest, can_bind_to_a_parent_object) {
     int test = 5;
     manager.set_parent(&test);
@@ -42,14 +48,37 @@ namespace core
   }
 
   TEST_F(EventManagerTest, can_process_the_top_event) {
-    EXPECT_EQ(manager.get_queue_size(), 0);
-    TestEvent event;
-    manager.schedule_event(&event);
-    ASSERT_EQ(manager.get_queue_size(), 1);     //same as can_schedule_an_event test
+		EXPECT_EQ(manager.get_queue_size(), 0);
+		TestEvent event;
+		manager.schedule_event(&event);
+		ASSERT_EQ(manager.get_queue_size(), 1);     //same as can_schedule_an_event test
 
-    manager.process_top_event();
+		manager.process_top_event();
 
-    ASSERT_EQ(manager.get_queue_size(), 0);     //make sure the event was removed from the queue
-    ASSERT_EQ(event_dispatch_test, 1);           //make sure the callback fired
+		ASSERT_EQ(manager.get_queue_size(), 0);     //make sure the event was removed from the queue
+		ASSERT_EQ(event_dispatch_test, 1);           //make sure the callback fired
+	}
+
+  TEST_F(EventManagerTest, can_peek_at_top_event) {
+  	TestEvent event1;
+  	manager.schedule_event(&event1);
+  	ASSERT_EQ(1000, manager.get_top_event()->get_priority());
   }
+
+  TEST_F(EventManagerTest, can_prioritize_events) {
+  	TestEvent event;
+  	CriticalEvent critical(0);
+  	CriticalEvent critical2(100);
+
+  	manager.schedule_event(&event);
+  	manager.schedule_event(&critical2);
+  	manager.schedule_event(&critical);
+
+  	ASSERT_EQ(&critical, manager.get_top_event());
+  	manager.process_top_event();
+  	ASSERT_EQ(&critical2, manager.get_top_event());
+  	manager.process_top_event();
+  	ASSERT_EQ(&event, manager.get_top_event());
+	}
+
 } /* namespace core */

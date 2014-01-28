@@ -38,11 +38,6 @@ namespace core
   	ASSERT_EQ(event.get_priority(), 10);
   }
 
-  TEST_F(EventTest, can_compare_event_priorities) {
-		ASSERT_TRUE(Event::compare(&event, &blank_event));
-		ASSERT_FALSE(Event::compare(&blank_event, &event));
-	}
-
   TEST_F(EventTest, must_implement_basic_process_event_method) {
     blank_event.process_event((void*)0);
   }
