@@ -42,13 +42,19 @@ namespace core
   // Add Event* to the queue
   void EventManager::schedule_event(Event* event)
   {
-    event_queue.push(event);
-  }
+  	event_queue.push(event);
+	}
+
+  // peek at the top event in the queue
+	Event* EventManager::get_top_event()
+	{
+		return event_queue.top();
+	}
 
   // Dispatch top event in the queue
   void EventManager::process_top_event()
   {
-    Event* event = event_queue.front();
+    Event* event = event_queue.top();
     event->process_event(parent);
     event_queue.pop();
   }
