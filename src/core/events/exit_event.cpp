@@ -12,8 +12,7 @@ namespace core
 
   ExitEvent::ExitEvent()
   {
-    // TODO Auto-generated constructor stub
-
+  	priority = 0;
   }
 
   ExitEvent::~ExitEvent()

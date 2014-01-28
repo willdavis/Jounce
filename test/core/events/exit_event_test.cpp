@@ -17,6 +17,10 @@ namespace core
     Simulation sim;
   };
 
+  TEST_F(ExitEventTest, priority_is_zero) {
+  	ASSERT_EQ(0, exit.get_priority());
+  }
+
   TEST_F(ExitEventTest, calls_exit_on_simulation) {
     EXPECT_EQ(sim.get_state(), 0);
     exit.process_event(&sim);
