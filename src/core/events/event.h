@@ -20,6 +20,8 @@ namespace core
     virtual void process_event(void*) = 0;  // event callback function
     int get_priority();		// get the priority for this event
 
+    static bool compare(Event*, Event*);		// static method to compare two events
+
   protected:
     int priority;		// stores the priority for this event
   };

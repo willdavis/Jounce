@@ -29,5 +29,12 @@ namespace core
   {
   	return priority;
   }
+
+  bool Event::compare(Event* source, Event* target)
+  {
+  	if(source->get_priority() < target->get_priority()) { return true; }
+  	else { return false; }
+  }
 }
+
  /* namespace core */
