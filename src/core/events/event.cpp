@@ -12,8 +12,12 @@ namespace core
 
   Event::Event()
   {
-    // TODO Auto-generated constructor stub
+  	priority = 1000;
+  }
 
+  Event::Event(int p)
+  {
+  	priority = p;
   }
 
   Event::~Event()
@@ -21,4 +25,9 @@ namespace core
     // TODO Auto-generated destructor stub
   }
 
-} /* namespace core */
+  int Event::get_priority()
+  {
+  	return priority;
+  }
+}
+ /* namespace core */

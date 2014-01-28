@@ -13,6 +13,7 @@ namespace core
   // test event with arguments
   class ArgsEvent : public Event {
   public:
+  	ArgsEvent() { priority = 10; }
     void process_event(void* input) {
       int new_value = 0;
       int *pInt = static_cast<int*>(input);
@@ -31,6 +32,11 @@ namespace core
     NoArgsEvent blank_event;
     ArgsEvent event;
   };
+
+  TEST_F(EventTest, can_get_event_priority) {
+  	ASSERT_EQ(blank_event.get_priority(), 1000);
+  	ASSERT_EQ(event.get_priority(), 10);
+  }
 
   TEST_F(EventTest, must_implement_basic_process_event_method) {
     blank_event.process_event((void*)0);

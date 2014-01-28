@@ -15,8 +15,13 @@ namespace core
   {
   public:
     Event();
+    Event(int);
     virtual ~Event();
     virtual void process_event(void*) = 0;  // event callback function
+    int get_priority();		// get the priority for this event
+
+  protected:
+    int priority;		// stores the priority for this event
   };
 
 } /* namespace core */
