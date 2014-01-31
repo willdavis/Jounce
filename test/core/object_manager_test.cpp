@@ -48,7 +48,11 @@ namespace core
 
 	TEST_F(ObjectManagerTest, cannot_release_a_non_existant_object) {
 		sim_object_ptr obj(new MyObject);
-		ASSERT_ANY_THROW(manager.release_registered_object(obj));
+		sim_object_ptr nope(new MyObject);
+		EXPECT_EQ(0, manager.get_collection_size());
+		manager.register_object(obj);									// add an object so the list size isn't empty
+		manager.release_registered_object(nope);			// does not find any matching values, list size remains unchanged
+		ASSERT_EQ(1, manager.get_collection_size());
 	}
 
 	TEST_F(ObjectManagerTest, can_update_all_registered_objects) {
