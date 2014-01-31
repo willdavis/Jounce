@@ -8,6 +8,7 @@
 #ifndef SIM_OBJECT_H_
 #define SIM_OBJECT_H_
 
+#include <memory>
 #include <stdint.h>
 
 namespace core
@@ -20,6 +21,8 @@ namespace core
 		virtual ~SimObject();
 		virtual void update(uint64_t) = 0;	// update the simulation object with elapsed time (dt)
 	};
+
+	typedef std::shared_ptr<SimObject> sim_object_ptr;
 
 } /* namespace core */
 #endif /* SIM_OBJECT_H_ */
