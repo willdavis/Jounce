@@ -11,6 +11,7 @@
 #include "timer.h"
 #include "time_manager.h"
 #include "event_manager.h"
+#include "state_manager.h"
 
 namespace core
 {
@@ -41,11 +42,16 @@ namespace core
     int get_event_queue_size();
     int schedule_event(std::shared_ptr<Event>);
 
+    SimulationState get_current_state();
+    bool is_off();
+    bool is_running();
+    bool is_exiting();
+
   protected:
     Timer timer;								// core simulation timer
     TimeManager time_manager;		// provides an interface to configure simulation time
     EventManager event_manager; // provides an interface to manage events
-    int state;                  // stores the current simulation state ( 0 = off, 1 = done, -1 = errors)
+    StateManager state_manager;	// provides an interface to manage the simulation's state
   };
 
 } /* namespace core */

@@ -23,4 +23,8 @@ namespace core
 		state_manager.set_current_simulation_state(SimulationState::RUNNING);
 		ASSERT_EQ(SimulationState::RUNNING, state_manager.get_current_simulation_state());
 	}
+
+	TEST_F(StateManagerTest, default_state_is_off) {
+		ASSERT_EQ(SimulationState::OFF, state_manager.get_current_simulation_state());
+	}
 } /* namespace core */

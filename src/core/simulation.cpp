@@ -14,7 +14,6 @@ namespace core
   Simulation::Simulation()
   {
     event_manager.set_parent((void*)this);
-		state = 0; //set default state
 	}
 
 	Simulation::~Simulation()
@@ -25,14 +24,15 @@ namespace core
 	void
 	Simulation::exit()
 	{
-		state = 1;
+		state_manager.set_current_simulation_state(SimulationState::EXITING);
 	}
 
 	void
 	Simulation::run()
 	{
+		state_manager.set_current_simulation_state(SimulationState::RUNNING);
 		timer.get_elapsed_time(); //bring the timer up to date
-		while (state == 0)
+		while (is_running())
 		{
 			// get delta simulation time between last frame (nanoseconds)
 			uint64_t dt = timer.get_elapsed_time();
@@ -58,6 +58,8 @@ namespace core
 			}
 		}
 
+		// the simulation is over!
+		state_manager.set_current_simulation_state(SimulationState::OFF);
 	}
 
 // returns the elapsed real time of the simulation (nanoseconds)
@@ -135,8 +137,7 @@ namespace core
 	}
 
 // scales real time to match the given simulation and frequency times
-	void
-	Simulation::set_sim_duration_and_frequency(uint64_t sim, uint64_t freq)
+	void Simulation::set_sim_duration_and_frequency(uint64_t sim, uint64_t freq)
 	{
 		time_manager.set_simulated_duration(sim);
 		time_manager.set_frequency(freq);
@@ -146,17 +147,34 @@ namespace core
 	}
 
   // schedule event with EventManager and return the new queue size
-  int
-  Simulation::schedule_event(std::shared_ptr<Event> event)
+  int Simulation::schedule_event(std::shared_ptr<Event> event)
   {
     event_manager.schedule_event(event);
     return event_manager.get_queue_size();
   }
 
-  // returns the current simulation state (0=ready, 1=done, -1=errors)
-  int Simulation::get_state() { return state; }
-
   // returns the current size of the event queue
   int Simulation::get_event_queue_size() { return event_manager.get_queue_size(); }
+
+  // returns the current state of the simulation
+  SimulationState Simulation::get_current_state()
+  {
+  	return state_manager.get_current_simulation_state();
+  }
+
+  bool Simulation::is_off()
+  {
+  	return state_manager.get_current_simulation_state() == SimulationState::OFF;
+  }
+
+  bool Simulation::is_running()
+  {
+  	return state_manager.get_current_simulation_state() == SimulationState::RUNNING;
+  }
+
+  bool Simulation::is_exiting()
+  {
+  	return state_manager.get_current_simulation_state() == SimulationState::EXITING;
+  }
 
 } /* namespace core */
