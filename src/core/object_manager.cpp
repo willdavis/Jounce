@@ -42,10 +42,4 @@ namespace core
 		object_list.remove(obj);
 	}
 
-	void ObjectManager::release_all_registered_objects()
-	{
-		for(std::list<sim_object_ptr>::iterator i=object_list.begin(); i != object_list.end(); i++) {}
-			//object_list.remove(*i);
-	}
-
 } /* namespace core */

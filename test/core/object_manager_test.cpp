@@ -66,17 +66,4 @@ namespace core
 		ASSERT_EQ((uint64_t)30, test_int);	// verify the update() methods were called
 	}
 
-	TEST_F(ObjectManagerTest, can_release_all_registered_objects) {
-		sim_object_ptr obj1(new BlankObject);
-		sim_object_ptr obj2(new BlankObject);
-		sim_object_ptr obj3(new BlankObject);
-
-		manager.register_object(obj1);
-		manager.register_object(obj2);
-		manager.register_object(obj3);
-
-		EXPECT_EQ(3, manager.get_collection_size());
-		manager.release_all_registered_objects();
-		ASSERT_EQ(0, manager.get_collection_size());
-	}
 } /* namespace core */
