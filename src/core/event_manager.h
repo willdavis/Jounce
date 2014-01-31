@@ -24,14 +24,14 @@ namespace core
     void set_parent(void*);
 
     int get_queue_size();
-    Event* get_top_event();
+    event_ptr get_top_event();
 
-    void schedule_event (Event*);
+    void schedule_event (event_ptr);
     void process_top_event();
 
   protected:
     void* parent;
-    std::priority_queue<Event*, std::vector<Event*>, EventComparator > event_queue;
+    std::priority_queue<event_ptr, std::vector<event_ptr>, EventComparator > event_queue;
   };
 
 } /* namespace core */

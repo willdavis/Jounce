@@ -26,15 +26,15 @@ namespace core
   }
 
   TEST_F(SimulationTest, can_schedule_an_event) {
-    TestEvent event;
-    int size_of_queue = sim.schedule_event(&event);
+  	std::shared_ptr<Event> event(new TestEvent);
+    int size_of_queue = sim.schedule_event(event);
     ASSERT_EQ(size_of_queue, 1);
   }
 
   TEST_F(SimulationTest, can_get_event_queue_size) {
-    TestEvent event;
+  	std::shared_ptr<Event> event(new TestEvent);
     EXPECT_EQ(sim.get_event_queue_size(), 0);
-    sim.schedule_event(&event);
+    sim.schedule_event(event);
     ASSERT_EQ(sim.get_event_queue_size(), 1);
   }
 
@@ -49,39 +49,39 @@ namespace core
   }
 
   TEST_F(SimulationTest, can_get_simulation_frequency) {
-  	ASSERT_EQ(sim.get_frequency(), 1);
+  	ASSERT_EQ(sim.get_frequency(), (uint64_t)1);
   }
 
   TEST_F(SimulationTest, can_get_real_duration) {
-		ASSERT_EQ(sim.get_real_duration(), 0);
+		ASSERT_EQ(sim.get_real_duration(), (uint64_t)0);
 	}
 
   TEST_F(SimulationTest, can_get_simulated_duration) {
-		ASSERT_EQ(sim.get_sim_duration(), 0);
+		ASSERT_EQ(sim.get_sim_duration(), (uint64_t)0);
 	}
 
   TEST_F(SimulationTest, can_get_elapsed_simulated_time) {
-		ASSERT_EQ(sim.get_elapsed_sim_time(), 0);
+		ASSERT_EQ(sim.get_elapsed_sim_time(), (uint64_t)0);
 	}
 
   TEST_F(SimulationTest, can_get_elapsed_simulated_time_remainder) {
-		ASSERT_EQ(sim.get_sim_time_remainder(), 0);
+		ASSERT_EQ(sim.get_sim_time_remainder(), (uint64_t)0);
 	}
 
   TEST_F(SimulationTest, can_get_elapsed_real_time) {
-		ASSERT_EQ(sim.get_elapsed_real_time(), 0);
+		ASSERT_EQ(sim.get_elapsed_real_time(), (uint64_t)0);
 	}
 
   // real time = sim time * frequency
   TEST_F(SimulationTest, can_scale_real_time) {
   	sim.set_sim_duration_and_frequency(10,10);	//10 units * (10 ns / 1 unit) = 100ns real time
-  	ASSERT_EQ(sim.get_real_duration(), 100);
+  	ASSERT_EQ(sim.get_real_duration(), (uint64_t)100);
   }
 
   // sim time = real time / frequency
   TEST_F(SimulationTest, can_scale_simulation_time) {
   	sim.set_real_duration_and_frequency(100,50);
-  	ASSERT_EQ(sim.get_sim_duration(), 2);
+  	ASSERT_EQ(sim.get_sim_duration(), (uint64_t)2);
 
   	// an assert is thrown if: real time % frequency > 0
   	ASSERT_ANY_THROW(sim.set_real_duration_and_frequency(102,50));
@@ -90,7 +90,7 @@ namespace core
   // frequency = real time / sim time
   TEST_F(SimulationTest, can_scale_frequency) {
   	sim.set_real_and_sim_duration(1000,10);
-  	ASSERT_EQ(sim.get_frequency(), 100);
+  	ASSERT_EQ(sim.get_frequency(), (uint64_t)100);
 
   	// an assert is thrown if: real time % frequency > 0
 		ASSERT_ANY_THROW(sim.set_real_and_sim_duration(100, 13));
@@ -99,7 +99,7 @@ namespace core
   TEST_F(SimulationTest, simulation_runs_for_duration_then_exits) {
     sim.set_real_duration_and_frequency(1000000, 100000);
     sim.run();
-    EXPECT_EQ(sim.get_sim_duration(), 10);
+    EXPECT_EQ(sim.get_sim_duration(), (uint64_t)10);
     ASSERT_EQ(sim.get_elapsed_real_time(), sim.get_real_duration());
     ASSERT_EQ(sim.get_elapsed_sim_time(), sim.get_sim_duration());
   }

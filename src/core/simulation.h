@@ -39,7 +39,7 @@ namespace core
     void set_sim_duration_and_frequency(uint64_t, uint64_t);
 
     int get_event_queue_size();
-    int schedule_event(Event*);
+    int schedule_event(std::shared_ptr<Event>);
 
   protected:
     Timer timer;								// core simulation timer

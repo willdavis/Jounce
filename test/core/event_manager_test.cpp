@@ -42,15 +42,15 @@ namespace core
 
   TEST_F(EventManagerTest, can_schedule_an_event) {
     EXPECT_EQ(manager.get_queue_size(), 0);
-    TestEvent event;
-    manager.schedule_event(&event);
+    event_ptr event(new TestEvent);
+    manager.schedule_event(event);
     ASSERT_EQ(manager.get_queue_size(), 1);
   }
 
   TEST_F(EventManagerTest, can_process_the_top_event) {
 		EXPECT_EQ(manager.get_queue_size(), 0);
-		TestEvent event;
-		manager.schedule_event(&event);
+		event_ptr event(new TestEvent);
+		manager.schedule_event(event);
 		ASSERT_EQ(manager.get_queue_size(), 1);     //same as can_schedule_an_event test
 
 		manager.process_top_event();
@@ -60,25 +60,25 @@ namespace core
 	}
 
   TEST_F(EventManagerTest, can_peek_at_top_event) {
-  	TestEvent event1;
-  	manager.schedule_event(&event1);
+  	event_ptr event(new TestEvent);
+  	manager.schedule_event(event);
   	ASSERT_EQ(1000, manager.get_top_event()->get_priority());
   }
 
   TEST_F(EventManagerTest, can_prioritize_events) {
-  	TestEvent event;
-  	CriticalEvent critical(0);
-  	CriticalEvent critical2(100);
+  	event_ptr event(new TestEvent);
+  	event_ptr critical(new CriticalEvent(0));
+  	event_ptr critical2(new CriticalEvent(100));
 
-  	manager.schedule_event(&event);
-  	manager.schedule_event(&critical2);
-  	manager.schedule_event(&critical);
+  	manager.schedule_event(event);
+  	manager.schedule_event(critical2);
+  	manager.schedule_event(critical);
 
-  	ASSERT_EQ(&critical, manager.get_top_event());
+  	ASSERT_EQ(critical, manager.get_top_event());
   	manager.process_top_event();
-  	ASSERT_EQ(&critical2, manager.get_top_event());
+  	ASSERT_EQ(critical2, manager.get_top_event());
   	manager.process_top_event();
-  	ASSERT_EQ(&event, manager.get_top_event());
+  	ASSERT_EQ(event, manager.get_top_event());
 	}
 
 } /* namespace core */
