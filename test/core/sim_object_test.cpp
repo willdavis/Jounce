@@ -21,7 +21,6 @@ namespace core
 	};
 
 	TEST_F(SimObjectTest, must_implement_update_method) {
-		uint64_t dt = 10;
 		my_object.update(10);
 	}
 
