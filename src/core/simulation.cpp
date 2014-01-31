@@ -42,7 +42,8 @@ namespace core
 					>= time_manager.get_real_duration()
 					&& time_manager.get_real_duration() > 0)
 			{
-				event_manager.schedule_event(new ExitEvent); //setup an ExitEvent to kill the simulation
+				std::shared_ptr<Event> exit(new ExitEvent);
+				event_manager.schedule_event(exit); //setup an ExitEvent to kill the simulation
 				dt = time_manager.get_real_duration()
 						- time_manager.get_real_elapsed_time(); //calculate remaining simulation time and set it as dt
 			}
@@ -146,7 +147,7 @@ namespace core
 
   // schedule event with EventManager and return the new queue size
   int
-  Simulation::schedule_event(Event* event)
+  Simulation::schedule_event(std::shared_ptr<Event> event)
   {
     event_manager.schedule_event(event);
     return event_manager.get_queue_size();

@@ -8,6 +8,8 @@
 #ifndef EVENT_H_
 #define EVENT_H_
 
+#include <memory>
+
 namespace core
 {
 
@@ -24,11 +26,13 @@ namespace core
     int priority;		// stores the priority for this event
   };
 
+  typedef std::shared_ptr<Event> event_ptr;
+
   struct EventComparator {
-    bool operator() (Event* left, Event* right) const {
-      return left->get_priority() > right->get_priority();
-    }
-  };
+		bool operator() (event_ptr left, event_ptr right) {
+			return left->get_priority() > right->get_priority();
+		}
+	};
 
 } /* namespace core */
 #endif /* EVENT_H_ */
