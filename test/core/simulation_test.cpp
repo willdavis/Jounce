@@ -5,6 +5,8 @@
  *      Author: bill
  */
 
+#include <thread> // needed for cannot_scale_time_while_sim_is_running test
+
 #include "gtest/gtest.h"
 #include "../../src/core/simulation.h"
 #include "../../src/core/events/exit_event.h"
@@ -20,6 +22,8 @@ namespace core
   public:
     void process_event(void* input) { /* do nothing */ }
   };
+
+  void async_sim_run(Simulation* sim) { sim->run(); }
 
   TEST_F(SimulationTest, can_check_the_current_simulation_state) {
     EXPECT_EQ(sim.get_current_state(), SimulationState::OFF);
@@ -79,6 +83,20 @@ namespace core
   TEST_F(SimulationTest, can_get_elapsed_real_time) {
 		ASSERT_EQ(sim.get_elapsed_real_time(), (uint64_t)0);
 	}
+
+  TEST_F(SimulationTest, cannot_scale_time_while_sim_is_running) {
+  	timespec sleep_time;
+  	sleep_time.tv_sec = 0;
+  	sleep_time.tv_nsec = 50000;
+
+  	sim.set_real_duration_and_frequency(100000,1);	// run for 100,000 ns
+  	std::thread do_work (async_sim_run, &sim);
+  	nanosleep(&sleep_time, NULL);	// sleep for 50,000 ns
+  	ASSERT_ANY_THROW(sim.set_real_duration_and_frequency(1000000,1));
+  	ASSERT_ANY_THROW(sim.set_real_and_sim_duration(10,10));
+  	ASSERT_ANY_THROW(sim.set_sim_duration_and_frequency(100,1));
+  	do_work.join();
+  }
 
   // real time = sim time * frequency
   TEST_F(SimulationTest, can_scale_real_time) {

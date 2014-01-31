@@ -105,9 +105,11 @@ namespace core
 	}
 
 // scales frequency time to match the given real and simulated times
-	void
-	Simulation::set_real_and_sim_duration(uint64_t real, uint64_t sim)
+	void Simulation::set_real_and_sim_duration(uint64_t real, uint64_t sim)
 	{
+		// check if the simulation is currently running
+		if(!is_off()) { throw "cannot change duration while simulation is running"; }
+
 		// frequency = real time / sim time
 		time_manager.set_real_duration(real);
 		time_manager.set_simulated_duration(sim);
@@ -121,9 +123,11 @@ namespace core
 	}
 
 // scales simulation time to match the given real and frequency times
-	void
-	Simulation::set_real_duration_and_frequency(uint64_t real, uint64_t freq)
+	void Simulation::set_real_duration_and_frequency(uint64_t real, uint64_t freq)
 	{
+		// check if the simulation is currently running
+		if(!is_off()) { throw "cannot change duration while simulation is running"; }
+
 		// sim time = real time / frequency
 		time_manager.set_real_duration(real);
 		time_manager.set_frequency(freq);
@@ -136,9 +140,12 @@ namespace core
 		}
 	}
 
-// scales real time to match the given simulation and frequency times
+	// scales real time to match the given simulation and frequency times
 	void Simulation::set_sim_duration_and_frequency(uint64_t sim, uint64_t freq)
 	{
+		// check if the simulation is currently running
+		if(!is_off()) { throw "cannot change duration while simulation is running"; }
+
 		time_manager.set_simulated_duration(sim);
 		time_manager.set_frequency(freq);
 
