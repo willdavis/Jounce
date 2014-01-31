@@ -12,13 +12,22 @@ namespace core
 
 	StateManager::StateManager()
 	{
-		// TODO Auto-generated constructor stub
-
+		current_simulation_state = SimulationState::OFF;
 	}
 
 	StateManager::~StateManager()
 	{
 		// TODO Auto-generated destructor stub
+	}
+
+	SimulationState StateManager::get_current_simulation_state()
+	{
+		return current_simulation_state;
+	}
+
+	void StateManager::set_current_simulation_state(SimulationState simulation_state)
+	{
+		current_simulation_state = simulation_state;
 	}
 
 } /* namespace core */

@@ -14,4 +14,13 @@ namespace core
 	protected:
 		StateManager state_manager;
 	};
+
+	TEST_F(StateManagerTest, can_get_current_simulation_state) {
+		ASSERT_EQ(SimulationState::OFF, state_manager.get_current_simulation_state());
+	}
+
+	TEST_F(StateManagerTest, can_set_current_simulation_state) {
+		state_manager.set_current_simulation_state(SimulationState::RUNNING);
+		ASSERT_EQ(SimulationState::RUNNING, state_manager.get_current_simulation_state());
+	}
 } /* namespace core */
