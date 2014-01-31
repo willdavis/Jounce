@@ -11,7 +11,7 @@
 namespace core
 {
 
-	uint64_t test_int = 0;
+	uint64_t object_manager_update_test = 0;
 
 	class ObjectManagerTest : public ::testing::Test {
 	protected:
@@ -20,7 +20,7 @@ namespace core
 
 	class MyObject : public SimObject {
 	public:
-		void update(uint64_t dt){ test_int += dt; }
+		void update(uint64_t dt){ object_manager_update_test += dt; }
 	};
 
 	class BlankObject : public SimObject {
@@ -56,7 +56,7 @@ namespace core
 	}
 
 	TEST_F(ObjectManagerTest, can_update_all_registered_objects) {
-		EXPECT_EQ((uint64_t)0, test_int);
+		EXPECT_EQ((uint64_t)0, object_manager_update_test);
 		sim_object_ptr obj1(new MyObject);
 		sim_object_ptr obj2(new MyObject);
 		sim_object_ptr obj3(new MyObject);
@@ -67,7 +67,7 @@ namespace core
 
 		manager.update_all_registered_objects(10);
 
-		ASSERT_EQ((uint64_t)30, test_int);	// verify the update() methods were called
+		ASSERT_EQ((uint64_t)30, object_manager_update_test);	// verify the update() methods were called
 	}
 
 } /* namespace core */
