@@ -22,8 +22,20 @@ namespace core
   };
 
   TEST_F(SimulationTest, can_check_the_current_simulation_state) {
-    EXPECT_EQ(sim.get_state(), 0);
+    EXPECT_EQ(sim.get_current_state(), SimulationState::OFF);
   }
+
+  TEST_F(SimulationTest, can_check_if_simulation_is_off) {
+  	ASSERT_TRUE(sim.is_off());
+  }
+
+  TEST_F(SimulationTest, can_check_if_simulation_is_running) {
+		ASSERT_FALSE(sim.is_running());
+	}
+
+  TEST_F(SimulationTest, can_check_if_simulation_is_exiting) {
+		ASSERT_FALSE(sim.is_exiting());
+	}
 
   TEST_F(SimulationTest, can_schedule_an_event) {
   	std::shared_ptr<Event> event(new TestEvent);
@@ -39,13 +51,9 @@ namespace core
   }
 
   TEST_F(SimulationTest, can_exit_the_simulation) {
-    EXPECT_EQ(sim.get_state(), 0);
+    EXPECT_TRUE(sim.is_off());
     sim.exit();
-    ASSERT_EQ(sim.get_state(), 1);
-  }
-
-  TEST_F(SimulationTest, state_defaults_to_zero) {
-    ASSERT_EQ(sim.get_state(), 0);
+    ASSERT_TRUE(sim.is_exiting());
   }
 
   TEST_F(SimulationTest, can_get_simulation_frequency) {

@@ -22,9 +22,9 @@ namespace core
   }
 
   TEST_F(ExitEventTest, calls_exit_on_simulation) {
-    EXPECT_EQ(sim.get_state(), 0);
+    EXPECT_TRUE(sim.is_off());
     exit.process_event(&sim);
-    ASSERT_EQ(sim.get_state(), 1);
+    ASSERT_TRUE(sim.is_exiting());
   }
 
 } /* namespace core */
