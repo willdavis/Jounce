@@ -92,9 +92,9 @@ namespace core
   	sim.set_real_duration_and_frequency(100000,1);	// run for 100,000 ns
   	std::thread do_work (async_sim_run, &sim);
   	nanosleep(&sleep_time, NULL);	// sleep for 50,000 ns
-  	ASSERT_ANY_THROW(sim.set_real_duration_and_frequency(1000000,1));
-  	ASSERT_ANY_THROW(sim.set_real_and_sim_duration(10,10));
-  	ASSERT_ANY_THROW(sim.set_sim_duration_and_frequency(100,1));
+  	EXPECT_ANY_THROW(sim.set_real_duration_and_frequency(1000000,1));
+  	EXPECT_ANY_THROW(sim.set_real_and_sim_duration(10,10));
+  	EXPECT_ANY_THROW(sim.set_sim_duration_and_frequency(100,1));
   	do_work.join();
   }
 
