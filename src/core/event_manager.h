@@ -10,11 +10,12 @@
 
 #include <queue>
 #include "./events/event.h"
+#include "./interfaces/dispatcher.h"
 
 namespace core
 {
 
-  class EventManager
+  class EventManager : public Dispatcher
   {
   public:
     EventManager();
@@ -27,7 +28,7 @@ namespace core
     event_ptr get_top_event();
 
     void schedule_event (event_ptr);
-    void process_top_event();
+    void dispatch_top_event();
 
   protected:
     void* parent;

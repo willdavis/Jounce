@@ -52,7 +52,7 @@ namespace core
 	}
 
   // Dispatch top event in the queue
-  void EventManager::process_top_event()
+  void EventManager::dispatch_top_event()
   {
     event_queue.top()->process_event(parent);
     event_queue.pop();

@@ -53,7 +53,7 @@ namespace core
 		manager.schedule_event(event);
 		ASSERT_EQ(manager.get_queue_size(), 1);     //same as can_schedule_an_event test
 
-		manager.process_top_event();
+		manager.dispatch_top_event();
 
 		ASSERT_EQ(manager.get_queue_size(), 0);     //make sure the event was removed from the queue
 		ASSERT_EQ(event_dispatch_test, 1);           //make sure the callback fired
@@ -75,9 +75,9 @@ namespace core
   	manager.schedule_event(critical);
 
   	ASSERT_EQ(critical, manager.get_top_event());
-  	manager.process_top_event();
+  	manager.dispatch_top_event();
   	ASSERT_EQ(critical2, manager.get_top_event());
-  	manager.process_top_event();
+  	manager.dispatch_top_event();
   	ASSERT_EQ(event, manager.get_top_event());
 	}
 

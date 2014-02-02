@@ -53,7 +53,7 @@ namespace core
 			int queue_size = event_manager.get_queue_size();
 			while (queue_size > 0)
 			{
-				event_manager.process_top_event();
+				event_manager.dispatch_top_event();
 				queue_size = event_manager.get_queue_size();
 			}
 		}
