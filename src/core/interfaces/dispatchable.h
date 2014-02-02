@@ -9,6 +9,7 @@
 #define DISPATCHABLE_H_
 
 #include <stdint.h>
+#include <memory>
 #include "dispatcher.h"
 
 namespace core
@@ -25,8 +26,10 @@ namespace core
 		virtual uint64_t timestamp() = 0;
 	};
 
+	typedef std::shared_ptr<Dispatchable> dispatchable_ptr;
+
 	struct DispatchableComparator {
-		bool operator() (Dispatchable* left, Dispatchable* right) {
+		bool operator() (dispatchable_ptr left, dispatchable_ptr right) {
 			return left->priority() > right->priority();
 		}
 	};
