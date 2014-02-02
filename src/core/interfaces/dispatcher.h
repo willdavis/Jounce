@@ -21,7 +21,7 @@ namespace core
 		virtual ~Dispatcher();
 		virtual unsigned int queue_size() = 0;
 		virtual void schedule(Dispatchable*) = 0;
-		virtual void process_all_dispatchables() = 0;
+		virtual void dispatch_the_queue() = 0;
 		virtual void close() = 0;
 	};
 

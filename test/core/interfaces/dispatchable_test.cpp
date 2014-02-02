@@ -14,7 +14,7 @@ namespace core
 	class MyDispatcher : public Dispatcher {
 	public:
 		unsigned int queue_size() { return 0; }
-		void process_all_dispatchables() { /* do nothing */ }
+		void dispatch_the_queue() { /* do nothing */ }
 		void schedule(Dispatchable* d) { /* do nothing */ }
 		void close() { /* do nothing */ }
 	};
@@ -31,7 +31,7 @@ namespace core
 		MyDispatchable event;
 	};
 
-	TEST_F(DispatchableTest, must_implement_dispatcher_interface) {
+	TEST_F(DispatchableTest, must_implement_dispatchable_interface) {
 		MyDispatcher* dispatcher = new MyDispatcher;
 		EXPECT_NO_THROW(event.dispatch(dispatcher));
 		EXPECT_NO_THROW(event.priority());

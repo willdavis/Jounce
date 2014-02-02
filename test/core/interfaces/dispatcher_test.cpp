@@ -13,7 +13,7 @@ namespace core
 	class MyDispatcher : public Dispatcher {
 	public:
 		unsigned int queue_size() { return 0; }
-		void process_all_dispatchables() { /* do nothing */ }
+		void dispatch_the_queue() { /* do nothing */ }
 		void schedule(Dispatchable* d) { /* do nothing */ }
 		void close() { /* do nothing */ }
 	};
@@ -30,10 +30,10 @@ namespace core
 		MyDispatcher test;
 	};
 
-	TEST_F(DispatcherTest, must_implement_interface) {
+	TEST_F(DispatcherTest, must_implement_dispatcher_interface) {
 		Dispatchable* event = new MyDispatchable;
 		EXPECT_NO_THROW(test.schedule(event));
-		EXPECT_NO_THROW(test.process_all_dispatchables());
+		EXPECT_NO_THROW(test.dispatch_the_queue());
 		EXPECT_NO_THROW(test.queue_size());
 		EXPECT_NO_THROW(test.close());
 		delete event;
