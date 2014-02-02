@@ -14,6 +14,7 @@
 namespace core
 {
 
+	class Dispatcher;
 	class Dispatchable
 	{
 	public:

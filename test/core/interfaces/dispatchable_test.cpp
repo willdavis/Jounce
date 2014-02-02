@@ -13,7 +13,10 @@ namespace core
 
 	class MyDispatcher : public Dispatcher {
 	public:
-		void dispatch_top_event() { /* do nothing */ }
+		unsigned int queue_size() { return 0; }
+		void process_all_dispatchables() { /* do nothing */ }
+		void schedule(Dispatchable* d) { /* do nothing */ }
+		void close() { /* do nothing */ }
 	};
 
 	class MyDispatchable : public Dispatchable {

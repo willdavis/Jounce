@@ -12,7 +12,17 @@ namespace core
 {
 	class MyDispatcher : public Dispatcher {
 	public:
-		void dispatch_top_event() { /* do nothing */ }
+		unsigned int queue_size() { return 0; }
+		void process_all_dispatchables() { /* do nothing */ }
+		void schedule(Dispatchable* d) { /* do nothing */ }
+		void close() { /* do nothing */ }
+	};
+
+	class MyDispatchable : public Dispatchable {
+	public:
+		void dispatch(Dispatcher* dispatcher){ /* do nothing */ }
+		unsigned int priority() { return 10; }
+		uint64_t timestamp() { return (uint64_t)10; }
 	};
 
 	class DispatcherTest : public ::testing::Test {
@@ -21,6 +31,11 @@ namespace core
 	};
 
 	TEST_F(DispatcherTest, must_implement_interface) {
-		ASSERT_NO_THROW(test.dispatch_top_event());
+		Dispatchable* event = new MyDispatchable;
+		EXPECT_NO_THROW(test.schedule(event));
+		EXPECT_NO_THROW(test.process_all_dispatchables());
+		EXPECT_NO_THROW(test.queue_size());
+		EXPECT_NO_THROW(test.close());
+		delete event;
 	}
 } /* namespace core */

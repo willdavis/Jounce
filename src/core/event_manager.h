@@ -15,7 +15,7 @@
 namespace core
 {
 
-  class EventManager : public Dispatcher
+  class EventManager// : public Dispatcher
   {
   public:
     EventManager();

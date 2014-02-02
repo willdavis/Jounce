@@ -8,15 +8,21 @@
 #ifndef DISPATCHER_H_
 #define DISPATCHER_H_
 
+#include "dispatchable.h"
+
 namespace core
 {
 
+	class Dispatchable;
 	class Dispatcher
 	{
 	public:
 		Dispatcher();
 		virtual ~Dispatcher();
-		virtual void dispatch_top_event() = 0;
+		virtual unsigned int queue_size() = 0;
+		virtual void schedule(Dispatchable*) = 0;
+		virtual void process_all_dispatchables() = 0;
+		virtual void close() = 0;
 	};
 
 } /* namespace core */
