@@ -21,15 +21,13 @@ namespace core
 	public:
 		Dispatchable();
 		virtual ~Dispatchable();
-		virtual void dispatch(Dispatcher* dispatcher) = 0;
+		virtual void dispatch(std::shared_ptr<Dispatcher> dispatcher) = 0;
 		virtual unsigned int priority() = 0;
 		virtual uint64_t timestamp() = 0;
 	};
 
-	typedef std::shared_ptr<Dispatchable> dispatchable_ptr;
-
 	struct DispatchableComparator {
-		bool operator() (dispatchable_ptr left, dispatchable_ptr right) {
+		bool operator() (std::shared_ptr<Dispatchable> left, std::shared_ptr<Dispatchable> right) {
 			return left->priority() > right->priority();
 		}
 	};
