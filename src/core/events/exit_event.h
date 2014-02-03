@@ -8,7 +8,6 @@
 #ifndef EXIT_EVENT_H_
 #define EXIT_EVENT_H_
 
-#include "event.h"
 #include "../simulation.h"
 
 namespace core

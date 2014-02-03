@@ -9,7 +9,6 @@
 #define EVENT_MANAGER_H_
 
 #include <queue>
-//#include "./events/event.h"
 #include "./interfaces/dispatcher.h"
 
 namespace core
