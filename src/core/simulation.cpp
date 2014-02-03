@@ -42,19 +42,19 @@ namespace core
 					>= time_manager.get_real_duration()
 					&& time_manager.get_real_duration() > 0)
 			{
-				std::shared_ptr<Event> exit(new ExitEvent);
-				event_manager.schedule_event(exit); //setup an ExitEvent to kill the simulation
+				event_ptr exit(new ExitEvent);
+				event_manager.schedule(exit); //setup an ExitEvent to kill the simulation
 				dt = time_manager.get_real_duration()
 						- time_manager.get_real_elapsed_time(); //calculate remaining simulation time and set it as dt
 			}
 			// update the elapsed simulation time with delta time (dt)
 			time_manager.add_real_time(dt);
 			// process the event queue for this cycle
-			int queue_size = event_manager.get_queue_size();
+			int queue_size = event_manager.queue_size();
 			while (queue_size > 0)
 			{
 				event_manager.dispatch_top_event();
-				queue_size = event_manager.get_queue_size();
+				queue_size = event_manager.queue_size();
 			}
 		}
 
@@ -154,14 +154,17 @@ namespace core
 	}
 
   // schedule event with EventManager and return the new queue size
-  int Simulation::schedule_event(std::shared_ptr<Event> event)
+  int Simulation::schedule_event(event_ptr event)
   {
-    event_manager.schedule_event(event);
-    return event_manager.get_queue_size();
+    event_manager.schedule(event);
+    return event_manager.queue_size();
   }
 
   // returns the current size of the event queue
-  int Simulation::get_event_queue_size() { return event_manager.get_queue_size(); }
+  int Simulation::get_event_queue_size()
+  {
+  	return event_manager.queue_size();
+  }
 
   // returns the current state of the simulation
   SimulationState Simulation::get_current_state()

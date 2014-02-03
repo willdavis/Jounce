@@ -14,12 +14,14 @@
 namespace core
 {
 
-  class ExitEvent : public Event
+  class ExitEvent : public Dispatchable
   {
   public:
     ExitEvent();
     virtual ~ExitEvent();
-    void process_event(void*);
+    void dispatch(Dispatcher* dispatcher);
+    unsigned int priority() { return 0; }
+    uint64_t timestamp() { return 0;}
   };
 
 } /* namespace core */

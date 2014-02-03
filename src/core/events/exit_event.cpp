@@ -12,7 +12,7 @@ namespace core
 
   ExitEvent::ExitEvent()
   {
-  	priority = 0;
+
   }
 
   ExitEvent::~ExitEvent()
@@ -21,9 +21,9 @@ namespace core
   }
 
   // cast the void* to Simulation* and call exit()
-  void ExitEvent::process_event(void* pointer)
+  void ExitEvent::dispatch(Dispatcher* dispatcher)
   {
-    static_cast<core::Simulation *>(pointer)->exit();
+    dispatcher->close();
   }
 
 } /* namespace core */

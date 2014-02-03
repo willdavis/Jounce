@@ -26,13 +26,5 @@ namespace core
     int priority;		// stores the priority for this event
   };
 
-  typedef std::shared_ptr<Event> event_ptr;
-
-  struct EventComparator {
-		bool operator() (event_ptr left, event_ptr right) {
-			return left->get_priority() > right->get_priority();
-		}
-	};
-
 } /* namespace core */
 #endif /* EVENT_H_ */

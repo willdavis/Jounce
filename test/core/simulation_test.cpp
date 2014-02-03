@@ -18,10 +18,12 @@ namespace core
     Simulation sim;
   };
 
-  class TestEvent : public Event {
-  public:
-    void process_event(void* input) { /* do nothing */ }
-  };
+  class TestEvent : public Dispatchable {
+	public:
+		void dispatch(Dispatcher* dispatcher){ /* do nothing */ }
+		unsigned int priority() { return 10; }
+		uint64_t timestamp() { return (uint64_t)10; }
+	};
 
   void async_sim_run(Simulation* sim) { sim->run(); }
 
@@ -42,13 +44,13 @@ namespace core
 	}
 
   TEST_F(SimulationTest, can_schedule_an_event) {
-  	std::shared_ptr<Event> event(new TestEvent);
+  	event_ptr event(new TestEvent);
     int size_of_queue = sim.schedule_event(event);
     ASSERT_EQ(size_of_queue, 1);
   }
 
   TEST_F(SimulationTest, can_get_event_queue_size) {
-  	std::shared_ptr<Event> event(new TestEvent);
+  	event_ptr event(new TestEvent);
     EXPECT_EQ(sim.get_event_queue_size(), 0);
     sim.schedule_event(event);
     ASSERT_EQ(sim.get_event_queue_size(), 1);

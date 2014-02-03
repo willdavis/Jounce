@@ -18,13 +18,15 @@ namespace core
   };
 
   TEST_F(ExitEventTest, priority_is_zero) {
-  	ASSERT_EQ(0, exit.get_priority());
+  	ASSERT_EQ((unsigned int)0, exit.priority());
   }
 
   TEST_F(ExitEventTest, calls_exit_on_simulation) {
+  	event_ptr exit(new ExitEvent);
+  	sim.schedule_event(exit);
     EXPECT_TRUE(sim.is_off());
-    exit.process_event(&sim);
-    ASSERT_TRUE(sim.is_exiting());
+    sim.run();
+    ASSERT_TRUE(sim.is_off());
   }
 
 } /* namespace core */

@@ -21,7 +21,7 @@ namespace core
 	public:
 		Dispatchable();
 		virtual ~Dispatchable();
-		virtual void dispatch(std::shared_ptr<Dispatcher> dispatcher) = 0;
+		virtual void dispatch(Dispatcher* dispatcher) = 0;
 		virtual unsigned int priority() = 0;
 		virtual uint64_t timestamp() = 0;
 	};

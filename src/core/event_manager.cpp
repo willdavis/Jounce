@@ -6,6 +6,7 @@
  */
 
 #include "event_manager.h"
+#include "simulation.h"
 
 namespace core
 {
@@ -34,13 +35,13 @@ namespace core
   }
 
   // Return the size of the event queue
-  int EventManager::get_queue_size()
+  unsigned int EventManager::queue_size()
   {
     return event_queue.size();
   }
 
   // Add Event* to the queue
-  void EventManager::schedule_event(event_ptr event)
+  void EventManager::schedule(event_ptr event)
   {
   	event_queue.push(event);
 	}
@@ -54,8 +55,13 @@ namespace core
   // Dispatch top event in the queue
   void EventManager::dispatch_top_event()
   {
-    event_queue.top()->process_event(parent);
+    event_queue.top()->dispatch(this);
     event_queue.pop();
+  }
+
+  void EventManager::close()
+  {
+  	static_cast<core::Simulation *>(parent)->exit();
   }
 
 } /* namespace core */
