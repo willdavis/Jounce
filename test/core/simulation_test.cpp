@@ -18,10 +18,12 @@ namespace core
     Simulation sim;
   };
 
-  class TestEvent : public Event {
-  public:
-    void process_event(void* input) { /* do nothing */ }
-  };
+  class TestEvent : public Dispatchable {
+	public:
+		void dispatch(Dispatcher* dispatcher){ /* do nothing */ }
+		unsigned int priority() { return 10; }
+		uint64_t timestamp() { return (uint64_t)10; }
+	};
 
   void async_sim_run(Simulation* sim) { sim->run(); }
 
@@ -42,13 +44,13 @@ namespace core
 	}
 
   TEST_F(SimulationTest, can_schedule_an_event) {
-  	std::shared_ptr<Event> event(new TestEvent);
+  	event_ptr event(new TestEvent);
     int size_of_queue = sim.schedule_event(event);
     ASSERT_EQ(size_of_queue, 1);
   }
 
   TEST_F(SimulationTest, can_get_event_queue_size) {
-  	std::shared_ptr<Event> event(new TestEvent);
+  	event_ptr event(new TestEvent);
     EXPECT_EQ(sim.get_event_queue_size(), 0);
     sim.schedule_event(event);
     ASSERT_EQ(sim.get_event_queue_size(), 1);
@@ -92,9 +94,9 @@ namespace core
   	sim.set_real_duration_and_frequency(100000,1);	// run for 100,000 ns
   	std::thread do_work (async_sim_run, &sim);
   	nanosleep(&sleep_time, NULL);	// sleep for 50,000 ns
-  	ASSERT_ANY_THROW(sim.set_real_duration_and_frequency(1000000,1));
-  	ASSERT_ANY_THROW(sim.set_real_and_sim_duration(10,10));
-  	ASSERT_ANY_THROW(sim.set_sim_duration_and_frequency(100,1));
+  	EXPECT_ANY_THROW(sim.set_real_duration_and_frequency(1000000,1));
+  	EXPECT_ANY_THROW(sim.set_real_and_sim_duration(10,10));
+  	EXPECT_ANY_THROW(sim.set_sim_duration_and_frequency(100,1));
   	do_work.join();
   }
 

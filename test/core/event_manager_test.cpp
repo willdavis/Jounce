@@ -17,15 +17,18 @@ namespace core
 
   int event_dispatch_test = 0;
 
-  class TestEvent : public Event {
-  public:
-    void process_event(void* input) { event_dispatch_test = 1; }
-  };
-
-  class CriticalEvent : public Event {
+  class TestEvent : public Dispatchable {
 	public:
-  	CriticalEvent(int p) : Event(p) {}
-		void process_event(void* input) { /* do nothing */ }
+		void dispatch(Dispatcher* dispatcher){ event_dispatch_test = 1; }
+		unsigned int priority() { return 1000; }
+		uint64_t timestamp() { return (uint64_t)10; }
+	};
+
+  class CriticalEvent : public Dispatchable {
+	public:
+		void dispatch(Dispatcher* dispatcher){ /* do nothing */ }
+		unsigned int priority() { return 0; }
+		uint64_t timestamp() { return (uint64_t)10; }
 	};
 
   TEST_F(EventManagerTest, can_bind_to_a_parent_object) {
@@ -36,49 +39,45 @@ namespace core
   }
 
   TEST_F(EventManagerTest, can_check_the_event_queue_size) {
-    int size = manager.get_queue_size();
+    int size = manager.queue_size();
     ASSERT_EQ(size, 0);
   }
 
   TEST_F(EventManagerTest, can_schedule_an_event) {
-    EXPECT_EQ(manager.get_queue_size(), 0);
+    EXPECT_EQ(manager.queue_size(), 0);
     event_ptr event(new TestEvent);
-    manager.schedule_event(event);
-    ASSERT_EQ(manager.get_queue_size(), 1);
+    manager.schedule(event);
+    ASSERT_EQ(manager.queue_size(), 1);
   }
 
   TEST_F(EventManagerTest, can_process_the_top_event) {
-		EXPECT_EQ(manager.get_queue_size(), 0);
+		EXPECT_EQ(manager.queue_size(), 0);
 		event_ptr event(new TestEvent);
-		manager.schedule_event(event);
-		ASSERT_EQ(manager.get_queue_size(), 1);     //same as can_schedule_an_event test
+		manager.schedule(event);
+		ASSERT_EQ(manager.queue_size(), 1);     //same as can_schedule_an_event test
 
-		manager.process_top_event();
+		manager.dispatch_top_event();
 
-		ASSERT_EQ(manager.get_queue_size(), 0);     //make sure the event was removed from the queue
+		ASSERT_EQ(manager.queue_size(), 0);     //make sure the event was removed from the queue
 		ASSERT_EQ(event_dispatch_test, 1);           //make sure the callback fired
 	}
 
   TEST_F(EventManagerTest, can_peek_at_top_event) {
   	event_ptr event(new TestEvent);
-  	manager.schedule_event(event);
-  	ASSERT_EQ(1000, manager.get_top_event()->get_priority());
+  	manager.schedule(event);
+  	ASSERT_EQ(1000, manager.get_top_event()->priority());
   }
 
   TEST_F(EventManagerTest, can_prioritize_events) {
   	event_ptr event(new TestEvent);
-  	event_ptr critical(new CriticalEvent(0));
-  	event_ptr critical2(new CriticalEvent(100));
+  	event_ptr critical(new CriticalEvent);
 
-  	manager.schedule_event(event);
-  	manager.schedule_event(critical2);
-  	manager.schedule_event(critical);
+  	manager.schedule(event);
+  	manager.schedule(critical);
 
-  	ASSERT_EQ(critical, manager.get_top_event());
-  	manager.process_top_event();
-  	ASSERT_EQ(critical2, manager.get_top_event());
-  	manager.process_top_event();
-  	ASSERT_EQ(event, manager.get_top_event());
+  	ASSERT_EQ(0, manager.get_top_event()->priority());
+  	manager.dispatch_top_event();
+  	ASSERT_EQ(1000, manager.get_top_event()->priority());
 	}
 
 } /* namespace core */
