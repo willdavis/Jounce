@@ -12,6 +12,7 @@
 #include "time_manager.h"
 #include "event_manager.h"
 #include "state_manager.h"
+#include "object_manager.h"
 
 namespace core
 {
@@ -24,8 +25,6 @@ namespace core
 
     void run();
     void exit();
-
-    int get_state();
 
     uint64_t get_elapsed_sim_time();
     uint64_t get_elapsed_real_time();
@@ -47,11 +46,16 @@ namespace core
     bool is_running();
     bool is_exiting();
 
+    int get_total_registered_objects();
+    void register_simulated_object(sim_object_ptr);
+    void release_simulated_object(sim_object_ptr);
+
   protected:
     Timer timer;								// core simulation timer
     TimeManager time_manager;		// provides an interface to configure simulation time
     EventManager event_manager; // provides an interface to manage events
     StateManager state_manager;	// provides an interface to manage the simulation's state
+    ObjectManager obj_manager;	// provides an interface to manage objects within the simulation
   };
 
 } /* namespace core */

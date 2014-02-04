@@ -56,6 +56,9 @@ namespace core
 				event_manager.dispatch_top_event();
 				queue_size = event_manager.queue_size();
 			}
+
+			//update all objects in the simulation with elapsed time (dt)
+			obj_manager.update_all_objects(&dt);
 		}
 
 		// the simulation is over!
@@ -185,6 +188,23 @@ namespace core
   bool Simulation::is_exiting()
   {
   	return state_manager.get_current_simulation_state() == SimulationState::EXITING;
+  }
+
+  int Simulation::get_total_registered_objects()
+  {
+  	return obj_manager.get_collection_size();
+  }
+
+  // register a new object with the ObjectManager
+  void Simulation::register_simulated_object(sim_object_ptr object)
+  {
+  	obj_manager.register_object(object);
+  }
+
+  // release the object from the ObjectManager
+  void Simulation::release_simulated_object(sim_object_ptr object)
+  {
+  	obj_manager.release_object(object);
   }
 
 } /* namespace core */
