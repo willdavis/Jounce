@@ -8,7 +8,7 @@
 #ifndef EXIT_EVENT_H_
 #define EXIT_EVENT_H_
 
-#include "../simulation.h"
+#include "../interfaces/dispatchable.h"
 
 namespace core
 {
@@ -19,8 +19,8 @@ namespace core
     ExitEvent();
     virtual ~ExitEvent();
     void dispatch(Dispatcher* dispatcher);
-    unsigned int priority() { return 0; }
-    uint64_t timestamp() { return 0;}
+    unsigned int priority();
+    uint64_t timestamp();
   };
 
 } /* namespace core */

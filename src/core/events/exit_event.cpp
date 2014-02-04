@@ -26,4 +26,18 @@ namespace core
     dispatcher->close();
   }
 
+  // return the highest event priority
+  unsigned int ExitEvent::priority()
+  {
+  	return 0;
+  }
+
+  // return the real time offset from the start of the simulation (nanoseconds)
+  uint64_t ExitEvent::timestamp()
+  {
+  	return 0;  //temporary
+  }
+
+
+
 } /* namespace core */
