@@ -13,9 +13,7 @@ namespace core
 
 	class MyDispatcher : public Dispatcher {
 	public:
-		unsigned int queue_size() { return 0; }
 		void dispatch_top_event() { /* do nothing */ }
-		void schedule(std::shared_ptr<Dispatchable> event) { /* do nothing */ }
 		void close() { /* do nothing */ }
 	};
 
