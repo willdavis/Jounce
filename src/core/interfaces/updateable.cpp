@@ -1,22 +1,22 @@
 /*
- * sim_object.cpp
+ * updateable.cpp
  *
- *  Created on: Jan 30, 2014
+ *  Created on: Feb 2, 2014
  *      Author: bill
  */
 
-#include "sim_object.h"
+#include "updateable.h"
 
 namespace core
 {
 
-	SimObject::SimObject()
+	Updateable::Updateable()
 	{
 		// TODO Auto-generated constructor stub
 
 	}
 
-	SimObject::~SimObject()
+	Updateable::~Updateable()
 	{
 		// TODO Auto-generated destructor stub
 	}
