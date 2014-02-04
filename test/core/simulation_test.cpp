@@ -25,6 +25,11 @@ namespace core
 		uint64_t timestamp() { return (uint64_t)10; }
 	};
 
+  class TestObject : public Updateable {
+	public:
+		void update(uint64_t* dt){  }
+	};
+
   void async_sim_run(Simulation* sim) { sim->run(); }
 
   TEST_F(SimulationTest, can_check_the_current_simulation_state) {
@@ -130,6 +135,24 @@ namespace core
     EXPECT_EQ(sim.get_sim_duration(), (uint64_t)10);
     ASSERT_EQ(sim.get_elapsed_real_time(), sim.get_real_duration());
     ASSERT_EQ(sim.get_elapsed_sim_time(), sim.get_sim_duration());
+  }
+
+  TEST_F(SimulationTest, can_get_total_registered_object_size) {
+  	ASSERT_EQ(0, sim.get_total_registered_objects());
+  }
+
+  TEST_F(SimulationTest, can_register_a_simulated_object) {
+  	sim_object_ptr object(new TestObject);
+  	sim.register_simulated_object(object);
+  	ASSERT_EQ(1, sim.get_total_registered_objects());
+  }
+
+  TEST_F(SimulationTest, can_remove_a_simulated_object) {
+  	sim_object_ptr object(new TestObject);
+		sim.register_simulated_object(object);
+		EXPECT_EQ(1, sim.get_total_registered_objects());
+		sim.release_simulated_object(object);
+		ASSERT_EQ(0, sim.get_total_registered_objects());
   }
 
 } /* namespace core */

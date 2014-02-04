@@ -187,4 +187,21 @@ namespace core
   	return state_manager.get_current_simulation_state() == SimulationState::EXITING;
   }
 
+  int Simulation::get_total_registered_objects()
+  {
+  	return obj_manager.get_collection_size();
+  }
+
+  // register a new object with the ObjectManager
+  void Simulation::register_simulated_object(sim_object_ptr object)
+  {
+  	obj_manager.register_object(object);
+  }
+
+  // release the object from the ObjectManager
+  void Simulation::release_simulated_object(sim_object_ptr object)
+  {
+  	obj_manager.release_object(object);
+  }
+
 } /* namespace core */
