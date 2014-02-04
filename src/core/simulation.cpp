@@ -56,6 +56,9 @@ namespace core
 				event_manager.dispatch_top_event();
 				queue_size = event_manager.queue_size();
 			}
+
+			//update all objects in the simulation with elapsed time (dt)
+			obj_manager.update_all_objects(&dt);
 		}
 
 		// the simulation is over!
