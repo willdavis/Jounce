@@ -18,14 +18,14 @@ namespace core
 		ObjectManager manager;
 	};
 
-	class MyObject : public SimObject {
+	class MyObject : public Updateable {
 	public:
-		void update(uint64_t dt){ object_manager_update_test += dt; }
+		void update(uint64_t* dt){ object_manager_update_test += *dt; }
 	};
 
-	class BlankObject : public SimObject {
+	class BlankObject : public Updateable {
 	public:
-		void update(uint64_t dt){ /* do nothing */ }
+		void update(uint64_t* dt){ /* do nothing */ }
 	};
 
 	TEST_F(ObjectManagerTest, can_get_collection_size) {
@@ -42,7 +42,7 @@ namespace core
 		sim_object_ptr obj(new MyObject);
 		manager.register_object(obj);
 		EXPECT_EQ(1, manager.get_collection_size());
-		manager.release_registered_object(obj);
+		manager.release_object(obj);
 		ASSERT_EQ(0, manager.get_collection_size());
 	}
 
@@ -51,7 +51,7 @@ namespace core
 		sim_object_ptr nope(new MyObject);
 		EXPECT_EQ(0, manager.get_collection_size());
 		manager.register_object(obj);									// add an object so the list size isn't empty
-		manager.release_registered_object(nope);			// does not find any matching values, list size remains unchanged
+		manager.release_object(nope);			// does not find any matching values, list size remains unchanged
 		ASSERT_EQ(1, manager.get_collection_size());
 	}
 
@@ -65,7 +65,8 @@ namespace core
 		manager.register_object(obj2);
 		manager.register_object(obj3);
 
-		manager.update_all_registered_objects(10);
+		uint64_t dt = 10;
+		manager.update_all_objects(&dt);
 
 		ASSERT_EQ((uint64_t)30, object_manager_update_test);	// verify the update() methods were called
 	}

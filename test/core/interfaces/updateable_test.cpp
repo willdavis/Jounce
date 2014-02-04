@@ -21,9 +21,8 @@ namespace core
 	};
 
 	TEST_F(UpdateableTest, must_implement_updateable_interface) {
-		uint64_t* test_int = new uint64_t(0);
-		test.update(test_int);
-		ASSERT_EQ(10, *test_int);
-		delete test_int;
+		uint64_t test_int = 0;
+		test.update(&test_int);
+		ASSERT_EQ(10, test_int);
 	}
 } /* namespace core */
