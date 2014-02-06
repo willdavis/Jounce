@@ -21,12 +21,14 @@ namespace core
 		// TODO Auto-generated destructor stub
 	}
 
+	// call notify() on the Observer with the given id (also the index in the vector)
 	void JObject::notify_observer(unsigned int id)
 	{
 		if(id+1 > total_observers()){ throw "index out of range"; }
 		observers[id]->notify(this);
 	}
 
+	// release an observer by it's id (also it's index in the vector)
 	void JObject::release_observer(unsigned int id)
 	{
 		if(id+1 > total_observers()){ throw "index out of range"; }
@@ -41,6 +43,7 @@ namespace core
 		return observers.size()-1;
 	}
 
+	// return the total number of observers registered to this object
 	unsigned int JObject::total_observers()
 	{
 		return observers.size();
