@@ -26,5 +26,7 @@ namespace core
 		virtual unsigned int total_observers() = 0;
 	};
 
+	typedef std::shared_ptr<Observable> observable_ptr;
+
 } /* namespace core */
 #endif /* OBSERVABLE_H_ */

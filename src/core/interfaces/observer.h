@@ -19,8 +19,10 @@ namespace core
 	public:
 		Observer();
 		virtual ~Observer();
-		virtual void notify(std::shared_ptr<Observable>) = 0;
+		virtual void notify(Observable* object) = 0;
 	};
+
+	typedef std::shared_ptr<Observer> observer_ptr;
 
 } /* namespace core */
 #endif /* OBSERVER_H_ */
