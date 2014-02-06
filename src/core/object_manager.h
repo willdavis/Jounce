@@ -10,6 +10,7 @@
 
 #include <list>
 #include "./interfaces/updater.h"
+#include "./objects/object.h"
 
 namespace core
 {

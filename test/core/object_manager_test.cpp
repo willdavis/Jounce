@@ -18,7 +18,7 @@ namespace core
 		ObjectManager manager;
 	};
 
-	class MyObject : public Updateable {
+	class MyObject : public JObject {
 	public:
 		void update(uint64_t* dt){ object_manager_update_test += *dt; }
 	};
