@@ -8,6 +8,7 @@
 #ifndef OBSERVER_H_
 #define OBSERVER_H_
 
+#include <memory>
 #include "observable.h"
 
 namespace core
