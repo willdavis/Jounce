@@ -21,11 +21,13 @@ namespace core
 	class MyObject : public JObject {
 	public:
 		void update(uint64_t* dt){ object_manager_update_test += *dt; }
+		void notify(Observable* sender, std::shared_ptr<Observer> caller){ /* not used */ }
 	};
 
 	class BlankObject : public Updateable {
 	public:
 		void update(uint64_t* dt){ /* do nothing */ }
+		void notify(Observable* sender, std::shared_ptr<Observer> caller){ /* not used */ }
 	};
 
 	TEST_F(ObjectManagerTest, can_get_collection_size) {

@@ -14,6 +14,7 @@ namespace core
 	public:
 		uint64_t test_time = 0;
 		void update(uint64_t* dt) { test_time = *dt; }
+		void notify(Observable* sender, std::shared_ptr<Observer> caller){ /* not used */ }
 	};
 
 	class MyObserver : public Observer {
