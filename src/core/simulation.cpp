@@ -196,13 +196,13 @@ namespace core
   }
 
   // register a new object with the ObjectManager
-  void Simulation::register_simulated_object(sim_object_ptr object)
+  void Simulation::register_simulated_object(object_ptr object)
   {
   	obj_manager.register_object(object);
   }
 
   // release the object from the ObjectManager
-  void Simulation::release_simulated_object(sim_object_ptr object)
+  void Simulation::release_simulated_object(object_ptr object)
   {
   	obj_manager.release_object(object);
   }

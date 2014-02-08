@@ -7,6 +7,7 @@
 
 #include "gtest/gtest.h"
 #include "../../../src/core/objects/object.h"
+#include "../../../src/core/object_manager.h"
 
 namespace core
 {
@@ -31,10 +32,16 @@ namespace core
 	class ObjectTest : public ::testing::Test {
 	protected:
 		MyJObject obj;
+		ObjectManager manager;
 	};
 
 	TEST_F(ObjectTest, can_get_ammount_of_registered_observers) {
 		ASSERT_EQ(0, obj.total_observers());
+	}
+
+	TEST_F(ObjectTest, can_bind_to_an_object_manager) {
+		ASSERT_NO_THROW(obj.set_owner(&manager));
+		ASSERT_EQ(&manager, obj.owner());
 	}
 
 	TEST_F(ObjectTest, can_register_an_observer) {

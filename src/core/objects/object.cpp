@@ -21,6 +21,16 @@ namespace core
 		// TODO Auto-generated destructor stub
 	}
 
+	void JObject::set_owner(ObjectManager* manager)
+	{
+		parent = manager;
+	}
+
+	ObjectManager* JObject::owner()
+	{
+		return parent;
+	}
+
 	// call notify() on the Observer with the given id (also the index in the vector)
 	void JObject::notify_observer(unsigned int id)
 	{

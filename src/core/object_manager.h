@@ -9,13 +9,14 @@
 #define OBJECT_MANAGER_H_
 
 #include <list>
-#include "./interfaces/updater.h"
+#include "event_manager.h"
 #include "./objects/object.h"
+#include "./interfaces/updater.h"
 
 namespace core
 {
 
-	typedef std::shared_ptr<Updateable> sim_object_ptr;
+	typedef std::shared_ptr<Updateable> object_ptr;
 
 	class ObjectManager : public Updater
 	{
@@ -23,16 +24,19 @@ namespace core
 		ObjectManager();
 		virtual ~ObjectManager();
 
-		int get_collection_size();
+		EventManager* dispatcher();
+		void set_dispatcher(EventManager*);
 
 		/* Updater interface */
-		void register_object(sim_object_ptr);
-		void release_object(sim_object_ptr);
+		void register_object(object_ptr);
+		void release_object(object_ptr);
 		void update_all_objects(uint64_t*);
 		/* end Updater interface */
+		int get_collection_size();
 
 	protected:
-		std::list<sim_object_ptr> object_list;
+		EventManager* linked_dispatcher;
+		std::list<object_ptr> object_list;
 	};
 
 } /* namespace core */

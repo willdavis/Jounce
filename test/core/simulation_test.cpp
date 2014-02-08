@@ -25,9 +25,10 @@ namespace core
 		uint64_t timestamp() { return (uint64_t)10; }
 	};
 
-  class TestObject : public Updateable {
+  class TestObject : public JObject {
 	public:
 		void update(uint64_t* dt){  }
+		void notify(Observable* signal, observer_ptr slot){  }
 	};
 
   void async_sim_run(Simulation* sim) { sim->run(); }
@@ -142,13 +143,13 @@ namespace core
   }
 
   TEST_F(SimulationTest, can_register_a_simulated_object) {
-  	sim_object_ptr object(new TestObject);
+  	object_ptr object(new TestObject);
   	sim.register_simulated_object(object);
   	ASSERT_EQ(1, sim.get_total_registered_objects());
   }
 
   TEST_F(SimulationTest, can_remove_a_simulated_object) {
-  	sim_object_ptr object(new TestObject);
+  	object_ptr object(new TestObject);
 		sim.register_simulated_object(object);
 		EXPECT_EQ(1, sim.get_total_registered_objects());
 		sim.release_simulated_object(object);
