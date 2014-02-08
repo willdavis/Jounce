@@ -7,6 +7,7 @@
 
 #include "gtest/gtest.h"
 #include "../../src/core/object_manager.h"
+#include "../../src/core/event_manager.h"
 
 namespace core
 {
@@ -16,6 +17,7 @@ namespace core
 	class ObjectManagerTest : public ::testing::Test {
 	protected:
 		ObjectManager manager;
+		EventManager event_manager;
 	};
 
 	class MyObject : public JObject {
@@ -29,6 +31,11 @@ namespace core
 		void update(uint64_t* dt){ /* do nothing */ }
 		void notify(Observable* sender, std::shared_ptr<Observer> caller){ /* not used */ }
 	};
+
+	TEST_F(ObjectManagerTest, can_bind_to_an_event_manager) {
+		ASSERT_NO_THROW(manager.set_dispatcher(&event_manager));
+		ASSERT_EQ(&event_manager, manager.dispatcher());
+	}
 
 	TEST_F(ObjectManagerTest, can_get_collection_size) {
 		ASSERT_EQ(0, manager.get_collection_size());

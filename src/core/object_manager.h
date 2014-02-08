@@ -9,6 +9,7 @@
 #define OBJECT_MANAGER_H_
 
 #include <list>
+#include "event_manager.h"
 #include "./objects/object.h"
 #include "./interfaces/updater.h"
 
@@ -22,16 +23,19 @@ namespace core
 	public:
 		ObjectManager();
 		virtual ~ObjectManager();
-		int get_collection_size();
+
+		EventManager* dispatcher();
+		void set_dispatcher(EventManager*);
 
 		/* Updater interface */
 		void register_object(object_ptr);
 		void release_object(object_ptr);
 		void update_all_objects(uint64_t*);
 		/* end Updater interface */
+		int get_collection_size();
 
 	protected:
-		void* parent;
+		EventManager* linked_dispatcher;
 		std::list<object_ptr> object_list;
 	};
 
