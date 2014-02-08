@@ -47,8 +47,8 @@ namespace core
     bool is_exiting();
 
     int get_total_registered_objects();
-    void register_simulated_object(sim_object_ptr);
-    void release_simulated_object(sim_object_ptr);
+    void register_simulated_object(object_ptr);
+    void release_simulated_object(object_ptr);
 
   protected:
     Timer timer;								// core simulation timer

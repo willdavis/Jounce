@@ -26,18 +26,18 @@ namespace core
 		return object_list.size();
 	}
 
-	void ObjectManager::register_object(sim_object_ptr obj)
+	void ObjectManager::register_object(object_ptr obj)
 	{
 		object_list.push_back(obj);
 	}
 
 	void ObjectManager::update_all_objects(uint64_t* dt)
 	{
-		for(std::list<sim_object_ptr>::iterator i=object_list.begin(); i != object_list.end(); i++)
+		for(std::list<object_ptr>::iterator i=object_list.begin(); i != object_list.end(); i++)
 			(*i)->update(dt);
 	}
 
-	void ObjectManager::release_object(sim_object_ptr obj)
+	void ObjectManager::release_object(object_ptr obj)
 	{
 		object_list.remove(obj);
 	}

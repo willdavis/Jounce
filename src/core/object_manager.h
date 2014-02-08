@@ -15,7 +15,7 @@
 namespace core
 {
 
-	typedef std::shared_ptr<Updateable> sim_object_ptr;
+	typedef std::shared_ptr<Updateable> object_ptr;
 
 	class ObjectManager : public Updater
 	{
@@ -26,13 +26,13 @@ namespace core
 		int get_collection_size();
 
 		/* Updater interface */
-		void register_object(sim_object_ptr);
-		void release_object(sim_object_ptr);
+		void register_object(object_ptr);
+		void release_object(object_ptr);
 		void update_all_objects(uint64_t*);
 		/* end Updater interface */
 
 	protected:
-		std::list<sim_object_ptr> object_list;
+		std::list<object_ptr> object_list;
 	};
 
 } /* namespace core */
