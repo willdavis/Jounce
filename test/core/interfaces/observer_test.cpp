@@ -20,7 +20,7 @@ namespace core
 
 	class MyObserver : public Observer {
 	public:
-		void notify(Observable* object) {  }
+		void notify(Observable* signal, std::shared_ptr<Observer> slot) {  }
 	};
 
 	class ObserverTest : public ::testing::Test {
@@ -30,7 +30,8 @@ namespace core
 
 	TEST_F(ObserverTest, must_implement_observer_interface) {
 		MyObservable obj;
-		ASSERT_NO_THROW(test.notify(&obj));
+		std::shared_ptr<Observer> other(new MyObserver);
+		ASSERT_NO_THROW(test.notify(&obj, other));
 	}
 
 } /* namespace core */

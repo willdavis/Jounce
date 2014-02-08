@@ -25,7 +25,7 @@ namespace core
 	void JObject::notify_observer(unsigned int id)
 	{
 		if(id+1 > total_observers()){ throw "index out of range"; }
-		observers[id]->notify(this);
+		observers[id]->notify(this, observers[id]);
 	}
 
 	// release an observer by it's id (also it's index in the vector)

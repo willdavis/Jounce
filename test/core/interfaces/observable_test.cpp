@@ -22,7 +22,7 @@ namespace core
 
 	class MyObserver : public Observer {
 	public:
-		void notify(Observable* object) {  }
+		void notify(Observable* signal, std::shared_ptr<Observer> slot) {  }
 	};
 
 	class ObservableTest : public ::testing::Test {
