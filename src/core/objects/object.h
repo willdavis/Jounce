@@ -15,7 +15,7 @@
 namespace core
 {
 
-	class JObject : public Observable, public Updateable
+	class JObject : public Updateable, public Observable, public Observer
 	{
 	public:
 		JObject();
@@ -27,6 +27,10 @@ namespace core
 		unsigned int register_observer(observer_ptr observer);
 		unsigned int total_observers();
 		/* End Observable interface */
+
+		/* Observer interface */
+		void notify(Observable* signal, observer_ptr slot) = 0;
+		/* End Observer interface */
 
 		/* Updateable interface */
 		void update(uint64_t*) = 0;
