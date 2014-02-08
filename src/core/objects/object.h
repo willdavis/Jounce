@@ -9,17 +9,23 @@
 #define JOBJECT_H_
 
 #include <vector>
+#include "../interfaces/observer.h"
 #include "../interfaces/observable.h"
 #include "../interfaces/updateable.h"
+#include "../object_manager.h"
 
 namespace core
 {
 
+	class ObjectManager;
 	class JObject : public Updateable, public Observable, public Observer
 	{
 	public:
 		JObject();
 		virtual ~JObject();
+
+		ObjectManager* owner();
+		void set_owner(ObjectManager*);
 
 		/* Observable interface */
 		void notify_observer(unsigned int id);
@@ -37,6 +43,7 @@ namespace core
 		/* End Updateable interface */
 
 	protected:
+		ObjectManager* parent;
 		std::vector<observer_ptr> observers;
 	};
 

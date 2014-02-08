@@ -25,9 +25,10 @@ namespace core
 		uint64_t timestamp() { return (uint64_t)10; }
 	};
 
-  class TestObject : public Updateable {
+  class TestObject : public JObject {
 	public:
 		void update(uint64_t* dt){  }
+		void notify(Observable* signal, observer_ptr slot){  }
 	};
 
   void async_sim_run(Simulation* sim) { sim->run(); }

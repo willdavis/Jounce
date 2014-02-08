@@ -9,8 +9,8 @@
 #define OBJECT_MANAGER_H_
 
 #include <list>
-#include "./interfaces/updater.h"
 #include "./objects/object.h"
+#include "./interfaces/updater.h"
 
 namespace core
 {
@@ -22,7 +22,6 @@ namespace core
 	public:
 		ObjectManager();
 		virtual ~ObjectManager();
-
 		int get_collection_size();
 
 		/* Updater interface */
@@ -32,6 +31,7 @@ namespace core
 		/* end Updater interface */
 
 	protected:
+		void* parent;
 		std::list<object_ptr> object_list;
 	};
 
