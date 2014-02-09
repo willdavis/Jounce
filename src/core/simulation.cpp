@@ -49,13 +49,9 @@ namespace core
 			}
 			// update the elapsed simulation time with delta time (dt)
 			time_manager.add_real_time(&dt);
+
 			// process the event queue for this cycle
-			int queue_size = event_manager.queue_size();
-			while (queue_size > 0)
-			{
-				event_manager.dispatch_top_event();
-				queue_size = event_manager.queue_size();
-			}
+			event_manager.process_event_queue();
 
 			//update all objects in the simulation with elapsed time (dt)
 			obj_manager.update_all_objects(&dt);
