@@ -59,6 +59,14 @@ namespace core
     event_queue.pop();
   }
 
+  void EventManager::process_event_queue()
+  {
+		while (event_queue.size() > 0)
+		{
+			dispatch_top_event();
+		}
+  }
+
   void EventManager::close()
   {
   	static_cast<core::Simulation *>(parent)->exit();

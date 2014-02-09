@@ -79,17 +79,17 @@ namespace core
 	}
 
 	// add more real time to the simulations elapsed time
-	void TimeManager::add_real_time(uint64_t real_time)
+	void TimeManager::add_real_time(uint64_t* real_time)
 	{
-		real_elapsed_time += real_time;
-		if(real_time < frequency)
+		real_elapsed_time += *real_time;
+		if(*real_time < frequency)
 		{
-			simulated_elapsed_time_remainder += real_time;
+			simulated_elapsed_time_remainder += *real_time;
 		}
 		else
 		{
-			simulated_elapsed_time += real_time / frequency;
-			simulated_elapsed_time_remainder += real_time % frequency;
+			simulated_elapsed_time += *real_time / frequency;
+			simulated_elapsed_time_remainder += *real_time % frequency;
 		}
 		while(simulated_elapsed_time_remainder >= frequency)
 		{

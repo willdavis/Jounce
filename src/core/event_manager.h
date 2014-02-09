@@ -27,6 +27,7 @@ namespace core
     void set_parent(void*);
     event_ptr get_top_event();
 
+    void process_event_queue();
     /* Dispatcher interface */
     unsigned int queue_size();
     void schedule(event_ptr);
