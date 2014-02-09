@@ -16,17 +16,19 @@ namespace core
 	};
 
 	TEST_F(TimeManagerTest, can_add_real_time) {
+		uint64_t dt = 10;
 		EXPECT_EQ(manager.get_real_elapsed_time(), 0);
-		manager.add_real_time(10);
+		manager.add_real_time(&dt);
 		ASSERT_EQ(manager.get_real_elapsed_time(), 10);
 	}
 
 	TEST_F(TimeManagerTest, adding_real_time_also_adds_simulation_time) {
+		uint64_t dt = 10;
 		EXPECT_EQ(manager.get_simulated_elapsed_time(), 0);
-		manager.add_real_time(10);
+		manager.add_real_time(&dt);
 		ASSERT_EQ(manager.get_simulated_elapsed_time(), 10);
 		manager.set_frequency(2);
-		manager.add_real_time(10);
+		manager.add_real_time(&dt);
 		ASSERT_EQ(manager.get_simulated_elapsed_time(), 15);
 	}
 
