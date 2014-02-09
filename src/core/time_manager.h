@@ -33,7 +33,7 @@ namespace core
     uint64_t get_simulated_elapsed_time();
     uint64_t get_simulated_elapsed_time_remainder();
 
-    void add_real_time(uint64_t);
+    void add_real_time(uint64_t*);
 
 	protected:
     uint64_t frequency;								// factor to scale simulation time

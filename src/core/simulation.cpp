@@ -48,7 +48,7 @@ namespace core
 						- time_manager.get_real_elapsed_time(); //calculate remaining simulation time and set it as dt
 			}
 			// update the elapsed simulation time with delta time (dt)
-			time_manager.add_real_time(dt);
+			time_manager.add_real_time(&dt);
 			// process the event queue for this cycle
 			int queue_size = event_manager.queue_size();
 			while (queue_size > 0)
