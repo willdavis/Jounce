@@ -48,19 +48,19 @@ namespace Diagnostics
 	double FrameCounter::average_frame()
 	{
 		if(_total_frames == 0){ return 0; }
-		return _total_time / _total_frames;
+		return (double)_total_time / (double)_total_frames;
 	}
 
 	double FrameCounter::long_frame_ratio()
 	{
 		if(_total_frames == 0){ return 0; }
-		return _long_frame_count / _total_frames;
+		return (double)_long_frame_count / (double)_total_frames * 100;
 	}
 
 	double FrameCounter::short_frame_ratio()
 	{
 		if(_total_frames == 0){ return 0; }
-		return _short_frame_count / _total_frames;
+		return (double)_short_frame_count / (double)_total_frames * 100;
 	}
 
 	uint64_t FrameCounter::shortest_frame()
