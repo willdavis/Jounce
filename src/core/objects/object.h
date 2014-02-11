@@ -31,7 +31,7 @@ namespace core
 		/* Observable interface */
 		void notify_observer(std::string key);
 		void release_observer(std::string key);
-		unsigned int register_observer(std::pair<std::string, std::shared_ptr<Observer> > pair);
+		void register_observer(std::pair<std::string, std::shared_ptr<Observer> > pair);
 		unsigned int total_observers();
 		/* End Observable interface */
 

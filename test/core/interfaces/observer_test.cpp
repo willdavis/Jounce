@@ -14,7 +14,7 @@ namespace core
 	public:
 		void notify_observer(std::string key) {  }
 		void release_observer(std::string key) {  }
-		unsigned int register_observer(std::pair<std::string, std::shared_ptr<Observer> > observer) { return 0; }
+		void register_observer(std::pair<std::string, std::shared_ptr<Observer> > observer) {  }
 		unsigned int total_observers() { return 0; }
 	};
 

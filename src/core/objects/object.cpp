@@ -53,10 +53,9 @@ namespace core
 	}
 
 	// register an observer into the observers collection
-	unsigned int JObject::register_observer(std::pair<std::string, std::shared_ptr<Observer> > pair)
+	void JObject::register_observer(std::pair<std::string, std::shared_ptr<Observer> > pair)
 	{
 		observers.insert(pair);
-		return observers.size();
 	}
 
 	// return the total number of observers registered to this object
