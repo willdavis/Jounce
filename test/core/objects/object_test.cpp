@@ -56,6 +56,14 @@ namespace core
 		ASSERT_EQ(1, obj.total_observers());
 	}
 
+	TEST_F(ObjectTest, cannot_register_an_observer_multiple_times) {
+		std::shared_ptr<Observer> test(new MyObserver);
+		std::pair<std::string, observer_ptr> pair ("test", test);
+		EXPECT_EQ(0, obj.total_observers());
+		EXPECT_NO_THROW(obj.register_observer(pair));
+		ASSERT_ANY_THROW(obj.register_observer(pair));
+	}
+
 	TEST_F(ObjectTest, can_release_an_observer) {
 		std::shared_ptr<Observer> test(new MyObserver);
 		std::shared_ptr<Observer> test2(new MyObserver);

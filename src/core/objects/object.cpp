@@ -55,6 +55,7 @@ namespace core
 	// register an observer into the observers collection
 	void JObject::register_observer(std::pair<std::string, std::shared_ptr<Observer> > pair)
 	{
+		if(key_exists(pair.first)){ throw "key already present"; }
 		observers.insert(pair);
 	}
 
