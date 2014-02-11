@@ -78,11 +78,7 @@ namespace core
 		ASSERT_EQ(0, obj.total_observers());
 	}
 
-	TEST_F(ObjectTest, cannot_release_nonexistant_objects) {
-		std::shared_ptr<Observer> test(new MyObserver);
-		std::pair<std::string, observer_ptr> pair("test", test);
-		obj.register_observer(pair);
-		EXPECT_EQ(1, obj.total_observers());
+	TEST_F(ObjectTest, cannot_release_nonexistant_observers) {
 		ASSERT_ANY_THROW(obj.release_observer("test2"));
 	}
 
@@ -111,11 +107,7 @@ namespace core
 		ASSERT_EQ(2, std::static_pointer_cast<MyObserver>(test2)->times_called);
 	}
 
-	TEST_F(ObjectTest, cannot_notify_nonexistant_observer_ids) {
-		std::shared_ptr<Observer> test1(new MyObserver);
-		std::pair<std::string, observer_ptr> pair("test", test1);
-		obj.register_observer(pair);
-		EXPECT_EQ(1, obj.total_observers());
+	TEST_F(ObjectTest, cannot_notify_nonexistant_observers) {
 		ASSERT_ANY_THROW(obj.notify_observer("test2"));
 	}
 } /* namespace core */
