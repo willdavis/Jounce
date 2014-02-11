@@ -12,9 +12,9 @@ namespace core
 {
 	class MyObservable : public Observable {
 	public:
-		void notify_observer(unsigned int id) {  }
-		void release_observer(unsigned int id) {  }
-		unsigned int register_observer(std::shared_ptr<Observer> observer) { return 0; }
+		void notify_observer(std::string key) {  }
+		void release_observer(std::string key) {  }
+		void register_observer(std::pair<std::string, std::shared_ptr<Observer> > observer) {  }
 		unsigned int total_observers() { return 0; }
 	};
 
