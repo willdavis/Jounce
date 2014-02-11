@@ -8,6 +8,7 @@
 #ifndef OBSERVABLE_H_
 #define OBSERVABLE_H_
 
+#include <string>
 #include <memory>
 #include "observer.h"
 
@@ -20,9 +21,9 @@ namespace core
 	public:
 		Observable();
 		virtual ~Observable();
-		virtual void notify_observer(unsigned int id) = 0;
-		virtual void release_observer(unsigned int id) = 0;
-		virtual unsigned int register_observer(std::shared_ptr<Observer> observer) = 0;
+		virtual void notify_observer(std::string key) = 0;
+		virtual void release_observer(std::string key) = 0;
+		virtual unsigned int register_observer(std::pair<std::string, std::shared_ptr<Observer> > pair) = 0;
 		virtual unsigned int total_observers() = 0;
 	};
 
