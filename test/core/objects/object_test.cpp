@@ -56,7 +56,7 @@ namespace core
 		ASSERT_EQ(1, obj.total_observers());
 	}
 
-	TEST_F(ObjectTest, cannot_register_an_observer_multiple_times) {
+	TEST_F(ObjectTest, cannot_register_duplicate_observer_keys) {
 		std::shared_ptr<Observer> test(new MyObserver);
 		std::pair<std::string, observer_ptr> pair ("test", test);
 		EXPECT_EQ(0, obj.total_observers());
