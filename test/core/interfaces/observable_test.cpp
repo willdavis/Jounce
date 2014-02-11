@@ -32,8 +32,8 @@ namespace core
 
 	TEST_F(ObservableTest, must_implement_observable_interface) {
 		std::shared_ptr<Observer> observer(new MyObserver);
-		std::pair<std::string, observer_ptr> pair = std::make_pair<std::string, observer_ptr>("test", observer);
-		unsigned int id = test.register_observer(pair);
+		std::pair<std::string, observer_ptr> pair("test", observer);
+		test.register_observer(pair);
 		ASSERT_EQ(1, test.total_observers());
 		test.notify_observer("test");
 		ASSERT_EQ(10, test.total_observers());

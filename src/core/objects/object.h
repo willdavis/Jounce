@@ -8,7 +8,7 @@
 #ifndef JOBJECT_H_
 #define JOBJECT_H_
 
-#include <vector>
+#include <unordered_map>
 #include "../interfaces/observer.h"
 #include "../interfaces/observable.h"
 #include "../interfaces/updateable.h"
@@ -27,10 +27,11 @@ namespace core
 		ObjectManager* owner();
 		void set_owner(ObjectManager*);
 
+		bool key_exists(std::string key);
 		/* Observable interface */
-		void notify_observer(unsigned int id);
-		void release_observer(unsigned int id);
-		unsigned int register_observer(observer_ptr observer);
+		void notify_observer(std::string key);
+		void release_observer(std::string key);
+		unsigned int register_observer(std::pair<std::string, std::shared_ptr<Observer> > pair);
 		unsigned int total_observers();
 		/* End Observable interface */
 
@@ -44,7 +45,7 @@ namespace core
 
 	protected:
 		ObjectManager* parent;
-		std::vector<observer_ptr> observers;
+		std::unordered_map<std::string, observer_ptr> observers;
 	};
 
 } /* namespace core */

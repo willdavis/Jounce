@@ -21,6 +21,13 @@ namespace core
 		// TODO Auto-generated destructor stub
 	}
 
+	bool JObject::key_exists(std::string key)
+	{
+		std::unordered_map<std::string,observer_ptr>::const_iterator item = observers.find(key);
+		if(item == observers.end()){ return false; }
+		else { return true; }
+	}
+
 	void JObject::set_owner(ObjectManager* manager)
 	{
 		parent = manager;
@@ -31,26 +38,25 @@ namespace core
 		return parent;
 	}
 
-	// call notify() on the Observer with the given id (also the index in the vector)
-	void JObject::notify_observer(unsigned int id)
+	// call notify() on the Observer with the given key
+	void JObject::notify_observer(std::string key)
 	{
-		if(id+1 > total_observers()){ throw "index out of range"; }
-		observers[id]->notify(this, observers[id]);
+		if(!key_exists(key)){ throw "key not present"; }
+		observers[key]->notify(this, observers[key]);
 	}
 
-	// release an observer by it's id (also it's index in the vector)
-	void JObject::release_observer(unsigned int id)
+	// release an observer by it's key
+	void JObject::release_observer(std::string key)
 	{
-		if(id+1 > total_observers()){ throw "index out of range"; }
-		observers.erase(observers.begin()+id);
+		if(!key_exists(key)){ throw "key not present"; }
+		observers.erase(key);
 	}
 
 	// register an observer into the observers collection
-	// return the index of the registered observer
-	unsigned int JObject::register_observer(observer_ptr observer)
+	unsigned int JObject::register_observer(std::pair<std::string, std::shared_ptr<Observer> > pair)
 	{
-		observers.push_back(observer);
-		return observers.size()-1;
+		observers.insert(pair);
+		return observers.size();
 	}
 
 	// return the total number of observers registered to this object
