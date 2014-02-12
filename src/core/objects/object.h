@@ -12,6 +12,7 @@
 #include "../interfaces/observer.h"
 #include "../interfaces/observable.h"
 #include "../interfaces/updateable.h"
+#include "../interfaces/dispatchable.h"
 #include "../object_manager.h"
 
 namespace core
@@ -24,7 +25,7 @@ namespace core
 		JObject();
 		virtual ~JObject();
 
-		ObjectManager* owner();
+		void schedule_event(std::shared_ptr<Dispatchable> event);
 		void set_owner(ObjectManager*);
 
 		bool key_exists(std::string key);

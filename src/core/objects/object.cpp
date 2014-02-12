@@ -33,9 +33,9 @@ namespace core
 		parent = manager;
 	}
 
-	ObjectManager* JObject::owner()
+	void JObject::schedule_event(std::shared_ptr<Dispatchable> event)
 	{
-		return parent;
+		parent->dispatcher()->schedule(event);
 	}
 
 	// call notify() on the Observer with the given key
