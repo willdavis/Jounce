@@ -14,6 +14,7 @@ namespace core
   Simulation::Simulation()
   {
     event_manager.set_parent((void*)this);
+    obj_manager.set_dispatcher(&event_manager);
 	}
 
 	Simulation::~Simulation()
