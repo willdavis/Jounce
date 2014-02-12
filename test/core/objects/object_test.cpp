@@ -8,6 +8,7 @@
 #include "gtest/gtest.h"
 #include "../../../src/core/objects/object.h"
 #include "../../../src/core/object_manager.h"
+#include "../../../src/core/event_manager.h"
 
 namespace core
 {
@@ -29,10 +30,17 @@ namespace core
 		void on_notify(){ times_called++; }
 	};
 
+	class MyEvent : public Dispatchable {
+		void dispatch(Dispatcher* dispatcher){  }
+		unsigned int priority() { return 0; }
+		uint64_t timestamp() { return 0; }
+	};
+
 	class ObjectTest : public ::testing::Test {
 	protected:
 		MyJObject obj;
 		ObjectManager manager;
+		EventManager event_manager;
 	};
 
 	TEST_F(ObjectTest, can_get_ammount_of_registered_observers) {
@@ -41,7 +49,14 @@ namespace core
 
 	TEST_F(ObjectTest, can_bind_to_an_object_manager) {
 		ASSERT_NO_THROW(obj.set_owner(&manager));
-		ASSERT_EQ(&manager, obj.owner());
+	}
+
+	TEST_F(ObjectTest, can_schedule_an_event) {
+		EXPECT_NO_THROW(manager.set_dispatcher(&event_manager));
+		EXPECT_NO_THROW(obj.set_owner(&manager));
+		std::shared_ptr<Dispatchable> event(new MyEvent);
+		ASSERT_NO_THROW(obj.schedule_event(event));
+		ASSERT_EQ(1, event_manager.queue_size());
 	}
 
 	TEST_F(ObjectTest, can_check_if_a_key_is_present) {
