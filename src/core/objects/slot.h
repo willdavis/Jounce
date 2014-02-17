@@ -8,6 +8,8 @@
 #ifndef JSLOT_H_
 #define JSLOT_H_
 
+#include "object.h"
+
 namespace core
 {
 
@@ -16,6 +18,9 @@ namespace core
 	public:
 		JSlot();
 		virtual ~JSlot();
+
+		JObject* parent();	//returns the parent JObject of this slot
+		std::string signature();	//returns the signature of this slot in string form
 	};
 
 } /* namespace core */
