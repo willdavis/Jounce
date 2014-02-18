@@ -13,14 +13,22 @@
 namespace core
 {
 
+	template<typename SlotType = void*>
 	class JSlot
 	{
 	public:
-		JSlot();
-		virtual ~JSlot();
+		JSlot(JObject* parent, std::string signature)
+		{
+			_parent = parent;
+			_signature = signature;
+		}
 
-		JObject* parent();	//returns the parent JObject of this slot
-		std::string signature();	//returns the signature of this slot in string form
+		JObject* parent() { return _parent; }
+		std::string signature() { return _signature; }
+
+	protected:
+		JObject* _parent;
+		std::string _signature;
 	};
 
 } /* namespace core */
