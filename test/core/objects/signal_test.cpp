@@ -47,8 +47,8 @@ namespace core
 		JSignal<int> val_signal(&test_obj, "some_func(int)");
 		JSignal<JObject*> ptr_signal(&test_obj, "another_func(JObject*)");
 
-		ASSERT_NO_THROW(void_signal.emit());
-		ASSERT_NO_THROW(val_signal.emit(10));
-		ASSERT_NO_THROW(ptr_signal.emit(&test_obj));
+		ASSERT_EQ((void*)0, void_signal.emit());
+		ASSERT_EQ(10, val_signal.emit(10));
+		ASSERT_EQ(&test_obj, ptr_signal.emit(&test_obj));
 	}
 } /* namespace core */

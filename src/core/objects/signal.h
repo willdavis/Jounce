@@ -8,7 +8,9 @@
 #ifndef JSIGNAL_H_
 #define JSIGNAL_H_
 
+#include <map>
 #include "object.h"
+#include "slot.h"
 
 namespace core
 {
@@ -25,10 +27,7 @@ namespace core
 
 		JObject* parent() { return _parent; }
 		std::string signature(){ return _signature; }
-		void emit(SignalType value = (void*)0)
-		{
-
-		}
+		SignalType emit(SignalType value = (void*)0) { return value; }
 
 	protected:
 		std::string _signature;
