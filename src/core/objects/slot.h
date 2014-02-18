@@ -8,27 +8,16 @@
 #ifndef JSLOT_H_
 #define JSLOT_H_
 
-#include "object.h"
+#include "meta_object.h"
 
 namespace core
 {
 
 	template<typename SlotType = void*>
-	class JSlot
+	class JSlot : public JMetaObject
 	{
 	public:
-		JSlot(JObject* parent, std::string signature)
-		{
-			_parent = parent;
-			_signature = signature;
-		}
-
-		JObject* parent() { return _parent; }
-		std::string signature() { return _signature; }
-
-	protected:
-		JObject* _parent;
-		std::string _signature;
+		JSlot(JObject* parent, std::string signature) : JMetaObject(parent, signature){}
 	};
 
 } /* namespace core */

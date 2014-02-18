@@ -8,9 +8,7 @@
 #ifndef JSIGNAL_H_
 #define JSIGNAL_H_
 
-#include <map>
 #include "meta_object.h"
-#include "slot.h"
 
 namespace core
 {
