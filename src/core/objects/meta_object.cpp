@@ -12,13 +12,23 @@ namespace core
 
 	JMetaObject::JMetaObject(JObject* parent, std::string signature)
 	{
-		// TODO Auto-generated constructor stub
-
+		_parent = parent;
+		_signature = signature;
 	}
 
 	JMetaObject::~JMetaObject()
 	{
 		// TODO Auto-generated destructor stub
+	}
+
+	JObject* JMetaObject::parent()
+	{
+		return _parent;
+	}
+
+	std::string JMetaObject::signature()
+	{
+		return _signature;
 	}
 
 } /* namespace core */
