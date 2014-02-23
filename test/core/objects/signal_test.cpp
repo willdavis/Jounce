@@ -13,8 +13,9 @@ namespace core
 {
 	class MyJObject : public JObject {
 	public:
-		void update(uint64_t* dt) { /* nothing */ }
-		void notify(Observable* sender, std::shared_ptr<Observer> caller){ /* not used */ }
+		void update(uint64_t* dt) {  }
+		void notify(Observable* sender, std::shared_ptr<Observer> caller){  }
+		void test_func(JObject* obj){  }
 	};
 
 	class JSignalTest : public ::testing::Test {
@@ -50,6 +51,20 @@ namespace core
 		ASSERT_NO_THROW(void_signal.emit());
 		ASSERT_NO_THROW(val_signal.emit(10, 1.5));
 		ASSERT_NO_THROW(ptr_signal.emit(&test_obj));
+	}
+
+	TEST_F(JSignalTest, can_connect_a_slot) {
+		JSignal<void> void_signal(&test_obj, "nothing()");
+		JSignal<int, int, double> val_signal(&test_obj, "some_func(int,double)");
+		JSignal<void, JObject*> ptr_signal(&test_obj, "another_func(JObject*)");
+
+		auto void_func = [](){};
+		auto val_func = [](int i, double d){ return i; };
+		auto ptr_func = std::bind(&MyJObject::test_func, &test_obj, std::placeholders::_1);
+
+		ASSERT_TRUE(void_signal.connect(void_func));
+		ASSERT_TRUE(val_signal.connect(val_func));
+		ASSERT_TRUE(ptr_signal.connect(ptr_func));
 	}
 
 } /* namespace core */

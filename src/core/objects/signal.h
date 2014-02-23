@@ -29,6 +29,13 @@ namespace core
 			// ye be warned!
 		}
 
+		bool connect(std::function<Return(Args...)> slot)
+		{
+			try { _connections.push_back(slot); }
+			catch(...) { return false; }
+			return true;
+		}
+
 	protected:
 		std::vector<std::function<Return(Args...)> > _connections;
 	};
