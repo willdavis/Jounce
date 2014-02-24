@@ -42,8 +42,7 @@ namespace core
 		/* End Observer interface */
 
 		bool has_signal(JMetaObject* signal);
-		bool register_signal(JMetaObject* signal);
-		bool remove_signal(JMetaObject* signal);
+		bool has_signal(const char* signature);
 
 		/* Updateable interface */
 		void update(uint64_t*) = 0;
@@ -52,7 +51,10 @@ namespace core
 	protected:
 		ObjectManager* parent;
 		std::map<std::string, observer_ptr> observers;
+
 		std::map<std::string, JMetaObject*> _signals;
+		bool register_signal(JMetaObject* signal);
+		bool remove_signal(JMetaObject* signal);
 	};
 
 } /* namespace core */

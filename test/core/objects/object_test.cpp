@@ -14,6 +14,7 @@ namespace core
 {
 	class MyJObject : public JObject {
 	public:
+		MyJObject(){ JSignal<void> test_signal(this, "void()");  this->register_signal(&test_signal); }
 		uint64_t test_time = 0;
 		void update(uint64_t* dt) { test_time = *dt; }
 		void notify(Observable* sender, std::shared_ptr<Observer> caller){ /* not used */ }
@@ -44,30 +45,11 @@ namespace core
 	};
 
 	TEST_F(ObjectTest, can_check_for_a_signal) {
-		JSignal<void> test_signal(&obj, "void()");
-		ASSERT_FALSE(obj.has_signal(&test_signal));
-	}
+		JSignal<void> signal(&obj, "test");
+		ASSERT_FALSE(obj.has_signal(&signal));
+		ASSERT_FALSE(obj.has_signal("void(JObject*, int, double, std::string)"));
 
-	TEST_F(ObjectTest, can_register_a_signal) {
-		JSignal<void> test_signal(&obj, "void()");
-		ASSERT_TRUE(obj.register_signal(&test_signal));
-	}
-
-	TEST_F(ObjectTest, cannot_register_a_duplicate_signal) {
-		JSignal<void> test_signal(&obj, "void()");
-		EXPECT_TRUE(obj.register_signal(&test_signal));
-		ASSERT_FALSE(obj.register_signal(&test_signal));
-	}
-
-	TEST_F(ObjectTest, can_remove_a_signal) {
-		JSignal<void> test_signal(&obj, "void()");
-		EXPECT_TRUE(obj.register_signal(&test_signal));
-		ASSERT_TRUE(obj.remove_signal(&test_signal));
-	}
-
-	TEST_F(ObjectTest, cannot_remove_nonexistant_signal) {
-		JSignal<void> test_signal(&obj, "void()");
-		ASSERT_FALSE(obj.remove_signal(&test_signal));
+		ASSERT_TRUE(obj.has_signal("void()"));
 	}
 
 	TEST_F(ObjectTest, can_get_ammount_of_registered_observers) {

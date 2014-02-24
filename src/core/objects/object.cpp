@@ -23,8 +23,12 @@ namespace core
 
 	bool JObject::has_signal(JMetaObject* signal)
 	{
-		if(_signals.find(signal->signature()) != _signals.end()){ return true; }
-		else { return false; }
+		return _signals.find(signal->signature()) != _signals.end();
+	}
+
+	bool JObject::has_signal(const char* signature)
+	{
+		return _signals.find(signature) != _signals.end();
 	}
 
 	bool JObject::register_signal(JMetaObject* signal)
