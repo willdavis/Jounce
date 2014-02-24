@@ -54,7 +54,7 @@ namespace core
 		ASSERT_NO_THROW(ptr_signal.emit(&test_obj));
 	}
 
-	TEST_F(JSignalTest, can_connect_a_slot) {
+	TEST_F(JSignalTest, can_connect_a_slot_by_signature) {
 		JSignal<void> void_signal(&test_obj, "nothing()");
 		JSignal<int, int, double> val_signal(&test_obj, "some_func(int,double)");
 		JSignal<void, JObject*> ptr_signal(&test_obj, "another_func(JObject*)");
@@ -63,9 +63,33 @@ namespace core
 		auto val_func = [](int i, double d){ return i; };
 		auto ptr_func = std::bind(&MyJObject::test_func, &test_obj, std::placeholders::_1);
 
-		ASSERT_TRUE(void_signal.connect(void_func));
-		ASSERT_TRUE(val_signal.connect(val_func));
-		ASSERT_TRUE(ptr_signal.connect(ptr_func));
+		ASSERT_TRUE(void_signal.connect("onNothing()",void_func));
+		ASSERT_TRUE(val_signal.connect("onSomeFunc(int,double)",val_func));
+		ASSERT_TRUE(ptr_signal.connect("onAnotherFunc(JObject*)",ptr_func));
+
+		// cannot connect duplicate slots
+		ASSERT_FALSE(void_signal.connect("onNothing()",void_func));
+	}
+
+	TEST_F(JSignalTest, can_disconnect_slot_by_signature) {
+		JSignal<void> void_signal(&test_obj, "nothing()");
+		JSignal<int, int, double> val_signal(&test_obj, "some_func(int,double)");
+		JSignal<void, JObject*> ptr_signal(&test_obj, "another_func(JObject*)");
+
+		auto void_func = [](){};
+		auto val_func = [](int i, double d){ return i; };
+		auto ptr_func = std::bind(&MyJObject::test_func, &test_obj, std::placeholders::_1);
+
+		EXPECT_TRUE(void_signal.connect("onNothing()",void_func));
+		EXPECT_TRUE(val_signal.connect("onSomeFunc(int,double)",val_func));
+		EXPECT_TRUE(ptr_signal.connect("onAnotherFunc(JObject*)",ptr_func));
+
+		ASSERT_TRUE(void_signal.disconnect("onNothing()"));
+		ASSERT_TRUE(void_signal.disconnect("onSomeFunc(int,double)"));
+		ASSERT_TRUE(void_signal.disconnect("onAnotherFunc(JObject*)"));
+
+		// cannot remove unregistered slots
+		ASSERT_FALSE(void_signal.disconnect("NOT REGISTERED"));
 	}
 
 	TEST_F(JSignalTest, notifies_connected_slots_when_emitted) {
@@ -81,9 +105,9 @@ namespace core
 		auto val_func = [&test_number](int i, double d){ test_number = i; return i; };
 		auto ptr_func = std::bind(&MyJObject::test_func, &test_obj, std::placeholders::_1);
 
-		EXPECT_TRUE(void_signal.connect(void_func));
-		EXPECT_TRUE(val_signal.connect(val_func));
-		EXPECT_TRUE(ptr_signal.connect(ptr_func));
+		EXPECT_TRUE(void_signal.connect("onNothing()",void_func));
+		EXPECT_TRUE(val_signal.connect("onSomeFunc(int,double)",val_func));
+		EXPECT_TRUE(ptr_signal.connect("onAnotherFunc(JObject*)",ptr_func));
 
 		EXPECT_NO_THROW(void_signal.emit());
 		EXPECT_NO_THROW(val_signal.emit(10, 1.5));
