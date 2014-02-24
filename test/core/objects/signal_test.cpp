@@ -54,6 +54,15 @@ namespace core
 		ASSERT_NO_THROW(ptr_signal.emit(&test_obj));
 	}
 
+	TEST_F(JSignalTest, can_check_if_a_slot_has_been_registered) {
+		JSignal<void> void_signal(&test_obj, "nothing()");
+		auto void_func = [](){};
+
+		ASSERT_FALSE(void_signal.has_slot("test"));
+		EXPECT_TRUE(void_signal.connect("test", void_func));
+		ASSERT_TRUE(void_signal.has_slot("test"));
+	}
+
 	TEST_F(JSignalTest, can_connect_a_slot_by_signature) {
 		JSignal<void> void_signal(&test_obj, "nothing()");
 		JSignal<int, int, double> val_signal(&test_obj, "some_func(int,double)");
@@ -84,9 +93,9 @@ namespace core
 		EXPECT_TRUE(val_signal.connect("onSomeFunc(int,double)",val_func));
 		EXPECT_TRUE(ptr_signal.connect("onAnotherFunc(JObject*)",ptr_func));
 
-		ASSERT_TRUE(void_signal.disconnect("onNothing()"));
-		ASSERT_TRUE(void_signal.disconnect("onSomeFunc(int,double)"));
-		ASSERT_TRUE(void_signal.disconnect("onAnotherFunc(JObject*)"));
+		EXPECT_TRUE(void_signal.disconnect("onNothing()"));
+		EXPECT_TRUE(val_signal.disconnect("onSomeFunc(int,double)"));
+		EXPECT_TRUE(ptr_signal.disconnect("onAnotherFunc(JObject*)"));
 
 		// cannot remove unregistered slots
 		ASSERT_FALSE(void_signal.disconnect("NOT REGISTERED"));

@@ -37,18 +37,36 @@ namespace core
 			std::for_each(_slots.begin(), _slots.end(), emit_to_slot);
 		}
 
+		bool has_slot(std::string signature)
+		{
+			if(_slots.find(signature) != _slots.end()){ return true; }
+			else { return false; }
+		}
+
 		bool connect(std::string signature, std::function<Return(Args...)> slot)
 		{
-			try { _slots.insert(std::make_pair(signature, slot)); }
-			catch(...) { return false; }
-			return true;
+			if(!has_slot(signature))
+			{
+				_slots.insert(std::make_pair(signature, slot));
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		bool disconnect(std::string signature)
 		{
-			try { _slots.erase(signature); }
-			catch(...) { return false;}
-			return true;
+			if(has_slot(signature))
+			{
+				_slots.erase(signature);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 	protected:
