@@ -52,7 +52,7 @@ namespace core
 		ObjectManager* parent;
 		std::map<std::string, observer_ptr> observers;
 
-		std::map<std::string, JMetaObject*> _signals;
+		std::map<const char*, JMetaObject*> _signals;
 		bool register_signal(JMetaObject* signal);
 		bool remove_signal(JMetaObject* signal);
 	};
