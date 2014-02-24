@@ -10,34 +10,42 @@
 
 #include <algorithm>
 #include <functional>
+#include <utility>
 #include <vector>
 #include "meta_object.h"
 
 namespace core
 {
 
-	template<class Return, class... Args>
+	template<class Return, typename... Args>
 	class JSignal : public JMetaObject
 	{
 	public:
 		JSignal(JObject* parent, std::string signature) : JMetaObject(parent, signature){  }
 
-		void emit(Args...)
+		void emit(Args... args)
 		{
-			// notify connected slots
-			// currently all slots are directly called.  Async calls will come shortly ^_^
-			// ye be warned!
+			// nasty hack but now this works with GCC 4.7
+			// binds the Args... parameter pack to a lambda, which allows for perfect forwarding via std::forward
+			// work around for current GCC bug 41933 (http://gcc.gnu.org/bugzilla/show_bug.cgi?id=41933)
+			// NOTE: expected fix in 4.9.0.  Revisit this bug once that versions out!
+			auto emit_to_slot = std::bind([&](std::function<Return(Args...)> func, Args... args) {
+        func(std::forward<Args>(args)...);
+			}, std::placeholders::_1, std::forward<Args>(args)...);
+
+			// emit signal Args to all slots
+			std::for_each(_slots.begin(), _slots.end(), emit_to_slot);
 		}
 
 		bool connect(std::function<Return(Args...)> slot)
 		{
-			try { _connections.push_back(slot); }
+			try { _slots.push_back(slot); }
 			catch(...) { return false; }
 			return true;
 		}
 
 	protected:
-		std::vector<std::function<Return(Args...)> > _connections;
+		std::vector<std::function<Return(Args...)> > _slots;
 	};
 
 } /* namespace core */
