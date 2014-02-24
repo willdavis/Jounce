@@ -8,11 +8,11 @@
 #ifndef JMETA_OBJECT_H_
 #define JMETA_OBJECT_H_
 
-#include "object.h"
+#include <string>
 
 namespace core
 {
-
+	class JObject;
 	class JMetaObject
 	{
 	public:

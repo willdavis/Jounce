@@ -21,6 +21,24 @@ namespace core
 		// TODO Auto-generated destructor stub
 	}
 
+	bool JObject::has_signal(JMetaObject* signal)
+	{
+		if(_signals.find(signal->signature()) != _signals.end()){ return true; }
+		else { return false; }
+	}
+
+	bool JObject::register_signal(JMetaObject* signal)
+	{
+		if(!has_signal(signal)){ _signals.insert(std::make_pair(signal->signature(), signal)); return true; }
+		else { return false; }
+	}
+
+	bool JObject::remove_signal(JMetaObject* signal)
+	{
+		if(has_signal(signal)){ _signals.erase(signal->signature()); return true; }
+		else { return false; }
+	}
+
 	bool JObject::key_exists(std::string key)
 	{
 		if(observers.find(key) != observers.end()){ return true; }

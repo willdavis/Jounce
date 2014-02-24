@@ -43,6 +43,33 @@ namespace core
 		EventManager event_manager;
 	};
 
+	TEST_F(ObjectTest, can_check_for_a_signal) {
+		JSignal<void> test_signal(&obj, "void()");
+		ASSERT_FALSE(obj.has_signal(&test_signal));
+	}
+
+	TEST_F(ObjectTest, can_register_a_signal) {
+		JSignal<void> test_signal(&obj, "void()");
+		ASSERT_TRUE(obj.register_signal(&test_signal));
+	}
+
+	TEST_F(ObjectTest, cannot_register_a_duplicate_signal) {
+		JSignal<void> test_signal(&obj, "void()");
+		EXPECT_TRUE(obj.register_signal(&test_signal));
+		ASSERT_FALSE(obj.register_signal(&test_signal));
+	}
+
+	TEST_F(ObjectTest, can_remove_a_signal) {
+		JSignal<void> test_signal(&obj, "void()");
+		EXPECT_TRUE(obj.register_signal(&test_signal));
+		ASSERT_TRUE(obj.remove_signal(&test_signal));
+	}
+
+	TEST_F(ObjectTest, cannot_remove_nonexistant_signal) {
+		JSignal<void> test_signal(&obj, "void()");
+		ASSERT_FALSE(obj.remove_signal(&test_signal));
+	}
+
 	TEST_F(ObjectTest, can_get_ammount_of_registered_observers) {
 		ASSERT_EQ(0, obj.total_observers());
 	}
