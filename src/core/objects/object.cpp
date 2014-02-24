@@ -23,9 +23,8 @@ namespace core
 
 	bool JObject::key_exists(std::string key)
 	{
-		std::unordered_map<std::string,observer_ptr>::const_iterator item = observers.find(key);
-		if(item == observers.end()){ return false; }
-		else { return true; }
+		if(observers.find(key) != observers.end()){ return true; }
+		else { return false; }
 	}
 
 	void JObject::set_owner(ObjectManager* manager)

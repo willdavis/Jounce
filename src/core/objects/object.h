@@ -8,7 +8,7 @@
 #ifndef JOBJECT_H_
 #define JOBJECT_H_
 
-#include <unordered_map>
+#include <map>
 #include "../interfaces/observer.h"
 #include "../interfaces/observable.h"
 #include "../interfaces/updateable.h"
@@ -46,7 +46,7 @@ namespace core
 
 	protected:
 		ObjectManager* parent;
-		std::unordered_map<std::string, observer_ptr> observers;
+		std::map<std::string, observer_ptr> observers;
 	};
 
 } /* namespace core */
