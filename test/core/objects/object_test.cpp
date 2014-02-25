@@ -24,6 +24,7 @@ namespace core
 		uint64_t test_time = 0;
 		void update(uint64_t* dt) { test_time = *dt; }
 		void notify(Observable* sender, std::shared_ptr<Observer> caller){ /* not used */ }
+		void on_test(){  }
 	};
 
 	class MyObserver : public Observer {
@@ -70,6 +71,21 @@ namespace core
 		ASSERT_STREQ("awesome(int,double,JObject*)", signal2->signature());
 		ASSERT_EQ(&obj, signal2->parent());
 		ASSERT_NO_THROW(signal2->emit(10, 1.5, &obj));
+	}
+
+	TEST_F(ObjectTest, can_connect_a_slot_to_a_signal) {
+		std::function<void()> func = [](){};
+		std::function<int(int)> bad_func = [](int i){ return i; };
+		std::function<void()> member_func = std::bind(&MyJObject::on_test, &obj);
+
+		ASSERT_TRUE(obj.connect(obj.signal("test()"), func, "func_handle"));
+		ASSERT_TRUE(obj.connect(obj.signal("test()"), member_func, "member_func_handle"));
+
+		// no duplicates allowed
+		ASSERT_FALSE(obj.connect(obj.signal("test()"), func, "func_handle"));
+
+		// BEWARE!! this is not technically a duplicate (different handle)
+		ASSERT_TRUE(obj.connect(obj.signal("test()"), func, "new_func_handle"));
 	}
 
 	TEST_F(ObjectTest, can_get_ammount_of_registered_observers) {

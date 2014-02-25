@@ -47,6 +47,14 @@ namespace core
 
 		JMetaObject* signal(std::string signature);
 
+		template<class Return, typename... Args>
+		bool connect(JMetaObject* signal, std::function<Return(Args...)> func, const char* handle)
+		{
+			auto result = static_cast<JSignal<Return,Args...>* >(signal);
+			if(result->connect(handle, func)){ return true; }
+			else { return false; }
+		}
+
 		/* Updateable interface */
 		void update(uint64_t*) = 0;
 		/* End Updateable interface */
