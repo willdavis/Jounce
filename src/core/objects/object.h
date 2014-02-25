@@ -42,7 +42,10 @@ namespace core
 		/* End Observer interface */
 
 		bool has_signal(JMetaObject* signal);
+		bool has_signal(std::string signature);
 		bool has_signal(const char* signature);
+
+		JMetaObject* signal(std::string signature);
 
 		/* Updateable interface */
 		void update(uint64_t*) = 0;

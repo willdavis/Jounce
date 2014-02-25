@@ -14,7 +14,7 @@ namespace core
 {
 	class MyJObject : public JObject {
 	public:
-		MyJObject(){ JSignal<void> test_signal(this, "void()");  this->register_signal(&test_signal); }
+		MyJObject(){ JSignal<void> test_signal(this, "test()");  register_signal(&test_signal); }
 		uint64_t test_time = 0;
 		void update(uint64_t* dt) { test_time = *dt; }
 		void notify(Observable* sender, std::shared_ptr<Observer> caller){ /* not used */ }
@@ -45,11 +45,16 @@ namespace core
 	};
 
 	TEST_F(ObjectTest, can_check_for_a_signal) {
-		JSignal<void> signal(&obj, "test");
-		ASSERT_FALSE(obj.has_signal(&signal));
-		ASSERT_FALSE(obj.has_signal("void(JObject*, int, double, std::string)"));
+		JSignal<void> signal(&obj, "signal()");
+		std::string test_str = "func(JObject*, int, double, std::string)";
+		ASSERT_FALSE(obj.has_signal(&signal));	//JMetaObject* test
+		ASSERT_FALSE(obj.has_signal(test_str));	//std::string test
+		ASSERT_TRUE(obj.has_signal("test()"));	//const char* test
+	}
 
-		ASSERT_TRUE(obj.has_signal("void()"));
+	TEST_F(ObjectTest, can_emit_a_signal) {
+		ASSERT_EQ((JMetaObject*)0, obj.signal("**ERROR**"));
+		ASSERT_STREQ("test()", obj.signal("test()")->signature().c_str());
 	}
 
 	TEST_F(ObjectTest, can_get_ammount_of_registered_observers) {

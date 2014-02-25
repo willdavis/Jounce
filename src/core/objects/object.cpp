@@ -26,6 +26,11 @@ namespace core
 		return _signals.find(signal->signature()) != _signals.end();
 	}
 
+	bool JObject::has_signal(std::string signature)
+	{
+		return _signals.find(signature) != _signals.end();
+	}
+
 	bool JObject::has_signal(const char* signature)
 	{
 		return _signals.find(signature) != _signals.end();
@@ -41,6 +46,12 @@ namespace core
 	{
 		if(has_signal(signal)){ _signals.erase(signal->signature()); return true; }
 		else { return false; }
+	}
+
+	JMetaObject* JObject::signal(std::string signature)
+	{
+		if(has_signal(signature)){ return (*_signals.find(signature)).second; }
+		return (JMetaObject*)0;
 	}
 
 	bool JObject::key_exists(std::string key)
