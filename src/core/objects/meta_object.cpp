@@ -10,7 +10,7 @@
 namespace core
 {
 
-	JMetaObject::JMetaObject(JObject* parent, std::string signature)
+	JMetaObject::JMetaObject(JObject* parent, const char* signature)
 	{
 		_parent = parent;
 		_signature = signature;
@@ -26,7 +26,7 @@ namespace core
 		return _parent;
 	}
 
-	std::string JMetaObject::signature()
+	const char* JMetaObject::signature()
 	{
 		return _signature;
 	}

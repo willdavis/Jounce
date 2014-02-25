@@ -41,9 +41,6 @@ namespace core
 		void notify(Observable* signal, observer_ptr slot) = 0;
 		/* End Observer interface */
 
-		bool register_signal(JMetaObject* signal);
-		bool remove_signal(JMetaObject* signal);
-
 		bool has_signal(JMetaObject* signal);
 		bool has_signal(std::string signature);
 		bool has_signal(const char* signature);
@@ -58,6 +55,9 @@ namespace core
 		ObjectManager* parent;
 		std::map<std::string, observer_ptr> observers;
 		std::map<std::string, JMetaObject*> _signals;
+
+		bool register_signal(JMetaObject* signal);
+		bool remove_signal(JMetaObject* signal);
 	};
 
 } /* namespace core */

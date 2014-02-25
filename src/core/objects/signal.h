@@ -21,7 +21,7 @@ namespace core
 	class JSignal : public JMetaObject
 	{
 	public:
-		JSignal(JObject* parent, std::string signature) : JMetaObject(parent, signature){  }
+		JSignal(JObject* parent, const char* signature) : JMetaObject(parent, signature){  }
 
 		void emit(Args... args)
 		{
@@ -29,7 +29,7 @@ namespace core
 			// binds the Args... parameter pack to a lambda, which allows for perfect forwarding via std::forward
 			// work around for current GCC bug 41933 (http://gcc.gnu.org/bugzilla/show_bug.cgi?id=41933)
 			// NOTE: expected fix in 4.9.0.  Revisit this bug once that versions out!
-			auto emit_to_slot = std::bind([&](std::pair<std::string, std::function<Return(Args...)> > pair, Args... args) {
+			auto emit_to_slot = std::bind([&](std::pair<const char*,std::function<Return(Args...)> > pair, Args... args) {
         pair.second(std::forward<Args>(args)...);	//call the slot with params(args)
 			}, std::placeholders::_1, std::forward<Args>(args)...);
 
@@ -37,13 +37,13 @@ namespace core
 			std::for_each(_slots.begin(), _slots.end(), emit_to_slot);
 		}
 
-		bool has_slot(std::string signature)
+		bool has_slot(const char* signature)
 		{
 			if(_slots.find(signature) != _slots.end()){ return true; }
 			else { return false; }
 		}
 
-		bool connect(std::string signature, std::function<Return(Args...)> slot)
+		bool connect(const char* signature, std::function<Return(Args...)> slot)
 		{
 			if(!has_slot(signature))
 			{
@@ -56,7 +56,7 @@ namespace core
 			}
 		}
 
-		bool disconnect(std::string signature)
+		bool disconnect(const char* signature)
 		{
 			if(has_slot(signature))
 			{
@@ -70,7 +70,7 @@ namespace core
 		}
 
 	protected:
-		std::map<std::string, std::function<Return(Args...)> > _slots;
+		std::map<const char*, std::function<Return(Args...)> > _slots;
 	};
 
 } /* namespace core */

@@ -54,8 +54,6 @@ namespace core
 		JSignal<void> signal(&obj, "signal()");
 		std::string test_str = "func(JObject*, int, double, std::string)";
 		ASSERT_FALSE(obj.has_signal(&signal));	//JMetaObject* test
-		obj.register_signal(&signal);
-		ASSERT_TRUE(obj.has_signal(&signal));
 		ASSERT_FALSE(obj.has_signal(test_str));	//std::string test
 		ASSERT_TRUE(obj.has_signal("test()"));	//const char* test
 	}
@@ -64,12 +62,12 @@ namespace core
 		ASSERT_EQ((JMetaObject*)0, obj.signal("**ERROR**"));
 
 		JSignal<void>* signal = static_cast<JSignal<void>* >(obj.signal("test()"));
-		ASSERT_STREQ("test()", signal->signature().c_str());
+		ASSERT_STREQ("test()", signal->signature());
 		ASSERT_EQ(&obj, signal->parent());
 		ASSERT_NO_THROW(signal->emit());
 
 		JSignal<void,int,double,JObject*>* signal2 = static_cast<JSignal<void,int,double,JObject*>* >(obj.signal("awesome(int,double,JObject*)"));
-		ASSERT_STREQ("awesome(int,double,JObject*)", signal2->signature().c_str());
+		ASSERT_STREQ("awesome(int,double,JObject*)", signal2->signature());
 		ASSERT_EQ(&obj, signal2->parent());
 		ASSERT_NO_THROW(signal2->emit(10, 1.5, &obj));
 	}

@@ -16,15 +16,15 @@ namespace core
 	class JMetaObject
 	{
 	public:
-		JMetaObject(JObject* parent, std::string signature);
+		JMetaObject(JObject* parent, const char* signature);
 		virtual ~JMetaObject();
 
 		JObject* parent();
-		std::string signature();
+		const char* signature();
 
 	protected:
 		JObject* _parent;
-		std::string _signature;
+		const char* _signature;
 	};
 
 } /* namespace core */
