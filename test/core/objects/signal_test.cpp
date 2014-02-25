@@ -13,6 +13,7 @@ namespace core
 {
 	class MyJObject : public JObject {
 	public:
+		MyJObject(){ JSignal<void> test_signal(0,"test()"); this->register_signal(&test_signal); }
 		void update(uint64_t* dt) {  }
 		void notify(Observable* sender, std::shared_ptr<Observer> caller){  }
 		void test_func(JObject* obj){ some_number += 10; }

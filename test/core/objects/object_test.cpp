@@ -14,7 +14,13 @@ namespace core
 {
 	class MyJObject : public JObject {
 	public:
-		MyJObject(){ JSignal<void> test_signal(this, "test()");  register_signal(&test_signal); }
+		MyJObject()
+		{
+			JSignal<void>* test_signal = new JSignal<void>(this, "test()");
+			JSignal<void,int,double,JObject*>* test_signal2 = new JSignal<void,int,double,JObject*>(this, "awesome(int,double,JObject*)");
+			register_signal(test_signal);
+			register_signal(test_signal2);
+		}
 		uint64_t test_time = 0;
 		void update(uint64_t* dt) { test_time = *dt; }
 		void notify(Observable* sender, std::shared_ptr<Observer> caller){ /* not used */ }
@@ -48,13 +54,24 @@ namespace core
 		JSignal<void> signal(&obj, "signal()");
 		std::string test_str = "func(JObject*, int, double, std::string)";
 		ASSERT_FALSE(obj.has_signal(&signal));	//JMetaObject* test
+		obj.register_signal(&signal);
+		ASSERT_TRUE(obj.has_signal(&signal));
 		ASSERT_FALSE(obj.has_signal(test_str));	//std::string test
 		ASSERT_TRUE(obj.has_signal("test()"));	//const char* test
 	}
 
 	TEST_F(ObjectTest, can_emit_a_signal) {
 		ASSERT_EQ((JMetaObject*)0, obj.signal("**ERROR**"));
-		ASSERT_STREQ("test()", obj.signal("test()")->signature().c_str());
+
+		JSignal<void>* signal = static_cast<JSignal<void>* >(obj.signal("test()"));
+		ASSERT_STREQ("test()", signal->signature().c_str());
+		ASSERT_EQ(&obj, signal->parent());
+		ASSERT_NO_THROW(signal->emit());
+
+		JSignal<void,int,double,JObject*>* signal2 = static_cast<JSignal<void,int,double,JObject*>* >(obj.signal("awesome(int,double,JObject*)"));
+		ASSERT_STREQ("awesome(int,double,JObject*)", signal2->signature().c_str());
+		ASSERT_EQ(&obj, signal2->parent());
+		ASSERT_NO_THROW(signal2->emit(10, 1.5, &obj));
 	}
 
 	TEST_F(ObjectTest, can_get_ammount_of_registered_observers) {
