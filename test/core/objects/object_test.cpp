@@ -75,17 +75,21 @@ namespace core
 
 	TEST_F(ObjectTest, can_connect_a_slot_to_a_signal) {
 		std::function<void()> func = [](){};
-		std::function<int(int)> bad_func = [](int i){ return i; };
 		std::function<void()> member_func = std::bind(&MyJObject::on_test, &obj);
 
-		ASSERT_TRUE(obj.connect(obj.signal("test()"), func, "func_handle"));
-		ASSERT_TRUE(obj.connect(obj.signal("test()"), member_func, "member_func_handle"));
+		// you can inline the function, just be sure to wrap it with std::function<Return(Args...)>
+		// or you can use pre-defined std::function<Return(Args...)> variables (func, member_func, ect.)
+		// auto keyword does not work in this context >_<
+		ASSERT_TRUE(obj.connect(obj.signal("test()"), std::function<void()>([](){}), "func_handle"));
+		ASSERT_TRUE(obj.connect(obj.signal("test()"),
+				std::function<void()>(std::bind(&MyJObject::on_test, &obj)),
+				"member_func_handle"));
 
-		// no duplicates allowed
+		// no duplicates allowed!!
 		ASSERT_FALSE(obj.connect(obj.signal("test()"), func, "func_handle"));
 
-		// BEWARE!! this is not technically a duplicate (different handle)
-		ASSERT_TRUE(obj.connect(obj.signal("test()"), func, "new_func_handle"));
+		// BEWARE!! this is not technically a duplicate since the handle is unique
+		ASSERT_TRUE(obj.connect(obj.signal("test()"), member_func, "different_handle"));
 	}
 
 	TEST_F(ObjectTest, can_get_ammount_of_registered_observers) {
