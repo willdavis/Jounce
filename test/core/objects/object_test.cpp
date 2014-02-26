@@ -75,7 +75,7 @@ namespace core
 
 	TEST_F(ObjectTest, can_connect_a_slot_to_a_signal) {
 		std::function<void()> func = [](){};
-		std::function<int()> bad_func = [](){ return 0; };
+		std::function<int()> int_func = [](){ return 0; };
 		std::function<void()> member_func = std::bind(&MyJObject::on_test, &obj);
 
 		// you can inline the function, just be sure to wrap it with std::function<Return(Args...)>
@@ -91,6 +91,9 @@ namespace core
 
 		// BEWARE!! this is not technically a duplicate since the handle is unique
 		ASSERT_TRUE(obj.connect(obj.signal<void>("test()"), member_func, "different_handle"));
+
+		// use static JObject::connect to connect slots
+		JObject::connect(&obj, obj.signal<void>("test()"), func, "global_connect");
 	}
 
 	TEST_F(ObjectTest, can_get_ammount_of_registered_observers) {

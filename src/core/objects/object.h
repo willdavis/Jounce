@@ -53,10 +53,26 @@ namespace core
 		}
 
 		template<class Return, typename... Args>
-		bool connect(JSignal<Return,Args...>* signal, std::function<Return(Args...)> func, const char* handle)
+		bool connect(JSignal<Return,Args...>* signal,
+				std::function<Return(Args...)> slot,
+				const char* handle)
 		{
-			if(signal->connect(handle, func)){ return true; }
+			if(signal->connect(handle, slot)){ return true; }
 			else { return false; }
+		}
+
+		template<class Return, typename... Args>
+		static bool connect(JObject* sender,
+				JSignal<Return,Args...>* signal,
+				std::function<Return(Args...)> slot,
+				const char* handle)
+		{
+			if(!sender->has_signal(signal)){ return false; }
+			else
+			{
+				if(sender->connect(signal, slot, handle)){ return true; }
+				else { return false; }
+			}
 		}
 
 		/* Updateable interface */
