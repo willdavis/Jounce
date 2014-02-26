@@ -57,6 +57,7 @@ namespace core
 				std::function<Return(Args...)> slot,
 				const char* handle)
 		{
+			if(signal == 0){ return false; }
 			if(signal->connect(handle, slot)){ return true; }
 			else { return false; }
 		}
@@ -67,10 +68,35 @@ namespace core
 				std::function<Return(Args...)> slot,
 				const char* handle)
 		{
+			if(signal == 0){ return false; }
 			if(!sender->has_signal(signal)){ return false; }
 			else
 			{
 				if(sender->connect(signal, slot, handle)){ return true; }
+				else { return false; }
+			}
+		}
+
+		template<class Return, typename... Args>
+		bool disconnect(JSignal<Return,Args...>* signal, const char* handle)
+		{
+			if(signal == 0){ return false; }
+			if(!signal->has_slot(handle)){ return false; }
+			else
+			{
+				if(signal->disconnect(handle)){ return true; }
+				else { return false; }
+			}
+		}
+
+		template<class Return, typename... Args>
+		static bool disconnect(JObject* sender, JSignal<Return,Args...>* signal, const char* handle)
+		{
+			if(signal == 0){ return false; }
+			if(!sender->has_signal(signal)){ return false; }
+			else
+			{
+				if(signal->disconnect(handle)){ return true; }
 				else { return false; }
 			}
 		}

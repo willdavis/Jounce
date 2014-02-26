@@ -93,7 +93,23 @@ namespace core
 		ASSERT_TRUE(obj.connect(obj.signal<void>("test()"), member_func, "different_handle"));
 
 		// use static JObject::connect to connect slots
-		JObject::connect(&obj, obj.signal<void>("test()"), func, "global_connect");
+		ASSERT_TRUE(JObject::connect(&obj, obj.signal<void>("test()"), func, "global_connect"));
+	}
+
+	TEST_F(ObjectTest, can_disconnect_a_slot_from_a_signal) {
+		std::function<void()> member_func = std::bind(&MyJObject::on_test, &obj);
+		EXPECT_TRUE(obj.connect(obj.signal<void>("test()"), member_func, "test_handle"));
+		EXPECT_TRUE(JObject::connect(&obj, obj.signal<void>("test()"), member_func, "test_handle2"));
+
+		ASSERT_TRUE(obj.disconnect(obj.signal<void>("test()"), "test_handle"));
+		ASSERT_TRUE(JObject::disconnect(&obj, obj.signal<void>("test()"), "test_handle2"));
+
+		// can't delete non-existent handles
+		ASSERT_FALSE(JObject::disconnect(&obj, obj.signal<void>("test()"), "BADKEY"));
+
+		// no double deletes
+		ASSERT_FALSE(obj.disconnect(obj.signal<void>("test()"), "test_handle"));
+		ASSERT_FALSE(JObject::disconnect(&obj, obj.signal<void>("test()"), "test_handle2"));
 	}
 
 	TEST_F(ObjectTest, can_get_ammount_of_registered_observers) {
