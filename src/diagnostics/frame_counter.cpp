@@ -30,10 +30,6 @@ namespace Diagnostics
 		// TODO Auto-generated destructor stub
 	}
 
-	void FrameCounter::notify(Observable* signal, std::shared_ptr<Observer> slot)
-	{
-	}
-
 	void FrameCounter::update(uint64_t* dt)
 	{
 		_total_frames++;

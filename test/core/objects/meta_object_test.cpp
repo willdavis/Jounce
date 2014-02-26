@@ -14,7 +14,6 @@ namespace core
 	class TestJObject : public JObject {
 	public:
 		void update(uint64_t* dt) {  }
-		void notify(Observable* sender, std::shared_ptr<Observer> caller){  }
 	};
 
 	class JMetaObjectTest : public ::testing::Test {
