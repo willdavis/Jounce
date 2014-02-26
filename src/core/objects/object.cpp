@@ -48,12 +48,6 @@ namespace core
 		else { return false; }
 	}
 
-	JMetaObject* JObject::signal(std::string signature)
-	{
-		if(has_signal(signature)){ return (*_signals.find(signature)).second; }
-		return (JMetaObject*)0;
-	}
-
 	bool JObject::key_exists(std::string key)
 	{
 		if(observers.find(key) != observers.end()){ return true; }

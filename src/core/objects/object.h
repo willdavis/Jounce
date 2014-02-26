@@ -45,13 +45,17 @@ namespace core
 		bool has_signal(std::string signature);
 		bool has_signal(const char* signature);
 
-		JMetaObject* signal(std::string signature);
+		template<class Return, typename... Args>
+		JSignal<Return,Args...>* signal(std::string signature)
+		{
+			if(has_signal(signature)){ return static_cast<JSignal<Return,Args...>* >((*_signals.find(signature)).second); }
+			return (JSignal<Return,Args...>*)0;
+		}
 
 		template<class Return, typename... Args>
-		bool connect(JMetaObject* signal, std::function<Return(Args...)> func, const char* handle)
+		bool connect(JSignal<Return,Args...>* signal, std::function<Return(Args...)> func, const char* handle)
 		{
-			auto result = static_cast<JSignal<Return,Args...>* >(signal);
-			if(result->connect(handle, func)){ return true; }
+			if(signal->connect(handle, func)){ return true; }
 			else { return false; }
 		}
 

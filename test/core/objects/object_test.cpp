@@ -60,14 +60,14 @@ namespace core
 	}
 
 	TEST_F(ObjectTest, can_emit_a_signal) {
-		ASSERT_EQ((JMetaObject*)0, obj.signal("**ERROR**"));
+		ASSERT_EQ((JMetaObject*)0, obj.signal<void>("**ERROR**"));
 
-		JSignal<void>* signal = static_cast<JSignal<void>* >(obj.signal("test()"));
+		JSignal<void>* signal = obj.signal<void>("test()");
 		ASSERT_STREQ("test()", signal->signature());
 		ASSERT_EQ(&obj, signal->parent());
 		ASSERT_NO_THROW(signal->emit());
 
-		JSignal<void,int,double,JObject*>* signal2 = static_cast<JSignal<void,int,double,JObject*>* >(obj.signal("awesome(int,double,JObject*)"));
+		JSignal<void,int,double,JObject*>* signal2 = obj.signal<void,int,double,JObject*>("awesome(int,double,JObject*)");
 		ASSERT_STREQ("awesome(int,double,JObject*)", signal2->signature());
 		ASSERT_EQ(&obj, signal2->parent());
 		ASSERT_NO_THROW(signal2->emit(10, 1.5, &obj));
@@ -75,21 +75,22 @@ namespace core
 
 	TEST_F(ObjectTest, can_connect_a_slot_to_a_signal) {
 		std::function<void()> func = [](){};
+		std::function<int()> bad_func = [](){ return 0; };
 		std::function<void()> member_func = std::bind(&MyJObject::on_test, &obj);
 
 		// you can inline the function, just be sure to wrap it with std::function<Return(Args...)>
 		// or you can use pre-defined std::function<Return(Args...)> variables (func, member_func, ect.)
 		// auto keyword does not work in this context >_<
-		ASSERT_TRUE(obj.connect(obj.signal("test()"), std::function<void()>([](){}), "func_handle"));
-		ASSERT_TRUE(obj.connect(obj.signal("test()"),
+		ASSERT_TRUE(obj.connect(obj.signal<void>("test()"), std::function<void()>([](){}), "func_handle"));
+		ASSERT_TRUE(obj.connect(obj.signal<void>("test()"),
 				std::function<void()>(std::bind(&MyJObject::on_test, &obj)),
 				"member_func_handle"));
 
 		// no duplicates allowed!!
-		ASSERT_FALSE(obj.connect(obj.signal("test()"), func, "func_handle"));
+		ASSERT_FALSE(obj.connect(obj.signal<void>("test()"), func, "func_handle"));
 
 		// BEWARE!! this is not technically a duplicate since the handle is unique
-		ASSERT_TRUE(obj.connect(obj.signal("test()"), member_func, "different_handle"));
+		ASSERT_TRUE(obj.connect(obj.signal<void>("test()"), member_func, "different_handle"));
 	}
 
 	TEST_F(ObjectTest, can_get_ammount_of_registered_observers) {
