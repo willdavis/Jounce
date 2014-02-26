@@ -18,10 +18,10 @@ namespace core
 {
 
 	class ObjectManager;
-	class JObject : public Updateable
+	class JObject : public Updateable, public JMetaObject
 	{
 	public:
-		JObject();
+		JObject(JObject* parent, const char* signature);
 		virtual ~JObject();
 
 		void schedule_event(std::shared_ptr<Dispatchable> event);

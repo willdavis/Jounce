@@ -10,9 +10,8 @@
 namespace core
 {
 
-	JObject::JObject()
+	JObject::JObject(JObject* parent, const char* signature) : JMetaObject(parent, signature)
 	{
-		// TODO Auto-generated constructor stub
 
 	}
 

@@ -19,7 +19,7 @@ namespace Diagnostics
 	class FrameCounter : public JObject
 	{
 	public:
-		FrameCounter();
+		FrameCounter(JObject* parent, const char* signature);
 		virtual ~FrameCounter();
 
 		void update(uint64_t* dt);
