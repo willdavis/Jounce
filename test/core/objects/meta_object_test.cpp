@@ -20,6 +20,7 @@ namespace core
 	class JMetaObjectTest : public ::testing::Test {
 	public:
 		JMetaObjectTest(){ obj = new TestJObject(0, "test"); }
+		~JMetaObjectTest(){ delete obj; }
 	protected:
 		TestJObject* obj;
 	};

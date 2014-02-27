@@ -13,6 +13,7 @@ namespace Diagnostics
 	class FrameCounterTest : public ::testing::Test {
 	public:
 		FrameCounterTest(){ counter = new FrameCounter(0, "counter_test"); }
+		~FrameCounterTest(){ delete counter; }
 	protected:
 		FrameCounter* counter;
 	};

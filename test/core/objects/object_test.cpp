@@ -35,6 +35,7 @@ namespace core
 	class ObjectTest : public ::testing::Test {
 	public:
 		ObjectTest(){ obj = new MyJObject(0, "test"); }
+		~ObjectTest(){ delete obj; }
 	protected:
 		MyJObject* obj;
 		ObjectManager manager;
