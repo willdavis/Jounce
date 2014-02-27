@@ -8,9 +8,8 @@
 #ifndef JOBJECT_H_
 #define JOBJECT_H_
 
-#include <unordered_map>
-#include "../interfaces/observer.h"
-#include "../interfaces/observable.h"
+#include <map>
+#include "signal.h"
 #include "../interfaces/updateable.h"
 #include "../interfaces/dispatchable.h"
 #include "../object_manager.h"
@@ -19,34 +18,86 @@ namespace core
 {
 
 	class ObjectManager;
-	class JObject : public Updateable, public Observable, public Observer
+	class JObject : public Updateable, public JMetaObject
 	{
 	public:
-		JObject();
+		JObject(JObject* parent, const char* signature);
 		virtual ~JObject();
 
 		void schedule_event(std::shared_ptr<Dispatchable> event);
 		void set_owner(ObjectManager*);
 
-		bool key_exists(std::string key);
-		/* Observable interface */
-		void notify_observer(std::string key);
-		void release_observer(std::string key);
-		void register_observer(std::pair<std::string, std::shared_ptr<Observer> > pair);
-		unsigned int total_observers();
-		/* End Observable interface */
-
-		/* Observer interface */
-		void notify(Observable* signal, observer_ptr slot) = 0;
-		/* End Observer interface */
+		bool has_signal(JMetaObject* signal);
+		bool has_signal(std::string signature);
+		bool has_signal(const char* signature);
 
 		/* Updateable interface */
 		void update(uint64_t*) = 0;
 		/* End Updateable interface */
 
+		template<class Return, typename... Args>
+		JSignal<Return,Args...>* signal(const char* signature)
+		{
+			if(has_signal(signature)){ return static_cast<JSignal<Return,Args...>* >((*_signals.find(signature)).second); }
+			return (JSignal<Return,Args...>*)0;
+		}
+
+		template<class Return, typename... Args>
+		bool connect(JSignal<Return,Args...>* signal,
+				std::function<Return(Args...)> slot,
+				const char* handle)
+		{
+			if(signal == 0){ return false; }
+			if(signal->connect(handle, slot)){ return true; }
+			else { return false; }
+		}
+
+		template<class Return, typename... Args>
+		static bool connect(JObject* sender,
+				JSignal<Return,Args...>* signal,
+				std::function<Return(Args...)> slot,
+				const char* handle)
+		{
+			if(signal == 0){ return false; }
+			if(!sender->has_signal(signal)){ return false; }
+			else
+			{
+				if(sender->connect(signal, slot, handle)){ return true; }
+				else { return false; }
+			}
+		}
+
+		template<class Return, typename... Args>
+		bool disconnect(JSignal<Return,Args...>* signal, const char* handle)
+		{
+			if(signal == 0){ return false; }
+			if(!signal->has_slot(handle)){ return false; }
+			else
+			{
+				if(signal->disconnect(handle)){ return true; }
+				else { return false; }
+			}
+		}
+
+		template<class Return, typename... Args>
+		static bool disconnect(JObject* sender, JSignal<Return,Args...>* signal, const char* handle)
+		{
+			if(signal == 0){ return false; }
+			if(!sender->has_signal(signal)){ return false; }
+			else
+			{
+				if(signal->disconnect(handle)){ return true; }
+				else { return false; }
+			}
+		}
+
 	protected:
 		ObjectManager* parent;
-		std::unordered_map<std::string, observer_ptr> observers;
+		std::map<const char*, JMetaObject*> _signals;
+
+		bool register_signal(JMetaObject* signal);
+		bool remove_signal(JMetaObject* signal);
+		void delete_all_signals();
 	};
 
 } /* namespace core */

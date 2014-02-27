@@ -19,10 +19,9 @@ namespace Diagnostics
 	class FrameCounter : public JObject
 	{
 	public:
-		FrameCounter();
+		FrameCounter(JObject* parent, const char* signature);
 		virtual ~FrameCounter();
 
-		void notify(Observable* signal, std::shared_ptr<Observer> slot);
 		void update(uint64_t* dt);
 
 		double average_frame();

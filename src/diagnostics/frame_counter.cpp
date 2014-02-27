@@ -10,7 +10,7 @@
 namespace Diagnostics
 {
 
-	FrameCounter::FrameCounter()
+	FrameCounter::FrameCounter(JObject* parent, const char* signature) : JObject(parent, signature)
 	{
 		_total_time = 0;
 		_total_frames = 0;
@@ -28,10 +28,6 @@ namespace Diagnostics
 	FrameCounter::~FrameCounter()
 	{
 		// TODO Auto-generated destructor stub
-	}
-
-	void FrameCounter::notify(Observable* signal, std::shared_ptr<Observer> slot)
-	{
 	}
 
 	void FrameCounter::update(uint64_t* dt)
