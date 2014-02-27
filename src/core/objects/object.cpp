@@ -41,12 +41,6 @@ namespace core
 		else { return false; }
 	}
 
-	bool JObject::remove_signal(JMetaObject* signal)
-	{
-		if(has_signal(signal)){ _signals.erase(signal->signature()); return true; }
-		else { return false; }
-	}
-
 	void JObject::delete_all_signals()
 	{
 		std::for_each(_signals.begin(), _signals.end(), [this](std::pair<std::string,JMetaObject*> pair){
