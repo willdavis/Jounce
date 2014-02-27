@@ -17,7 +17,7 @@ namespace core
 
 	JObject::~JObject()
 	{
-		// TODO Auto-generated destructor stub
+		delete_all_signals();
 	}
 
 	bool JObject::has_signal(JMetaObject* signal)
@@ -45,6 +45,13 @@ namespace core
 	{
 		if(has_signal(signal)){ _signals.erase(signal->signature()); return true; }
 		else { return false; }
+	}
+
+	void JObject::delete_all_signals()
+	{
+		std::for_each(_signals.begin(), _signals.end(), [this](std::pair<std::string,JMetaObject*> pair){
+			delete pair.second;
+		});
 	}
 
 	void JObject::set_owner(ObjectManager* manager)

@@ -97,6 +97,7 @@ namespace core
 
 		bool register_signal(JMetaObject* signal);
 		bool remove_signal(JMetaObject* signal);
+		void delete_all_signals();
 	};
 
 } /* namespace core */
