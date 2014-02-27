@@ -27,7 +27,7 @@ namespace core
 
 	bool JObject::has_signal(std::string signature)
 	{
-		return _signals.find(signature) != _signals.end();
+		return _signals.find(signature.c_str()) != _signals.end();
 	}
 
 	bool JObject::has_signal(const char* signature)

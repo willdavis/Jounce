@@ -36,7 +36,7 @@ namespace core
 		/* End Updateable interface */
 
 		template<class Return, typename... Args>
-		JSignal<Return,Args...>* signal(std::string signature)
+		JSignal<Return,Args...>* signal(const char* signature)
 		{
 			if(has_signal(signature)){ return static_cast<JSignal<Return,Args...>* >((*_signals.find(signature)).second); }
 			return (JSignal<Return,Args...>*)0;
@@ -93,7 +93,7 @@ namespace core
 
 	protected:
 		ObjectManager* parent;
-		std::map<std::string, JMetaObject*> _signals;
+		std::map<const char*, JMetaObject*> _signals;
 
 		bool register_signal(JMetaObject* signal);
 		bool remove_signal(JMetaObject* signal);
