@@ -25,7 +25,7 @@ namespace core
 		uint64_t timestamp() { return (uint64_t)10; }
 	};
 
-  class TestObject : public JObject {
+  class TestObject : public JObject, public Updateable {
 	public:
   	TestObject(JObject* parent, const char* signature) : JObject(parent, signature){}
 		void update(uint64_t* dt){  }

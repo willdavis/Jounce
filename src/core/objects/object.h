@@ -15,7 +15,7 @@
 namespace core
 {
 
-	class JObject : public Updateable, public JMetaObject
+	class JObject : public JMetaObject
 	{
 	public:
 		JObject(JObject* parent, const char* signature);
@@ -24,10 +24,6 @@ namespace core
 		bool has_signal(JMetaObject* signal);
 		bool has_signal(std::string signature);
 		bool has_signal(const char* signature);
-
-		/* Updateable interface */
-		void update(uint64_t*) = 0;
-		/* End Updateable interface */
 
 		template<class Return, typename... Args>
 		JSignal<Return,Args...>* signal(const char* signature)

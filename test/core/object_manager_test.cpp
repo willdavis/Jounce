@@ -23,7 +23,7 @@ namespace core
 		EventManager event_manager;
 	};
 
-	class MyObject : public JObject {
+	class MyObject : public JObject, public Updateable {
 	public:
 		MyObject(JObject* parent, const char* signature) : JObject(parent, signature){}
 		void update(uint64_t* dt){ object_manager_update_test += *dt; }

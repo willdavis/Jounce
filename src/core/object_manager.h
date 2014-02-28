@@ -18,13 +18,11 @@ namespace core
 
 	typedef std::shared_ptr<Updateable> object_ptr;
 
-	class ObjectManager : public Updater, public JObject
+	class ObjectManager : public JObject, public Updater
 	{
 	public:
 		ObjectManager(JObject* parent, const char* signature);
 		virtual ~ObjectManager();
-
-		void update(uint64_t* dt){}
 
 		EventManager* dispatcher();
 		void set_dispatcher(EventManager*);
