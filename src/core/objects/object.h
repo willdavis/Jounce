@@ -11,29 +11,19 @@
 #include <map>
 #include "signal.h"
 #include "../interfaces/updateable.h"
-#include "../interfaces/dispatchable.h"
-#include "../object_manager.h"
 
 namespace core
 {
 
-	class ObjectManager;
-	class JObject : public Updateable, public JMetaObject
+	class JObject : public JMetaObject
 	{
 	public:
 		JObject(JObject* parent, const char* signature);
 		virtual ~JObject();
 
-		void schedule_event(std::shared_ptr<Dispatchable> event);
-		void set_owner(ObjectManager*);
-
 		bool has_signal(JMetaObject* signal);
 		bool has_signal(std::string signature);
 		bool has_signal(const char* signature);
-
-		/* Updateable interface */
-		void update(uint64_t*) = 0;
-		/* End Updateable interface */
 
 		template<class Return, typename... Args>
 		JSignal<Return,Args...>* signal(const char* signature)
@@ -92,7 +82,6 @@ namespace core
 		}
 
 	protected:
-		ObjectManager* parent;
 		std::map<const char*, JMetaObject*> _signals;
 
 		bool register_signal(JMetaObject* signal);

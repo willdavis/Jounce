@@ -8,6 +8,8 @@
 #ifndef SIMULATION_H_
 #define SIMULATION_H_
 
+#include "./objects/object.h"
+
 #include "timer.h"
 #include "time_manager.h"
 #include "event_manager.h"
@@ -17,10 +19,10 @@
 namespace core
 {
 
-  class Simulation
+  class Simulation : public JObject
   {
   public:
-    Simulation();
+    Simulation(JObject* parent, const char* signature);
     virtual ~Simulation();
 
     void run();
@@ -55,7 +57,7 @@ namespace core
     TimeManager time_manager;		// provides an interface to configure simulation time
     EventManager event_manager; // provides an interface to manage events
     StateManager state_manager;	// provides an interface to manage the simulation's state
-    ObjectManager obj_manager;	// provides an interface to manage objects within the simulation
+    ObjectManager* obj_manager;	// provides an interface to manage objects within the simulation
   };
 
 } /* namespace core */

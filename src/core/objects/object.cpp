@@ -48,14 +48,4 @@ namespace core
 		});
 	}
 
-	void JObject::set_owner(ObjectManager* manager)
-	{
-		parent = manager;
-	}
-
-	void JObject::schedule_event(std::shared_ptr<Dispatchable> event)
-	{
-		parent->dispatcher()->schedule(event);
-	}
-
 } /* namespace core */

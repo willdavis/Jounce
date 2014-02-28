@@ -11,15 +11,17 @@
 namespace core
 {
 
-  Simulation::Simulation()
+  Simulation::Simulation(JObject* parent, const char* signature) : JObject(parent,signature)
   {
+  	obj_manager = new ObjectManager(0,"Core::ObjectManager");
+
     event_manager.set_parent((void*)this);
-    obj_manager.set_dispatcher(&event_manager);
+    obj_manager->set_dispatcher(&event_manager);
 	}
 
 	Simulation::~Simulation()
 	{
-		// TODO Auto-generated destructor stub
+		delete obj_manager;
 	}
 
 	void
@@ -55,7 +57,7 @@ namespace core
 			event_manager.process_event_queue();
 
 			//update all objects in the simulation with elapsed time (dt)
-			obj_manager.update_all_objects(&dt);
+			obj_manager->update_all_objects(&dt);
 		}
 
 		// the simulation is over!
@@ -189,19 +191,19 @@ namespace core
 
   int Simulation::get_total_registered_objects()
   {
-  	return obj_manager.get_collection_size();
+  	return obj_manager->get_collection_size();
   }
 
   // register a new object with the ObjectManager
   void Simulation::register_simulated_object(object_ptr object)
   {
-  	obj_manager.register_object(object);
+  	obj_manager->register_object(object);
   }
 
   // release the object from the ObjectManager
   void Simulation::release_simulated_object(object_ptr object)
   {
-  	obj_manager.release_object(object);
+  	obj_manager->release_object(object);
   }
 
 } /* namespace core */
