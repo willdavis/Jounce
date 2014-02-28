@@ -55,7 +55,7 @@ namespace core
     TimeManager time_manager;		// provides an interface to configure simulation time
     EventManager event_manager; // provides an interface to manage events
     StateManager state_manager;	// provides an interface to manage the simulation's state
-    ObjectManager obj_manager;	// provides an interface to manage objects within the simulation
+    ObjectManager* obj_manager;	// provides an interface to manage objects within the simulation
   };
 
 } /* namespace core */

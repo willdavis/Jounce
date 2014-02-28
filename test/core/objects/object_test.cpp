@@ -34,11 +34,10 @@ namespace core
 
 	class ObjectTest : public ::testing::Test {
 	public:
-		ObjectTest(){ obj = new MyJObject(0, "test"); }
+		ObjectTest(){ obj = new MyJObject(0, "test_obj"); }
 		~ObjectTest(){ delete obj; }
 	protected:
 		MyJObject* obj;
-		ObjectManager manager;
 		EventManager event_manager;
 	};
 

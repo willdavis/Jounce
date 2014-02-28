@@ -10,9 +10,8 @@
 namespace core
 {
 
-	ObjectManager::ObjectManager()
+	ObjectManager::ObjectManager(JObject* parent, const char* signature) : JObject(parent, signature)
 	{
-		// TODO Auto-generated constructor stub
 
 	}
 

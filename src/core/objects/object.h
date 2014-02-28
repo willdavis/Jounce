@@ -15,7 +15,6 @@
 namespace core
 {
 
-	class ObjectManager;
 	class JObject : public Updateable, public JMetaObject
 	{
 	public:
