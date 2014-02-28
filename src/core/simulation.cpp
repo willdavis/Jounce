@@ -13,10 +13,10 @@ namespace core
 
   Simulation::Simulation(JObject* parent, const char* signature) : JObject(parent,signature)
   {
-  	obj_manager = new ObjectManager(0,"Core::ObjectManager");
+  	obj_manager = new ObjectManager(this, "Core::ObjectManager");
+  	event_manager = new EventManager(this, "Core::EventManager");
 
-    event_manager.set_parent((void*)this);
-    obj_manager->set_dispatcher(&event_manager);
+    obj_manager->set_dispatcher(event_manager);
 	}
 
 	Simulation::~Simulation()
@@ -46,7 +46,7 @@ namespace core
 					&& time_manager.get_real_duration() > 0)
 			{
 				event_ptr exit(new ExitEvent);
-				event_manager.schedule(exit); //setup an ExitEvent to kill the simulation
+				event_manager->schedule(exit); //setup an ExitEvent to kill the simulation
 				dt = time_manager.get_real_duration()
 						- time_manager.get_real_elapsed_time(); //calculate remaining simulation time and set it as dt
 			}
@@ -54,7 +54,7 @@ namespace core
 			time_manager.add_real_time(&dt);
 
 			// process the event queue for this cycle
-			event_manager.process_event_queue();
+			event_manager->process_event_queue();
 
 			//update all objects in the simulation with elapsed time (dt)
 			obj_manager->update_all_objects(&dt);
@@ -158,14 +158,14 @@ namespace core
   // schedule event with EventManager and return the new queue size
   int Simulation::schedule_event(event_ptr event)
   {
-    event_manager.schedule(event);
-    return event_manager.queue_size();
+    event_manager->schedule(event);
+    return event_manager->queue_size();
   }
 
   // returns the current size of the event queue
   int Simulation::get_event_queue_size()
   {
-  	return event_manager.queue_size();
+  	return event_manager->queue_size();
   }
 
   // returns the current state of the simulation

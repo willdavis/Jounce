@@ -8,7 +8,6 @@
 #include "gtest/gtest.h"
 #include "../../../src/core/objects/object.h"
 #include "../../../src/core/object_manager.h"
-#include "../../../src/core/event_manager.h"
 
 namespace core
 {
@@ -38,7 +37,6 @@ namespace core
 		~ObjectTest(){ delete obj; }
 	protected:
 		MyJObject* obj;
-		EventManager event_manager;
 	};
 
 	TEST_F(ObjectTest, can_check_for_a_signal) {

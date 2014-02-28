@@ -55,9 +55,10 @@ namespace core
   protected:
     Timer timer;								// core simulation timer
     TimeManager time_manager;		// provides an interface to configure simulation time
-    EventManager event_manager; // provides an interface to manage events
     StateManager state_manager;	// provides an interface to manage the simulation's state
+
     ObjectManager* obj_manager;	// provides an interface to manage objects within the simulation
+    EventManager* event_manager; // provides an interface to manage events
   };
 
 } /* namespace core */
