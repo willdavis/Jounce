@@ -102,16 +102,4 @@ namespace core
 		ASSERT_FALSE(obj->disconnect(obj->signal<void>("test()"), "test_handle"));
 		ASSERT_FALSE(JObject::disconnect(obj, obj->signal<void>("test()"), "test_handle2"));
 	}
-
-	TEST_F(ObjectTest, can_bind_to_an_object_manager) {
-		ASSERT_NO_THROW(obj->set_owner(&manager));
-	}
-
-	TEST_F(ObjectTest, can_schedule_an_event) {
-		EXPECT_NO_THROW(manager.set_dispatcher(&event_manager));
-		EXPECT_NO_THROW(obj->set_owner(&manager));
-		std::shared_ptr<Dispatchable> event(new MyEvent);
-		ASSERT_NO_THROW(obj->schedule_event(event));
-		ASSERT_EQ(1, event_manager.queue_size());
-	}
 } /* namespace core */

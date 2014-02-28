@@ -28,7 +28,6 @@ namespace core
 
 	void ObjectManager::register_object(object_ptr obj)
 	{
-		std::static_pointer_cast<JObject>(obj)->set_owner(this);
 		object_list.push_back(obj);
 	}
 

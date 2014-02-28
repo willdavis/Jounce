@@ -11,8 +11,6 @@
 #include <map>
 #include "signal.h"
 #include "../interfaces/updateable.h"
-#include "../interfaces/dispatchable.h"
-#include "../object_manager.h"
 
 namespace core
 {
@@ -23,9 +21,6 @@ namespace core
 	public:
 		JObject(JObject* parent, const char* signature);
 		virtual ~JObject();
-
-		void schedule_event(std::shared_ptr<Dispatchable> event);
-		void set_owner(ObjectManager*);
 
 		bool has_signal(JMetaObject* signal);
 		bool has_signal(std::string signature);
@@ -92,7 +87,6 @@ namespace core
 		}
 
 	protected:
-		ObjectManager* parent;
 		std::map<const char*, JMetaObject*> _signals;
 
 		bool register_signal(JMetaObject* signal);
