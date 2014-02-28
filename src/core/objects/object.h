@@ -96,7 +96,6 @@ namespace core
 		std::map<const char*, JMetaObject*> _signals;
 
 		bool register_signal(JMetaObject* signal);
-		bool remove_signal(JMetaObject* signal);
 		void delete_all_signals();
 	};
 
