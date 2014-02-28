@@ -7,7 +7,6 @@
 
 #include "gtest/gtest.h"
 #include "../../../src/core/objects/object.h"
-#include "../../../src/core/object_manager.h"
 
 namespace core
 {
@@ -23,12 +22,6 @@ namespace core
 		uint64_t test_time = 0;
 		void update(uint64_t* dt) { test_time = *dt; }
 		void on_test(){  }
-	};
-
-	class MyEvent : public Dispatchable {
-		void dispatch(Dispatcher* dispatcher){  }
-		unsigned int priority() { return 0; }
-		uint64_t timestamp() { return 0; }
 	};
 
 	class ObjectTest : public ::testing::Test {

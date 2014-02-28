@@ -15,8 +15,6 @@ namespace core
   	obj_manager = new ObjectManager(this, "Core::ObjectManager");
   	event_manager = new EventManager(this, "Core::EventManager");
 
-    obj_manager->set_dispatcher(event_manager);
-
     register_signal(new JSignal<void>(this, "exiting"));
 	}
 

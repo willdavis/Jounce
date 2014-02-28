@@ -41,15 +41,4 @@ namespace core
 		object_list.remove(obj);
 	}
 
-	EventManager* ObjectManager::dispatcher()
-	{
-		return linked_dispatcher;
-	}
-
-	void ObjectManager::set_dispatcher(EventManager* dispatcher)
-	{
-		linked_dispatcher = dispatcher;
-	}
-
-
 } /* namespace core */
