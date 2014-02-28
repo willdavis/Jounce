@@ -9,7 +9,6 @@
 
 #include "gtest/gtest.h"
 #include "../../src/core/simulation.h"
-#include "../../src/core/events/exit_event.h"
 
 namespace core
 {
@@ -100,7 +99,11 @@ namespace core
   	sleep_time.tv_sec = 0;
   	sleep_time.tv_nsec = 50000;
 
-  	sim->set_real_duration_and_frequency(100000,1);	// run for 100,000 ns
+  	sim->set_real_duration_and_frequency(1000000,1);	// run for 1,000,000 ns
+
+  	// async signals do not currently work :(
+  	JObject::connect(sim, sim->signal<void>("exiting"), std::function<void()>( [](){ std::cout << "sim is exiting" << std::endl; } ), "onExit");
+
   	std::thread do_work (async_sim_run, sim);
   	nanosleep(&sleep_time, NULL);	// sleep for 50,000 ns
   	EXPECT_ANY_THROW(sim->set_real_duration_and_frequency(1000000,1));

@@ -6,7 +6,6 @@
  */
 
 #include "simulation.h"
-#include "./events/exit_event.h"
 
 namespace core
 {
@@ -17,21 +16,23 @@ namespace core
   	event_manager = new EventManager(this, "Core::EventManager");
 
     obj_manager->set_dispatcher(event_manager);
+
+    register_signal(new JSignal<void>(this, "exiting"));
 	}
 
 	Simulation::~Simulation()
 	{
 		delete obj_manager;
+		delete event_manager;
 	}
 
-	void
-	Simulation::exit()
+	void Simulation::exit()
 	{
 		state_manager.set_current_simulation_state(SimulationState::EXITING);
+		signal<void>("exiting")->emit();	//signal to anyone listening that we're EXITING
 	}
 
-	void
-	Simulation::run()
+	void Simulation::run()
 	{
 		state_manager.set_current_simulation_state(SimulationState::RUNNING);
 		timer.get_elapsed_time(); //bring the timer up to date
@@ -45,8 +46,7 @@ namespace core
 					>= time_manager.get_real_duration()
 					&& time_manager.get_real_duration() > 0)
 			{
-				event_ptr exit(new ExitEvent);
-				event_manager->schedule(exit); //setup an ExitEvent to kill the simulation
+				this->exit();	// set and signal SimulationState::EXITING
 				dt = time_manager.get_real_duration()
 						- time_manager.get_real_elapsed_time(); //calculate remaining simulation time and set it as dt
 			}
