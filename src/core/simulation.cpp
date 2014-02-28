@@ -11,7 +11,7 @@
 namespace core
 {
 
-  Simulation::Simulation()
+  Simulation::Simulation(JObject* parent, const char* signature) : JObject(parent,signature)
   {
   	obj_manager = new ObjectManager(0,"Core::ObjectManager");
 
@@ -22,6 +22,7 @@ namespace core
 	Simulation::~Simulation()
 	{
 		delete obj_manager;
+		delete_all_signals();
 	}
 
 	void
