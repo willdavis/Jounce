@@ -22,7 +22,6 @@ namespace core
 	Simulation::~Simulation()
 	{
 		delete obj_manager;
-		delete_all_signals();
 	}
 
 	void
