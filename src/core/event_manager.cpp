@@ -6,20 +6,18 @@
  */
 
 #include "event_manager.h"
-#include "simulation.h"
 
 namespace core
 {
 
-  EventManager::EventManager()
+  EventManager::EventManager(JObject* parent, const char* signature) : JObject(parent, signature)
   {
-    // TODO Auto-generated constructor stub
 
   }
 
   EventManager::~EventManager()
   {
-    // TODO Auto-generated destructor stub
+
   }
 
   // set parent to the supplied void* pointer
@@ -69,7 +67,7 @@ namespace core
 
   void EventManager::close()
   {
-  	static_cast<core::Simulation *>(parent)->exit();
+  	//static_cast<core::Simulation*>(parent)->exit();
   }
 
 } /* namespace core */

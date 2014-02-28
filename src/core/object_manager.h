@@ -9,7 +9,6 @@
 #define OBJECT_MANAGER_H_
 
 #include <list>
-#include "event_manager.h"
 #include "./objects/object.h"
 #include "./interfaces/updater.h"
 
@@ -24,9 +23,6 @@ namespace core
 		ObjectManager(JObject* parent, const char* signature);
 		virtual ~ObjectManager();
 
-		EventManager* dispatcher();
-		void set_dispatcher(EventManager*);
-
 		/* Updater interface */
 		void register_object(object_ptr);
 		void release_object(object_ptr);
@@ -35,7 +31,6 @@ namespace core
 		int get_collection_size();
 
 	protected:
-		EventManager* linked_dispatcher;
 		std::list<object_ptr> object_list;
 	};
 

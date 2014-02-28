@@ -9,6 +9,7 @@
 #define EVENT_MANAGER_H_
 
 #include <queue>
+#include "./objects/object.h"
 #include "./interfaces/dispatcher.h"
 #include "./interfaces/dispatch_scheduler.h"
 
@@ -17,10 +18,10 @@ namespace core
 
 	typedef std::shared_ptr<Dispatchable> event_ptr;
 
-  class EventManager : public Dispatcher, public DispatchScheduler
+  class EventManager : public JObject, public Dispatcher, public DispatchScheduler
   {
   public:
-    EventManager();
+    EventManager(JObject* parent, const char* signature);
     virtual ~EventManager();
 
     void* get_parent();

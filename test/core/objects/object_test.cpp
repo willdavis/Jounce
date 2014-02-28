@@ -7,8 +7,6 @@
 
 #include "gtest/gtest.h"
 #include "../../../src/core/objects/object.h"
-#include "../../../src/core/object_manager.h"
-#include "../../../src/core/event_manager.h"
 
 namespace core
 {
@@ -26,19 +24,12 @@ namespace core
 		void on_test(){  }
 	};
 
-	class MyEvent : public Dispatchable {
-		void dispatch(Dispatcher* dispatcher){  }
-		unsigned int priority() { return 0; }
-		uint64_t timestamp() { return 0; }
-	};
-
 	class ObjectTest : public ::testing::Test {
 	public:
 		ObjectTest(){ obj = new MyJObject(0, "test_obj"); }
 		~ObjectTest(){ delete obj; }
 	protected:
 		MyJObject* obj;
-		EventManager event_manager;
 	};
 
 	TEST_F(ObjectTest, can_check_for_a_signal) {
