@@ -10,13 +10,14 @@
 
 #include <stdint.h>
 #include "../core/objects/object.h"
+#include "../core/interfaces/updateable.h"
 
 using namespace core;
 
 namespace Diagnostics
 {
 
-	class FrameCounter : public JObject
+	class FrameCounter : public JObject, public Updateable
 	{
 	public:
 		FrameCounter(JObject* parent, const char* signature);

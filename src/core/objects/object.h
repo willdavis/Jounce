@@ -10,7 +10,6 @@
 
 #include <map>
 #include "signal.h"
-#include "../interfaces/updateable.h"
 
 namespace core
 {
